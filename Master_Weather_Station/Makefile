@@ -22,19 +22,63 @@
 # !!! Help: http://bit.ly/2hYLBDC
 # default = 0 = none
 #
-APP_LIBS_LIST = 0
+# TEENSY : common = Adafruit_Circuit_Playground Bridge Esplora 
+#	Ethernet Firmata GSM Keyboard LiquidCrystal Mouse RobotIRremote 
+#	Robot_Control Robot_Motor SD Servo SpacebrewYun Stepper TFT Temboo 
+#	WiFi ADC AccelStepper Adafruit_CC3000 Adafruit_GFX 
+#	Adafruit_ILI9340 Adafruit_ILI9341 Adafruit_NeoPixel Adafruit_RA8875 
+#	Adafruit_SSD1306 Adafruit_ST7735 Adafruit_STMPE610 Adafruit_VS1053 
+#	Adafruit_nRF8001 AltSoftSerial Artnet Audio Bounce Bounce2 
+#	CapacitiveSensor CryptoAccel DS1307RTC DmxSimple DogLcd EEPROM 
+#	EasyTransfer EasyTransferI2C Encoder Entropy Ethernet FastCRC 
+#	FastLED FlexCAN FlexiTimer2 FreqCount FreqMeasure 
+#	FreqMeasureMulti FrequencyTimer2 ILI9341_t3 IRremote Keypad LedControl 
+#	LedDisplay LiquidCrystal LiquidCrystalFast LowPower MFRC522 MIDI 
+#	Metro MsTimer2 NXPMotionSense OSC OctoWS2811 OneWire 
+#	PS2Keyboard PWMServo Ping PulsePosition RA8875 RadioHead 
+#	ResponsiveAnalogRead SD SPI SPIFlash ST7565 ST7735_t3 SerialFlash Servo 
+#	ShiftPWM Snooze SoftPWM SoftwareSerial TFT_ILI9163C Talkie 
+#	TeensyThreads Time TimeAlarms TimerOne TimerThree TinyGPS Tlc5940 
+#	TouchScreen USBHost_t36 UTFT VirtualWire WS2812Serial Wire XBee 
+#	XPT2046_Touchscreen i2c_t3 ks0108 openGLCD ssd1351 x10 
+#
+APP_LIBS_LIST = SPI Time Wire DS1307RTC OneWire #EEPROM
 
 # List user's libraries here
 # !!! Help: http://bit.ly/2AEscDx
 # default = 0 = none
 #
-USER_LIBS_LIST = 0
+# USER = ACAN ADC AP_Common AP_GPS AP_Math AT24Cx 
+#	AccelStepper AceButton AceRoutine Adafruit_BME280_Library 
+#	Adafruit_BMP085 Adafruit_CC3000_Library Adafruit_GFX_Library 
+#	Adafruit_ILI9341 Adafruit_NeoPixel AltSoftSerial Arduimu 
+#	ArduinoHttpClient ArduinoJson ArduinoRS485 ArduinoRingBuffer 
+#	ArduinoSerialToTCPBridgeClient Average AverageList BH1750 BME280 
+#	Bolder_Flight_Systems_MPU9250 Bounce2 BufferedSerial CANquitto-master 
+#	CapacitiveSensor ChRt Circular_Buffer DHT_sensor_library DS3231 
+#	DS3232RTC DallasTemperature DmaSpi EEPROMEx ESP_WebConfig_V1 
+#	EasyTransfer EasyTransferI2C EasyTransferVirtualWire Encoder 
+#	Ethernet FastCRC FastLED FastSerial FatFs FatFs_2 FileLogger 
+#	FlexCAN_Library FreeRTOS_ARM FreeRTOS_AVR FreqCount IFCT IFCT-master 
+#	IMCTFD IMCTFD-master IRremote InternalTemperature Keyboard 
+#	Keypad MPU9250 NMEA NTPClient PID_v1 PS2Keyboard PString 
+#	PubSubClient RA8875 RF24 RTClib RunningAverage SD SFE_BMP180 
+#	SPIFlash SPI_MSTransfer-master SdFat SdFs SerialCommand 
+#	SerialFlash Servo Snooze SoftEasyTransfer SparkFun_BME280 Streaming 
+#	TFT_Touch_Shield_V2 TeensyStep TeensyThreads Timezone TinyGPS TinyGPSPlus 
+#	TouchScreen-Buttons TouchScreen-Geometry TouchScreen-Strings 
+#	TouchScreenKeypad UBLOX UBLOX2 Ultrasonic XV_Lidar_Controller Zilch 
+#	el-client esp8266FTPServer espsoftwareserial-2.1.1 extEEPROM 
+#	i2c_t3 microSoundRecorder microSoundRecorderControl 
+#	myWebServer rbuf relay8 uSDFS 
+#
+USER_LIBS_LIST = RA8875 SparkFun_BME280 EEPROMex FastCRC Adafruit_SleepyDog DallasTemperature Circular_Buffer Timezone AT24CX UBLOX
 
 # List local libraries here
 # !!! Help: http://bit.ly/2juEP91
 # default = empty = all
 #
-LOCAL_LIBS_LIST =
+LOCAL_LIBS_LIST = LocalLibrary
 
 # List core, application and user's libraries to be excluded
 # !!! Help: http://bit.ly/2AijUOI
@@ -55,7 +99,7 @@ LOCAL_LIBS_LIST =
 # WARNING_OPTIONS = all no-missing-braces no-conversion-null no-pointer-arith
 # WARNING_OPTIONS = unused-variable unused-function unused-label unused-value no-conversion-null no-pointer-arith
 #
-WARNING_OPTIONS = 0
+WARNING_OPTIONS = unused-variable unused-function unused-label unused-value no-conversion-null no-pointer-arith
 
 
 # Compiler options
@@ -81,7 +125,7 @@ COMPILER_OPTIONS =
 # For Fast target, open serial console, false or true
 # !!! Help: http://bit.ly/2AfyA37
 #
-NO_SERIAL_CONSOLE = false
+NO_SERIAL_CONSOLE = true
 
 
 # Teensy USB options (default)
@@ -111,7 +155,7 @@ NO_SERIAL_CONSOLE = false
 #
 #TEENSY_F_CPU = 48000000
 #TEENSY_OPTIMISATION = -Os
-
+TEENSY_OPTIMISATION = -O2
 
 # Parameters
 # ----------------------------------
@@ -139,7 +183,7 @@ NO_SERIAL_CONSOLE = false
 # !!! Help: http://bit.ly/2AUEcgp
 # Uncomment and specify another speed
 #
-#SERIAL_BAUDRATE = 115200
+SERIAL_BAUDRATE = 115200
 
 # OPTIMISATION for the optimisation and debugger levels
 # !!! Help: http://bit.ly/2kheSLz
@@ -195,3 +239,4 @@ BUILDS_PATH       := $(BUILT_PRODUCTS_DIR)
 BUILDS_PATH_SPACE := $(BUILDS_PATH)
 
 include $(MAKEFILE_PATH)/Step1.mk
+
