@@ -1,0 +1,332 @@
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 1   
+
+
+C51 COMPILER V7.04, COMPILATION OF MODULE SD
+OBJECT MODULE PLACED IN sd.OBJ
+COMPILER INVOKED BY: D:\Keil1\C51\BIN\C51.EXE sd.c LARGE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          //----------------------------------------------------------------------
+   2          //EASTRISING TECHNOLOGY CO,.LTD.//
+   3          // Module    : 4.3 INCH TFT LCD  480*272
+   4          // Lanuage   : C51 Code
+   5          // Create    : JAVEN LIU
+   6          // Date      : 2013-06-28
+   7          // Drive IC  : RA8875
+   8          // INTERFACE : 16BIT 8080    SD Card:SPI interface
+   9          // MCU           : STC12LE5C60S2
+  10          // VDD           : 5V   
+  11          //----------------------------------------------------------------------
+  12           
+  13          #include <STC12C5A.H>
+  14          #include <stdio.h>
+  15          #include <intrins.h>
+  16          #include"RA8875.h"
+  17          //=============================================================
+  18          //define SD card IO
+  19          sbit SD_CLK = P1^7;
+  20          sbit SD_DI  = P1^5;
+  21          sbit SD_DO  = P1^6;
+  22          sbit SD_CS  = P1^4;
+  23          
+  24          //===========================================================
+  25          
+  26          //===========================================================
+  27          //SD Card buffer
+  28          unsigned char xdata DATA[512];
+  29          
+  30          //===========================================================
+  31          //write one byte to SD
+  32          void SdWrite(unsigned char n)
+  33          {
+  34   1      
+  35   1      unsigned char i;
+  36   1      
+  37   1      for(i=8;i;i--)
+  38   1      {
+  39   2      SD_CLK=0;
+  40   2      SD_DI=(n&0x80);
+  41   2      n<<=1;
+  42   2      SD_CLK=1;
+  43   2      }
+  44   1      SD_DI=1; 
+  45   1      } 
+  46          //===========================================================
+  47          //read one byte
+  48          unsigned char SdRead()
+  49          {
+  50   1      unsigned char n,i;
+  51   1      for(i=8;i;i--)
+  52   1      {
+  53   2      SD_CLK=0;
+  54   2      SD_CLK=1;
+  55   2      n<<=1;
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 2   
+
+  56   2      if(SD_DO) n|=1;
+  57   2      
+  58   2      }
+  59   1      return n;
+  60   1      }
+  61          //============================================================
+  62          //Detecting the response of the SD card
+  63          unsigned char SdResponse()
+  64          {
+  65   1      unsigned char i=0,response;
+  66   1      
+  67   1      while(i<=8)
+  68   1      {
+  69   2      response = SdRead();
+  70   2      if(response==0x00)
+  71   2      break;
+  72   2      if(response==0x01)
+  73   2      break;
+  74   2      i++;
+  75   2      }
+  76   1      return response;
+  77   1      } 
+  78          //================================================================
+  79          //Send commands to the SD card
+  80          void SdCommand(unsigned char command, unsigned long argument, unsigned char CRC)
+  81          {
+  82   1      
+  83   1      SdWrite(command|0x40);
+  84   1      SdWrite(((unsigned char *)&argument)[0]);
+  85   1      SdWrite(((unsigned char *)&argument)[1]);
+  86   1      SdWrite(((unsigned char *)&argument)[2]);
+  87   1      SdWrite(((unsigned char *)&argument)[3]);
+  88   1      SdWrite(CRC);
+  89   1      }
+  90          //================================================================
+  91          //Initialize the SD card
+  92          unsigned char SdInit(void)
+  93          {
+  94   1      int delay=0, trials=0;
+  95   1      unsigned char i;
+  96   1      unsigned char response=0x01;
+  97   1      
+  98   1      SD_CS=1;
+  99   1      for(i=0;i<=9;i++)
+ 100   1      SdWrite(0xff);
+ 101   1      SD_CS=0;
+ 102   1      
+ 103   1      //Send Command 0 to put MMC in SPI mode
+ 104   1      SdCommand(0x00,0,0x95);
+ 105   1      
+ 106   1      
+ 107   1      response=SdResponse();
+ 108   1      
+ 109   1      if(response!=0x01)
+ 110   1      {
+ 111   2      return 0;
+ 112   2      } 
+ 113   1      
+ 114   1      while(response==0x01)
+ 115   1      {
+ 116   2      SD_CS=1;
+ 117   2      SdWrite(0xff);
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 3   
+
+ 118   2      SD_CS=0;
+ 119   2      SdCommand(0x01,0x00ffc000,0xff);
+ 120   2      response=SdResponse();
+ 121   2      } 
+ 122   1      
+ 123   1      SD_CS=1;
+ 124   1      SdWrite(0xff);
+ 125   1      return 1; 
+ 126   1      }
+ 127          //================================================================
+ 128          //Specify the address to write  the SD card data, a maximum of 512 bytes
+ 129          unsigned char SdWriteBlock(unsigned char *Block, unsigned long address,int len)
+ 130          {
+ 131   1      unsigned int count;
+ 132   1      unsigned char dataResp;
+ 133   1      //Block size is 512 bytes exactly
+ 134   1      //First Lower SS
+ 135   1      
+ 136   1      SD_CS=0;
+ 137   1      //Then send write command
+ 138   1      SdCommand(0x18,address,0xff);
+ 139   1      
+ 140   1      if(SdResponse()==00)
+ 141   1      {
+ 142   2      SdWrite(0xff);
+ 143   2      SdWrite(0xff);
+ 144   2      SdWrite(0xff);
+ 145   2      //command was a success - now send data
+ 146   2      //start with DATA TOKEN = 0xFE
+ 147   2      SdWrite(0xfe);
+ 148   2      //now send data
+ 149   2      for(count=0;count<len;count++) SdWrite(*Block++);
+ 150   2      
+ 151   2      for(;count<512;count++) SdWrite(0);
+ 152   2      //data block sent - now send checksum
+ 153   2      SdWrite(0xff); 
+ 154   2      SdWrite(0xff);
+ 155   2      //Now read in the DATA RESPONSE token
+ 156   2      dataResp=SdRead();
+ 157   2      //Following the DATA RESPONSE token
+ 158   2      //are a number of BUSY bytes
+ 159   2      //a zero byte indicates the MMC is busy
+ 160   2      
+ 161   2      while(SdRead()==0);
+ 162   2      
+ 163   2      dataResp=dataResp&0x0f; //mask the high byte of the DATA RESPONSE token
+ 164   2      SD_CS=1;
+ 165   2      SdWrite(0xff);
+ 166   2      if(dataResp==0x0b)
+ 167   2      {
+ 168   3      //printf("DATA WAS NOT ACCEPTED BY CARD -- CRC ERROR\n");
+ 169   3      return 0;
+ 170   3      }
+ 171   2      if(dataResp==0x05)
+ 172   2      return 1;
+ 173   2      
+ 174   2      //printf("Invalid data Response token.\n");
+ 175   2      return 0;
+ 176   2      }
+ 177   1      //printf("Command 0x18 (Write) was not received by the MMC.\n");
+ 178   1      return 0;
+ 179   1      }
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 4   
+
+ 180          
+ 181          //=======================================================================
+ 182          //Specified address from the SD card to read data, a maximum of 512 bytes
+ 183          unsigned char SdReadBlock(unsigned char *Block, unsigned long address,int len)
+ 184          {
+ 185   1      unsigned int count;
+ 186   1      //Block size is 512 bytes exactly
+ 187   1      //First Lower SS
+ 188   1      
+ 189   1       //printf("MMC_read_block\n");
+ 190   1      
+ 191   1      SD_CS=0;
+ 192   1      //Then send write command
+ 193   1      SdCommand(0x11,address,0xff);
+ 194   1      
+ 195   1      if(SdResponse()==00)
+ 196   1      {
+ 197   2      //command was a success - now send data
+ 198   2      //start with DATA TOKEN = 0xFE
+ 199   2      while(SdRead()!=0xfe);
+ 200   2      
+ 201   2      for(count=0;count<len;count++) *Block++=SdRead(); 
+ 202   2      
+ 203   2      for(;count<512;count++) SdRead();
+ 204   2      
+ 205   2      //data block sent - now send checksum
+ 206   2      SdRead();
+ 207   2      SdRead();
+ 208   2      //Now read in the DATA RESPONSE token
+ 209   2      SD_CS=1;
+ 210   2      SdRead();
+ 211   2      return 1;
+ 212   2      }
+ 213   1       //printf("Command 0x11 (Read) was not received by the MMC.\n");
+ 214   1      return 0;
+ 215   1      }
+ 216          
+ 217          
+ 218          
+ 219          void Display_JPG()//from SD Card
+ 220          { unsigned long jn;  
+ 221   1        unsigned int in;
+ 222   1        unsigned long AddTemp=331264;////1G Card    SD card physical address of the first data address initial v
+             -alue.  Please check with the program winhex
+ 223   1        unsigned char mn=7;   //Total number of picture
+ 224   1              
+ 225   1      
+ 226   1              for(;mn!=0;mn--) 
+ 227   1               {      Active_Window(0,479,0,271);
+ 228   2                      LCD_SetPos(0,0);        //cursor position
+ 229   2      
+ 230   2                      for(jn=0;jn<510;jn++)   //510*512 byte=480*272*2byte 
+ 231   2                          {
+ 232   3                          SdReadBlock(DATA,AddTemp+(jn*512),512);
+ 233   3                                              write_command(0x02);//set CMD02 to  prepare data write
+ 234   3                          for(in=0;in<256;in++)                    
+ 235   3                                 {   
+ 236   4                                 Write_Data_byte(DATA[2*in],DATA[2*in+1]);     
+ 237   4                             }
+ 238   3                           } 
+ 239   2                           AddTemp = AddTemp+((jn+2)*512);          // Please check with the program winhex.
+ 240   2                               while(KEY);  
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 5   
+
+ 241   2              }
+ 242   1                             
+ 243   1      
+ 244   1      
+ 245   1      } 
+ 246           
+ 247          
+ 248          
+ 249          //============================================================
+ 250          //The main function     
+ 251          main()
+ 252          {
+ 253   1      
+ 254   1              P1=0xff;
+ 255   1              P2=0xff;
+ 256   1              P3=0xff;
+ 257   1              P0=0xff;
+ 258   1              BL_ON=1;  //BACKLIGHT ON
+ 259   1              delay(10);
+ 260   1              RA8875_Initial();//LCD initialization
+ 261   1      while(1)
+ 262   1      {
+ 263   2              Graphic_Mode(); 
+ 264   2              Clear_Full_Window();
+ 265   2              delay(5);  
+ 266   2      
+ 267   2              SdInit();         //SD card initialization
+ 268   2              Display_JPG();         //show pictures from SD card
+ 269   2      
+ 270   2              LCD_FULL(0xf800);
+ 271   2               while(KEY);    
+ 272   2        
+ 273   2              LCD_FULL(0x07e0);
+ 274   2               while(KEY);            
+ 275   2              LCD_FULL(0x001f);
+ 276   2               while(KEY);
+ 277   2              LCD_FULL(0x07ff);
+ 278   2               while(KEY);
+ 279   2              LCD_FULL(0xffe0);
+ 280   2               while(KEY);
+ 281   2              LCD_FULL(0xf81f);
+ 282   2               while(KEY);
+ 283   2      
+ 284   2              LCD_all(0x00);  
+ 285   2               while(KEY);
+ 286   2              LCD_all(0xffff);        
+ 287   2               while(KEY);
+ 288   2      
+ 289   2              DispRGBGray();
+ 290   2               while(KEY);
+ 291   2      
+ 292   2      
+ 293   2              show_pic(PIC);        //show picture in MCU flash
+ 294   2              while(KEY);
+ 295   2      
+ 296   2      }
+ 297   1      }
+ 298          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   8507    ----
+C51 COMPILER V7.04   SD                                                                    11/06/2013 20:19:18 PAGE 6   
+
+   CONSTANT SIZE    =  48000    ----
+   XDATA SIZE       =    512     163
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

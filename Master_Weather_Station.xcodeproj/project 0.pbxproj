@@ -1,0 +1,933 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		973E7A7D220F9A4C003E5868 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 973E7A7C220F9A4C003E5868 /* main.cpp */; };
+		973E7A7F220F9A4C003E5868 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 973E7A7E220F9A4C003E5868 /* Makefile */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		973E7A79220F9A4C003E5868 /* Index */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Index; sourceTree = BUILT_PRODUCTS_DIR; };
+		973E7A7C220F9A4C003E5868 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		973E7A7E220F9A4C003E5868 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		973E7A80220F9A4C003E5868 /* Doxyfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
+		973E7A81220F9A4C003E5868 /* ReadMe.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		973E7A83220F9A4C003E5868 /* Glowdeck (Bluetooth).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (Bluetooth).xcconfig"; path = "Configurations/Glowdeck (Bluetooth).xcconfig"; sourceTree = "<group>"; };
+		973E7A84220F9A4C003E5868 /* Glowdeck (J-Link).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (J-Link).xcconfig"; path = "Configurations/Glowdeck (J-Link).xcconfig"; sourceTree = "<group>"; };
+		973E7A85220F9A4C003E5868 /* Glowdeck (USB).xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Glowdeck (USB).xcconfig"; path = "Configurations/Glowdeck (USB).xcconfig"; sourceTree = "<group>"; };
+		973E7A86220F9A4C003E5868 /* Teensy 2.0.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 2.0.xcconfig"; path = "Configurations/Teensy 2.0.xcconfig"; sourceTree = "<group>"; };
+		973E7A87220F9A4C003E5868 /* Teensy 3.0.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.0.xcconfig"; path = "Configurations/Teensy 3.0.xcconfig"; sourceTree = "<group>"; };
+		973E7A88220F9A4C003E5868 /* Teensy 3.1.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.1.xcconfig"; path = "Configurations/Teensy 3.1.xcconfig"; sourceTree = "<group>"; };
+		973E7A89220F9A4C003E5868 /* Teensy 3.2.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.2.xcconfig"; path = "Configurations/Teensy 3.2.xcconfig"; sourceTree = "<group>"; };
+		973E7A8A220F9A4C003E5868 /* Teensy 3.5.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.5.xcconfig"; path = "Configurations/Teensy 3.5.xcconfig"; sourceTree = "<group>"; };
+		973E7A8B220F9A4C003E5868 /* Teensy 3.6.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy 3.6.xcconfig"; path = "Configurations/Teensy 3.6.xcconfig"; sourceTree = "<group>"; };
+		973E7A8C220F9A4C003E5868 /* Teensy LC.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "Teensy LC.xcconfig"; path = "Configurations/Teensy LC.xcconfig"; sourceTree = "<group>"; };
+		973E7A8D220F9A4C003E5868 /* My Board.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = "My Board.xcconfig"; path = "Configurations/My Board.xcconfig"; sourceTree = "<group>"; };
+		973E7A8E220F9A4C003E5868 /* Master_Weather_Station.ino */ = {isa = PBXFileReference; lastKnownFileType = text; path = Master_Weather_Station.ino; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		973E7A63220F9A4C003E5868 = {
+			isa = PBXGroup;
+			children = (
+				973E7A7B220F9A4C003E5868 /* Master_Weather_Station */,
+				973E7A7A220F9A4C003E5868 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		973E7A7A220F9A4C003E5868 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				973E7A79220F9A4C003E5868 /* Index */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		973E7A7B220F9A4C003E5868 /* Master_Weather_Station */ = {
+			isa = PBXGroup;
+			children = (
+				973E7A7C220F9A4C003E5868 /* main.cpp */,
+				973E7A7E220F9A4C003E5868 /* Makefile */,
+				973E7A80220F9A4C003E5868 /* Doxyfile */,
+				973E7A81220F9A4C003E5868 /* ReadMe.txt */,
+				973E7A8E220F9A4C003E5868 /* Master_Weather_Station.ino */,
+				973E7A82220F9A4C003E5868 /* Configurations */,
+			);
+			path = Master_Weather_Station;
+			sourceTree = "<group>";
+		};
+		973E7A82220F9A4C003E5868 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				973E7A83220F9A4C003E5868 /* Glowdeck (Bluetooth).xcconfig */,
+				973E7A84220F9A4C003E5868 /* Glowdeck (J-Link).xcconfig */,
+				973E7A85220F9A4C003E5868 /* Glowdeck (USB).xcconfig */,
+				973E7A86220F9A4C003E5868 /* Teensy 2.0.xcconfig */,
+				973E7A87220F9A4C003E5868 /* Teensy 3.0.xcconfig */,
+				973E7A88220F9A4C003E5868 /* Teensy 3.1.xcconfig */,
+				973E7A89220F9A4C003E5868 /* Teensy 3.2.xcconfig */,
+				973E7A8A220F9A4C003E5868 /* Teensy 3.5.xcconfig */,
+				973E7A8B220F9A4C003E5868 /* Teensy 3.6.xcconfig */,
+				973E7A8C220F9A4C003E5868 /* Teensy LC.xcconfig */,
+				973E7A8D220F9A4C003E5868 /* My Board.xcconfig */,
+			);
+			name = Configurations;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		973E7A68220F9A4C003E5868 /* Build */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "build -C \"$(PROJECT)\" -j";
+			buildConfigurationList = 973E7A91220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Build" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Build;
+			passBuildSettingsInEnvironment = 1;
+			productName = Build;
+		};
+		973E7A69220F9A4C003E5868 /* All */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "all -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7A94220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "All" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = All;
+			passBuildSettingsInEnvironment = 1;
+			productName = All;
+		};
+		973E7A6A220F9A4C003E5868 /* Share */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "share -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7A97220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Share" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Share;
+			passBuildSettingsInEnvironment = 1;
+			productName = Share;
+		};
+		973E7A6B220F9A4C003E5868 /* Style */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "style -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7A9A220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Style" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Style;
+			passBuildSettingsInEnvironment = 1;
+			productName = Style;
+		};
+		973E7A6C220F9A4C003E5868 /* Document */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "document -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7A9D220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Document" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Document;
+			passBuildSettingsInEnvironment = 1;
+			productName = Document;
+		};
+		973E7A6D220F9A4C003E5868 /* Distribute */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "distribute -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AA0220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Distribute" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Distribute;
+			passBuildSettingsInEnvironment = 1;
+			productName = Distribute;
+		};
+		973E7A6E220F9A4C003E5868 /* Archive */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "archive -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AA3220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Archive" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Archive;
+			passBuildSettingsInEnvironment = 1;
+			productName = Archive;
+		};
+		973E7A6F220F9A4C003E5868 /* Unarchive */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "unarchive -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AA6220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Unarchive" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Unarchive;
+			passBuildSettingsInEnvironment = 1;
+			productName = Unarchive;
+		};
+		973E7A70220F9A4C003E5868 /* Boards */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "boards -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AA9220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Boards" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Boards;
+			passBuildSettingsInEnvironment = 1;
+			productName = Boards;
+		};
+		973E7A71220F9A4C003E5868 /* Serial */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "serial -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AAC220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Serial" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Serial;
+			passBuildSettingsInEnvironment = 1;
+			productName = Serial;
+		};
+		973E7A72220F9A4C003E5868 /* Upload */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "upload -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AAF220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Upload" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Upload;
+			passBuildSettingsInEnvironment = 1;
+			productName = Upload;
+		};
+		973E7A73220F9A4C003E5868 /* Clean */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "clean -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AB2220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Clean" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Clean;
+			passBuildSettingsInEnvironment = 1;
+			productName = Clean;
+		};
+		973E7A74220F9A4C003E5868 /* Make */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "make -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AB5220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Make" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Make;
+			passBuildSettingsInEnvironment = 1;
+			productName = Make;
+		};
+		973E7A75220F9A4C003E5868 /* Fast */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "fast -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7AB8220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Fast" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Fast;
+			passBuildSettingsInEnvironment = 1;
+			productName = Fast;
+		};
+		973E7A76220F9A4C003E5868 /* Debug */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "debug -C \"$(PROJECT)\"";
+			buildConfigurationList = 973E7ABB220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Debug" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			dependencies = (
+			);
+			name = Debug;
+			passBuildSettingsInEnvironment = 1;
+			productName = Debug;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		973E7A78220F9A4C003E5868 /* Index */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 973E7ABE220F9A4C003E5868 /* Build configuration list for PBXNativeTarget "Index" */;
+			buildPhases = (
+				973E7A77220F9A4C003E5868 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Index;
+			productName = Index;
+			productReference = 973E7A79220F9A4C003E5868 /* Index */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		973E7A64220F9A4C003E5868 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Kingston Co.";
+				TargetAttributes = {
+					973E7A68220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A69220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6A220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6B220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6C220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6D220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6E220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A6F220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A70220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A71220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A72220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A73220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A74220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A75220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A76220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					973E7A78220F9A4C003E5868 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 973E7A67220F9A4C003E5868 /* Build configuration list for PBXProject "Master_Weather_Station" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 973E7A63220F9A4C003E5868;
+			productRefGroup = 973E7A7A220F9A4C003E5868 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				973E7A68220F9A4C003E5868 /* Build */,
+				973E7A69220F9A4C003E5868 /* All */,
+				973E7A6A220F9A4C003E5868 /* Share */,
+				973E7A6B220F9A4C003E5868 /* Style */,
+				973E7A6C220F9A4C003E5868 /* Document */,
+				973E7A6D220F9A4C003E5868 /* Distribute */,
+				973E7A6E220F9A4C003E5868 /* Archive */,
+				973E7A6F220F9A4C003E5868 /* Unarchive */,
+				973E7A70220F9A4C003E5868 /* Boards */,
+				973E7A71220F9A4C003E5868 /* Serial */,
+				973E7A72220F9A4C003E5868 /* Upload */,
+				973E7A73220F9A4C003E5868 /* Clean */,
+				973E7A74220F9A4C003E5868 /* Make */,
+				973E7A75220F9A4C003E5868 /* Fast */,
+				973E7A76220F9A4C003E5868 /* Debug */,
+				973E7A78220F9A4C003E5868 /* Index */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		973E7A77220F9A4C003E5868 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				973E7A7F220F9A4C003E5868 /* Makefile in Sources */,
+				973E7A7D220F9A4C003E5868 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		973E7A8F220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 973E7A89220F9A4C003E5868 /* Teensy 3.2.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PATH = "$(PATH):$(PROJECT_DIR)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKETCHBOOK_DIR = "";
+			};
+			name = Debug;
+		};
+		973E7A90220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PATH = "$(PATH):$(PROJECT_DIR)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKETCHBOOK_DIR = "";
+			};
+			name = Release;
+		};
+		973E7A92220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		973E7A93220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		973E7A95220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7A96220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7A98220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7A99220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7A9B220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7A9C220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7A9E220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7A9F220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AA1220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AA2220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AA4220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AA5220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AA7220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AA8220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AAA220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AAB220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AAD220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AAE220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AB0220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AB1220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AB3220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AB4220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AB6220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AB7220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7AB9220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7ABA220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7ABC220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7ABD220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+		973E7ABF220F9A4C003E5868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Debug;
+		};
+		973E7AC0220F9A4C003E5868 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GKXR85T3Q9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		973E7A67220F9A4C003E5868 /* Build configuration list for PBXProject "Master_Weather_Station" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A8F220F9A4C003E5868 /* Debug */,
+				973E7A90220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7A91220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A92220F9A4C003E5868 /* Debug */,
+				973E7A93220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7A94220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "All" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A95220F9A4C003E5868 /* Debug */,
+				973E7A96220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7A97220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Share" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A98220F9A4C003E5868 /* Debug */,
+				973E7A99220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7A9A220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Style" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A9B220F9A4C003E5868 /* Debug */,
+				973E7A9C220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7A9D220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Document" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7A9E220F9A4C003E5868 /* Debug */,
+				973E7A9F220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AA0220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Distribute" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AA1220F9A4C003E5868 /* Debug */,
+				973E7AA2220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AA3220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Archive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AA4220F9A4C003E5868 /* Debug */,
+				973E7AA5220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AA6220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Unarchive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AA7220F9A4C003E5868 /* Debug */,
+				973E7AA8220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AA9220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Boards" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AAA220F9A4C003E5868 /* Debug */,
+				973E7AAB220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AAC220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Serial" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AAD220F9A4C003E5868 /* Debug */,
+				973E7AAE220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AAF220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Upload" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AB0220F9A4C003E5868 /* Debug */,
+				973E7AB1220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AB2220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Clean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AB3220F9A4C003E5868 /* Debug */,
+				973E7AB4220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AB5220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Make" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AB6220F9A4C003E5868 /* Debug */,
+				973E7AB7220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7AB8220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Fast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7AB9220F9A4C003E5868 /* Debug */,
+				973E7ABA220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7ABB220F9A4C003E5868 /* Build configuration list for PBXLegacyTarget "Debug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7ABC220F9A4C003E5868 /* Debug */,
+				973E7ABD220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		973E7ABE220F9A4C003E5868 /* Build configuration list for PBXNativeTarget "Index" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				973E7ABF220F9A4C003E5868 /* Debug */,
+				973E7AC0220F9A4C003E5868 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 973E7A64220F9A4C003E5868 /* Project object */;
+}
