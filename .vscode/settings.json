@@ -1,0 +1,6 @@
+{
+    "editor.cursorStyle": "line-thin",
+    "editor.wordWrap": "on",
+    "editor.find.autoFindInSelection": "always",
+    "editor.minimap.showSlider": "always"
+}
