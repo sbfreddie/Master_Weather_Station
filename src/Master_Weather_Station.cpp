@@ -6313,7 +6313,7 @@ void setup()
    
     
     /********************************************************************************************************************
-    *                                   Get Rain Data from EEPROM and put in RAM.
+    *                                   Get Rain Data Offset from EEPROM and put in RAM.
     * This is where the info concerning the rain gauge in EEPROM is placed in the appropriate variables in RAM.
     * The AT24C32 has 4096 bytes of memory storage (address 0 -> 0xFFF).
     ********************************************************************************************************************/
@@ -6324,13 +6324,31 @@ void setup()
         Serial.print(F("Rain Offset in float: "));
         Serial.println(i,2);
     #endif
-    if ( i > 0 )
+    if ( (i >= 0) && (i < 100) )
         {
             rainYearlyOffset = i;
         }
+    else if (i == NAN)  // If the number in EEPROM is bogus set it to zero
+        {
+            i = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(rainMemoryLocation, i);  // Set the Rain Offset Location to zero.
+            #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
+                Serial.println(F("Read EEPROM Memory yearly rain offset, Rain Offset Number is BAD!\n"));
+            #endif
+        }
+    else
+        {
+            i = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(rainMemoryLocation, i);  // Set the Rain Offset Location to zero.
+            #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
+                Serial.println(F("Read EEPROM Memory yearly rain offset, Rain Offset Number is to BIG!\n"));
+            #endif    
+        }
+
+    
     
     /********************************************************************************************************************
-     *             Get Temp Sensor Calibration Data from EEPROM and put in RAM.
+     *             Get Temp Sensor Calibration Offset Data from EEPROM and put in RAM.
      * This is where the info concerning the Temp Sensor Calibration Offset in EEPROM is placed in the appropriate variables in RAM.
      * The AT24C32 has 4096 bytes of memory storage (address 0 -> 0xFFF).
      ********************************************************************************************************************/
@@ -6341,9 +6359,25 @@ void setup()
         Serial.print(F("Temp Sensor Calibration Offset in float: "));
         Serial.println(j,2);
     #endif
-    if ( j != 0 )
+    if ( (j >= 0) && (j < 20) )
         {
             SystemSensor.settings.tempCorrection = j;
+        }
+    else if (i == NAN)  // If the number in EEPROM is bogus set it to zero
+        {
+            i = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(TempCalOffsetLocation, i);  // Set the Temp Sensor Offset Location to zero.
+            #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
+                Serial.println(F("Read EEPROM Memory Temp Sensor Calibration Offset, Temp Sensor Calibration Offset Number is BAD!\n"));
+            #endif
+        }
+    else
+        {
+            i = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(TempCalOffsetLocation, i);  // Set the Temp Sensor Offset Location to zero.
+            #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
+                Serial.println(F("Read EEPROM Memory Temp Sensor Calibration Offset, Temp Sensor Calibration Offset Number is to BIG!\n"));
+            #endif    
         }
 
     /********************************************************************************************************************
@@ -6378,6 +6412,7 @@ void setup()
         {
             tz = timezones[tzIndex];  // Set the time zone to the default.
             temp_t = ((*tz).toLocal(lastTimeSetByClock, &tcr));
+            eepromMemory.write(TimeZoneSettingLocation, k);  // Fix number in EEPROM if its bad.
             #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
                 Serial.print(F("Read EEPROM Memory Time Zone Setting, EEPROM Number was not valid, setting to: "));
                 Serial.println(tcr -> abbrev);
@@ -6407,6 +6442,7 @@ void setup()
     else
         {
             timeToDimTheScreen = 22;  // If the number stored in eeprom is bad, set the hour to 22.
+            eepromMemory.write(SleepTimeEEPROMMemoryLocation, 22);  // Fix number in EEPROM if its bad.
         }
             
     /********************************************************************************************************************
@@ -6426,6 +6462,7 @@ void setup()
     else
         {
             TimeToWakeTheScreen = 8;  // If the number stored in eeprom is bad, set the hour to 8.
+            eepromMemory.write(WakeTimeEEPROMMemoryLocation, 8);  // Fix number in EEPROM if its bad.
         }
             
     /********************************************************************************************************************
@@ -6445,6 +6482,7 @@ void setup()
     else
         {
             dayTimeScreenBrightness = 255;  // If the number stored in eeprom is bad, set the Screen Brightness to 255.
+            eepromMemory.write(DayTimeScreenIntensityEEPROMMemoryLocation, 255);  // Fix number in EEPROM if its bad.
         }
             
     /********************************************************************************************************************
@@ -6464,6 +6502,7 @@ void setup()
     else
         {
             nightTimeScreenBrightness = 5;  // If the number stored in eeprom is bad, set the Screen Brightness to 5.
+            eepromMemory.write(NiteTimeScreenIntensityEEPROMMemoryLocation, 5);  // Fix number in EEPROM if its bad.
         }
 
     
