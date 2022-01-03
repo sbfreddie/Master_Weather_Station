@@ -1033,8 +1033,7 @@ void drawRainSensorInfo(uint16_t xPos, uint16_t yPos)
 
 
 /***************************************************************************************************************
-* This function blanks out the Wind Direction Flower and the Wind Data from the screen, leaving "No Wind" at the
-* top left corner.
+* This function blanks out the Wind Direction Flower and the Wind Data from the screen
 * Input:
 *       Pos[] array.
 *       xPos
@@ -1050,9 +1049,7 @@ void drawBlankWind(int16_t pos[], uint16_t xPos, uint16_t yPos)
     int16_t xBlankStart, xWidth, yBlankStart, yHeight;
     
     tft.setCursor (xPos, yPos);
-    tft.print("                   ");  // Clear the previous text from screen
-    //tft.setCursor (xPos, yPos);
-    //tft.println(F("No Wind!"));
+    tft.print("                   ");  // Clear the previous text from screen 19 Characters.
     tft.setCursor (xPos, (yPos + Ysize));  // Need to blank the next four readings off the screen while there is no wind.
     tft.println("                    ");  // 20 spaces to remove all the text.
     tft.println("                ");  // 16 spaces to remove all the text.
@@ -6664,17 +6661,22 @@ void setup()
         Serial.println(F("Setup finished TFT setup.."));
     #endif
 
+    // This puts the Master right above the clock face in the center.  This is 3 char to the left of the clock center
     tft.setTextColor(RA8875_LIGHT_ORANGE);
     tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
     tft.print(F("MASTER"));
     
-    tft.setCursor( (XMIDDLE - (Xsize * 18 )), YTOP, false);  // Size is set for 16 x 32 pixels.
     tft.setFontScale(0);  // This is the small font on the screen.
+
+    // This puts the Software Version just below the MASTER title at the top of the tft.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 ), false);  // Size is set for 8 x 16 pixels.
     tft.print("SWversion: " + String(VERSION));  // Print Project version.
 
-    tft.setCursor( (XMIDDLE - (Xsize * 18 )), (YTOP + (Ysize)), false);  // Size is set for 16 x 32 pixels, this is the second line down.
-    tft.print("Btime:" + String(BUILD_TIMESTAMP));  // Print build timestamp
-    tft.setFontScale(1);  // This is the regular font on the screen.
+    // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE14 + (Ysize / 2) ), false);  // Size is set for 8 x 16 pixels.
+    tft.print("Build " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
+    
+    tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
     tft.setTextColor(RA8875_WHITE);  // Return font to normal color.
 
     statusDotColor = DOT_RED;  // Set the color indicator of the status dot to red.
