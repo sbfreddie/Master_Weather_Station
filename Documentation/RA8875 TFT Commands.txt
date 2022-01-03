@@ -1,0 +1,290 @@
+//
+//  RA8875 TFT Commands
+//  Text
+//  ----------------------------------
+//  Developed with embedXcode
+//
+//  Project 	RifeGen_Code
+//  Created by 	freddie on 6/29/15
+//  Copyright 	© 2015 Kingston Co.
+//  License	<#license#>
+//
+
+/*******************************************************************************************************************
+* These definitions are for the TFT, and Touch Screen located on the ER-TFTM043-3 4.3" TFT Board.
+*******************************************************************************************************************/
+
+#define RA8875_CS       10 //see below...
+
+/******************************************************************************
+Teensy 3.x can use: 2,6,9,10,15,20,21,22,23
+*******************************************************************************/
+
+#define RA8875_RESET    9  //any pin or 255 to disable it!
+#define RA8875_INT      2  // Touch screen interrupt is on any Pin.
+
+/******************************************************************************
+* Teensy3.x has small difference since it can use alternative SPI pins,
+* essential if you want to use this library with Audio Shield.
+* You can set alternative SPI pins:
+* RA8875(CSpin,RSTpin=255,MOSI=11,SCLK=13,MISO=12);//the default configuration
+* -------------------------------
+* ONLY Teensy LC can use a second SPI BUS:
+*
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,true);//this used ONLY with Teensy LC will use second SPI bus.
+* Teensy 3.1 let you choose alternative MISO,MOSI and SCLK pin (see Teensy 3.1 docs)
+*
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,alt_mosi,alt_sclk,alt_miso);
+*
+* -------------------------------
+* To use with Audio shield:
+* CS: 2,20,21 because are not used by audio shield
+* MOSI:7
+* SCLK:14
+* RA8875(2,255,7,14);//will not interfere with Audio Shield
+* --------------------------------------------------------
+* To omit Reset pin, set as 255
+* For CS you CANNOT use any pin!
+* Teensy 3.x can use: 2,6,9,10,15,20,21,22,23
+* The smallest instance can be:
+* RA8875(CSpin);
+* -------------------------------
+* If you are using Capacitive Touch Screen FT5206 here's instances:
+*
+* for Teensy 3.1:
+*
+* #define RA8875_INT 2
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,RA8875_INT);
+* or
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,RA8875_INT,alt_mosi,alt_sclk,alt_miso);
+*
+* for Teensy LC:
+*
+* #define RA8875_INT 2
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,RA8875_INT);
+* or
+* RA8875 tft = RA8875(RA8875_CS,RA8875_RST,true);//it will use the second SPI bus
+*
+*******************************************************************************/
+
+//RA8875 tft = RA8875(RA8875_CS,RA8875_RESET);//Teensy
+//or
+//RA8875 tft = RA8875(RA8875_CS);//Teensy (not using rst pin)
+// or
+RA8875 tft = RA8875(RA8875_CS, RA8875_RESET, 7, 14, 8); // Teensy using alt SPI bus.
+
+#define SCREEN_ROTATION 0  // This number defines the screen rotation, 1 & 2 = Portrait, 0 & 3 = Landscape
+
+
+enum RA8875sizes            { RA8875_480x272, RA8875_800x480, RA8875_800x480ALT, Adafruit_480x272, Adafruit_800x480 };
+enum RA8875tcursor          { NOCURSOR=0, IBEAM,UNDER,BLOCK };  // 0,1,2,3
+enum RA8875tsize            { X16 = 0, X24, X32 };  // 0,1,2
+enum RA8875fontSource       { INTFONT=0, EXTFONT };  // 0,1
+enum RA8875fontCoding       { ISO_IEC_8859_1, ISO_IEC_8859_2, ISO_IEC_8859_3, ISO_IEC_8859_4 };
+enum RA8875extRomType       { GT21L16T1W, GT21H16T1W, GT23L16U2W, GT30L16U2W, GT30H24T3Y, GT23L24T3Y, GT23L24M1Z, GT23L32S4W, GT30H32S4W, GT30L32S4W, ER3303_1, ER3304_1, ER3301_1 };
+enum RA8875extRomCoding     { GB2312, GB12345, BIG5, UNICODE, ASCII, UNIJIS, JIS0208, LATIN };
+enum RA8875extRomFamily     { STANDARD, ARIAL, ROMAN, BOLD };
+enum RA8875boolean          { LAYER1, LAYER2, TRANSPARENT, LIGHTEN, OR, AND, FLOATING };
+enum RA8875writes           { L1=0, L2, CGRAM, PATTERN, CURSOR };
+enum RA8875scrollMode       { SIMULTANEOUS, LAYER1ONLY, LAYER2ONLY, BUFFERED };
+enum RA8875pattern          { P8X8, P16X16 };
+enum RA8875btedatam         { CONT, RECT };
+enum RA8875btelayer         { SOURCE, DEST };
+enum RA8875intlist          { BTE=1,TOUCH=2, DMA=3,KEY=4 };
+
+*******************************************************************************************************************
+* These are examples of commands to the TFT:
+* This Screen (ER-TFTM043-3) has 24 bit color, and 400 pixels Horizontally by 272 pixels Vertically.
+* The TFT Library includes a Standard ASCII 8 pixel x 16 pixel font.
+*******************************************************************************************************************/
+/*
+void 	backlight(boolean on);
+void    	displayOn(boolean on);  //turn diplay on/off
+void    	sleep(boolean sleep);  //put display in sleep or not
+void 	brightness(uint8_t val);  //ok
+uint8_t 	readStatus(void);  //used to verify when an operation has concluded
+void 	clearMemory(bool stop=false);
+
+uint8_t	errorCode(void);  //0: no error,
+
+format: 1byte 0b00000000;, bit described below:
+nan,nan,nan,nan,nan,CS(out-of-range),MOSI/MISO/SCLK(out-of-range),display(not-recognized)
+
+--------------area -------------------------------------
+void	setActiveWindow(int16_t XL,int16_t XR,int16_t YT,int16_t YB);  //The working area where to draw on
+void	setActiveWindow(void);
+void 	getActiveWindow(int16_t &XL,int16_t &XR ,int16_t &YT ,int16_t &YB);
+void	clearActiveWindow(bool full=false);  //it clears the active window
+uint16_t width(void) const;  //the physical display width
+uint16_t height(void) const;  //the physical display height
+void	setRotation(uint8_t rotation);  //rotate text and graphics
+uint8_t	getRotation();  //return the current rotation 0-3
+boolean	isPortrait(void);
+
+--------------color -------------------------------------
+Preset Colors: (RGB565)
+RA8875_BLACK
+RA8875_WHITE
+RA8875_RED
+RA8875_GREEN
+RA8875_BLUE
+RA8875_CYAN
+RA8875_MAGENTA
+RA8875_YELLOW
+RA8875_LIGHT_GREY
+RA8875_LIGHT_ORANGE
+RA8875_DARK_ORANGE
+RA8875_PINK
+RA8875_PURPLE
+RA8875_GRAYSCALE
+
+void	setForegroundColor(uint16_t color);  //color of objects in 16bit
+void	setForegroundColor(uint8_t R,uint8_t G,uint8_t B);  //color of objects in 8+8+8bit
+void	setBackgroundColor(uint16_t color);  //color of objects background in 16bit
+void	setBackgroundColor(uint8_t R,uint8_t G,uint8_t B);  //color of objects background in 8+8+8bit
+void 	setTransparentColor(uint16_t color);  //the current transparent color in 16bit
+void 	setTransparentColor(uint8_t R,uint8_t G,uint8_t B);  //the current transparent color in 8+8+8bit
+void 	setColor(uint16_t fcolor,uint16_t bcolor,bool bcolorTraspFlag=false);
+void 	setColorBpp(uint8_t colors);//set the display color space 8 or 16!
+uint8_t 	getColorBpp(void);//get the current display color space (return 8 or 16)
+
+--------------color conversion ----------------------------
+uint16_t    Color565(uint8_t r,uint8_t g,uint8_t b);
+uint16_t    Color24To565(int32_t color_);
+uint16_t    htmlTo565(int32_t color_);
+
+--------------Cursor Stuff---------------------------------
+void 	cursorIncrement(bool on);
+void 	setCursorBlinkRate(uint8_t rate);  //set blink rate of the cursor 0...255 0:faster
+void 	showCursor(enum RA8875tcursor c,bool blink);  //show cursor(NOCURSOR,IBEAM,UNDER,BLOCK), default blinking
+void    	setCursor(int16_t x, int16_t y,bool autocenter=false);  //set cursor position to write text(pixels or CENTER)
+void 	getCursor(int16_t &x, int16_t &y);  //from the RA8875 registers
+void 	getCursorFast(int16_t &x, int16_t &y);  //from library (faster)
+int16_t	getCursorX(void);
+int16_t	getCursorY(void);
+
+--------------Text functions ------------------------------
+void 	uploadUserChar(const uint8_t symbol[],uint8_t address);  //upload user defined char as array at the address 0..255
+void	showUserChar(uint8_t symbolAddrs,uint8_t wide=0);  //show user uploaded char at the adrs 0...255
+void    	setTextColor(uint16_t fcolor, uint16_t bcolor);  //set text color + text background color
+void 	setTextColor(uint16_t fcolor);  //set text color (backgroud will be transparent)
+void    	setFontScale(uint8_t scale);  //global font scale (w+h)
+void    	setFontScale(uint8_t vscale,uint8_t hscale);  //font scale separated by w and h
+void    	setFontSize(enum RA8875tsize ts);  //X16,X24,X32
+void 	setFontSpacing(uint8_t spc);  //0:disabled ... 63:pix max
+void 	setFontInterline(uint8_t pix);  //0...63 pix
+void 	setFontFullAlign(boolean align);  //mmmm... doesn't do nothing! Have to investigate
+uint8_t 	getFontWidth(boolean inColums=false);
+uint8_t 	getFontHeight(boolean inRows=false);
+
+----------Font Selection and related..............................
+void	setExternalFontRom(enum RA8875extRomType ert, enum RA8875extRomCoding erc,enum RA8875extRomFamily erf=STANDARD);
+void 	setFont(enum RA8875fontSource s);  //INT,EXT (if you have a chip installed)
+void 	setIntFontCoding(enum RA8875fontCoding f);
+void	setExtFontFamily(enum RA8875extRomFamily erf,boolean setReg=true);
+
+--------------Font Rendering Engine (ALPHA!!!! only a test) -------------------------
+void 	gPrint(uint16_t x,uint16_t y,const char *in,uint16_t color,uint8_t scale,const struct FONT_DEF *strcut1);
+void 	gPrint(uint16_t x,uint16_t y,int num,uint16_t color,uint8_t scale,const struct FONT_DEF *strcut1);
+void 	gPrintEfx(uint16_t x,uint16_t y,const char *in,uint16_t color,uint8_t pixellation,const struct FONT_DEF *strcut1);
+
+--------------Graphic Funcions -------------------------
+void    	setXY(int16_t x, int16_t y);  //graphic set location
+void 	setX(int16_t x);
+void 	setY(int16_t y) ;
+void 	setGraphicCursor(uint8_t cur);  //0...7 Select a custom graphic cursor (you should upload first)
+void 	showGraphicCursor(boolean cur);//show graphic cursor
+
+--------------- DRAW -------------------------
+void    	drawPixel(int16_t x, int16_t y, uint16_t color);
+void 	drawPixels(uint16_t * p, uint32_t count, int16_t x, int16_t y);
+uint16_t getPixel(int16_t x, int16_t y);
+void    	drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
+void    	drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
+void    	fillWindow(uint16_t color=_RA8875_DEFAULTBACKLIGHT);  //fill the ActiveWindow with a color(default black)
+void	clearScreen(uint16_t color=_RA8875_DEFAULTBACKLIGHT);  //fill the entire screen (regardless ActiveWindow) with a color(default black)
+void    	drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+void    	drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void    	fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void    	drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void    	fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void    	drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void    	fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void    	drawEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
+void    	fillEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
+void    	drawCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
+void    	fillCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
+void 	drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color);//ok
+void 	fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color);
+void	drawArc(uint16_t cx, uint16_t cy, uint16_t radius, uint16_t thickness, float start, float end, uint16_t color);
+
+-------------- LAYERS -----------------------------------------
+void 	useLayers(boolean on);  //mainly used to turn of layers!
+void	writeTo(enum RA8875writes d);  //L1, L2, CGRAM, PATTERN, CURSOR
+void 	layerEffect(enum RA8875boolean efx);  //LAYER1, LAYER2, TRANSPARENT, LIGHTEN, OR, AND, FLOATING
+void 	layerTransparency(uint8_t layer1,uint8_t layer2);
+uint8_t	getCurrentLayer(void);  //return the current drawing layer. If layers are OFF, return 255
+
+--------------- SCROLL ----------------------------------------
+void     setScrollMode(enum RA8875scrollMode mode); // The experimentalist
+void 	setScrollWindow(int16_t XL,int16_t XR ,int16_t YT ,int16_t YB);
+void 	scroll(int16_t x,int16_t y);
+
+-------------- DMA -------------------------------
+void 	DMA_blockModeSize(int16_t BWR,int16_t BHR,int16_t SPWR);
+void 	DMA_startAddress(unsigned long adrs);
+void 	DMA_enable(void);
+void 	drawFlashImage(int16_t x,int16_t y,int16_t w,int16_t h,uint8_t picnum);
+
+-------------- BTE --------------------------------------------
+void 	BTE_size(int16_t w, int16_t h);
+void	BTE_moveFrom(int16_t SX,int16_t SY);
+void	BTE_moveTo(int16_t DX,int16_t DY);
+void	BTE_ropcode(unsigned char setx);  //
+void 	BTE_enable(bool on);  //
+void 	BTE_dataMode(enum RA8875btedatam m);  //CONT,RECT
+void 	BTE_layer(enum RA8875btelayer sd,uint8_t l);//SOURCE,DEST - 1 or 2
+void	BTE_move(int16_t SourceX, int16_t SourceY, int16_t Width, int16_t Height, int16_t DestX, int16_t DestY, uint8_t SourceLayer=0, uint8_t DestLayer=0, bool Transparent = false, uint8_t ROP=RA8875_BTEROP_SOURCE, bool Monochrome=false, bool ReverseDir = false);
+
+---------- pattern --------------------------------------------
+void 	setPattern(uint8_t num, enum RA8875pattern p=P8X8);
+void 	writePattern(int16_t x,int16_t y,const uint8_t *data,uint8_t size,bool setAW=true);
+
+-------------- GPIO & PWM -------------------------
+void    	GPIOX(boolean on);
+void    	PWMout(uint8_t pw,uint8_t p);//1:backlight, 2:free
+
+-------------- Touch Screen Resistive -------------------------
+void 	touchBegin(uint8_t intPin);//prepare Touch Screen driver
+void    	touchEnable(boolean enabled);//enable/disable Touch Polling (disable INT)
+boolean 	touchDetect(boolean autoclear=false);//true=touch detected //Note: must be followed by touchReadxxx or use autoclear=true for standalone
+void 	touchReadAdc(uint16_t *x, uint16_t *y);//returns 10bit ADC data (0...1024)
+void 	touchReadPixel(uint16_t *x, uint16_t *y);//return pixels (0...width, 0...height)
+boolean	touchCalibrated(void);//true if screen calibration it's present
+
+---------------------------------------Touch Screen FT5206 ------------------------------------------------------
+void	useCapINT(const uint8_t INTpin,const uint8_t INTnum)  // INTpin: it's the pin where we listen for the ISR, INTnum: it's the INT related to pin. On some processor it's not needed,this last parameter it's used only when you have decided to use an ISR.
+
+void	enableCapISR(bool force);  // Enable the ISR, after this any falling edge on _intCTSPin pin will trigger ISR  Parameters: force: if true will force attach interrupt NOTE: if parameter _needCTS_ISRrearm = true will rearm interrupt
+
+void	_disableCapISR(void);  // Disable ISR [FT5206 version] Works only if previously enabled or do nothing.
+
+void	setTouchLimit(uint8_t limit);  // Set the Touch Limit, Max allowed is 5 with FT5206, Max allowed for Resistive is 1.
+
+uint8_t	getTouchLimit(void);  // Get the current setting for the touch Limit.
+
+
+bool	touched(bool safe)  // true or false, Checks if an interrupt has occurred. Returns true if yes.  Designed to run in loop.  It works with ISR or DigitalRead methods  Parameters: safe: true  (detach interrupt routine, has to be re-engaged manually!)  false ( )
+
+void	updateTS(void);  // This is the function that updates the current state of the Touch Screen.  It's developed for use in loop. Now we have the data inside library
+
+uint8_t	getTouches(void);  // Gets the number of touches, must be used AFTER updateTS! Returns -> 0..5 or 0: no touch
+
+uint8_t	getTouchState(void);  // Gets the current Touch State, must be used AFTER updateTS!
+
+uint8_t	getGesture(void);  // Gets the gesture, if identified, must be used AFTER updateTS!
+
+uint8_t	getTScoordinates(uint16_t (*touch_coordinates)[2]);  // It gets the coordinates from the data collected by updateTS function, Actually it will not communicate with FT5206, just reorder collected data so it MUST be used after updateTS!
+-------------------------------------------------------------------------------------------------------------------
+
+

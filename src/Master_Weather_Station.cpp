@@ -1886,6 +1886,8 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
 {
     // First lets print the date:
     
+    
+
     tft.setCursor (x, y);
     tft.print("          ");  // Clear the line (10 spaces) first to remove the remnants from previous print.
     tft.setCursor (x, y);
@@ -6549,7 +6551,7 @@ void setup()
                 Serial.println(tftErrorCode, HEX);
             #endif
         }
-    
+
     tft.setRotation(SCREEN_ROTATION);  // Set Screen Rotation to Landscape.
     tftErrorCode = tft.errorCode();
     if (tftErrorCode != 00)
@@ -6662,19 +6664,19 @@ void setup()
     #endif
 
     // This puts the Master right above the clock face in the center.  This is 3 char to the left of the clock center
-    tft.setTextColor(RA8875_LIGHT_ORANGE);
+    tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);
     tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
     tft.print(F("MASTER"));
     
     tft.setFontScale(0);  // This is the small font on the screen.
 
     // This puts the Software Version just below the MASTER title at the top of the tft.
-    tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 ), false);  // Size is set for 8 x 16 pixels.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - (Ysize / 5) ), false);  // Size is set for 8 x 16 pixels.
     tft.print("SWversion: " + String(VERSION));  // Print Project version.
 
     // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
-    tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE14 + (Ysize / 2) ), false);  // Size is set for 8 x 16 pixels.
-    tft.print("Build " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
+    tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+    tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
     tft.setTextColor(RA8875_WHITE);  // Return font to normal color.

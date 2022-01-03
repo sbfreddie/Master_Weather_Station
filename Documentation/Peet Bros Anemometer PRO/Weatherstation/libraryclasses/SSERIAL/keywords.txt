@@ -1,0 +1,4 @@
+SSERIAL	KEYWORD1
+begin	KEYWORD2
+request	KEYWORD2
+senddata	KEYWORD2
