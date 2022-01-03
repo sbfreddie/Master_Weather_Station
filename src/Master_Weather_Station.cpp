@@ -6679,7 +6679,7 @@ void setup()
     tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
-    tft.setTextColor(RA8875_WHITE);  // Return font to normal color.
+    tft.setTextColor(RA8875_WHITE);  // Return font to normal color, with a transparent backround.
 
     statusDotColor = DOT_RED;  // Set the color indicator of the status dot to red.
     printUTCStatusDotOnTFT( ( XMIDDLE + ( ( Xsize * 2 ) + 2 ) ), ( YTOP + ( Ysize * 4 ) ), RA8875_RED);  // Print RED dot to indicate beginning status of the corrected UTC Time from the GPS.
@@ -6771,7 +6771,7 @@ void loop()
                     if ((currentTime[0] >= timeToDimTheScreen) || (currentTime[0] < TimeToWakeTheScreen))
                         {  // Night Time Brightness is lower, with red text and a red clock face.
                             tft.brightness(nightTimeScreenBrightness);  // Set the TFT brightness to the night time setting.
-                            tft.setTextColor(RA8875_RED,RA8875_BLACK);  // Set text color + text background color.
+                            tft.setTextColor(RA8875_RED);  // Set text color, text background color is transparent.
                             drawGauge(clockPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                 {
@@ -6795,7 +6795,7 @@ void loop()
                     else
                         {  // Day Time brightness is full power with white text and a white clock face
                             tft.brightness(dayTimeScreenBrightness);
-                            tft.setTextColor(RA8875_WHITE,RA8875_BLACK);  // Set text color + text background color.
+                            tft.setTextColor(RA8875_WHITE);  // Set text color, text background color is transparent.
                             drawGauge(clockPos, 0, 360,RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                  {
@@ -6824,12 +6824,12 @@ void loop()
                             {
                                 if ((currentTime[0] >= timeToDimTheScreen) || (currentTime[0] < TimeToWakeTheScreen))
                                     {  // Night Time Brightness is very low, with red text and a red clock face.
-                                        tft.setTextColor(RA8875_RED,RA8875_BLACK);  // Set text color to Red + text background color to Black.
+                                        tft.setTextColor(RA8875_RED);  // Set text color to Red, text background is transparent.
                                         drawWindGauge(WindDirFlowerPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round Wind Direction Flower with the major & minor tick marks.
                                     }
                                 else
                                     {
-                                        tft.setTextColor(RA8875_WHITE,RA8875_BLACK);  // Set text color to White + text background color to Black.
+                                        tft.setTextColor(RA8875_WHITE);  // Set text color to White, text background is transparent.
                                         drawWindGauge(WindDirFlowerPos, 0, 360, RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round Wind Direction Flower with the major & minor tick marks.
                                     }
                 
@@ -7101,19 +7101,23 @@ void loop()
             
             preferencesInProgressFlag = false;  // Finsihed with the preferences routine.
         
-            // This returns the Master/Slave Mode indication at the top-middle of the TFT.
-                tft.setTextColor(RA8875_LIGHT_ORANGE);
-                tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
-                tft.print(F("MASTER"));
-                
-                tft.setCursor( (XMIDDLE - (Xsize * 18 )), YTOP, false);  // Size is set for 16 x 32 pixels.
-                tft.setFontScale(0);  // This is the small font on the screen.
-                tft.print("SWversion: " + String(VERSION));  // Print Project version.
+            // This puts the Master right above the clock face in the center.  This is 3 char to the left of the clock center
+            tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);
+            tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
+            tft.print(F("MASTER"));
+    
+            tft.setFontScale(0);  // This is the small font on the screen.
 
-                tft.setCursor( ( XMIDDLE - (Xsize * 18 )), (YTOP + (Ysize)), false);  // Size is set for 16 x 32 pixels, this is the second line down.
-                tft.print("Btime:" + String(BUILD_TIMESTAMP));  // Print build timestamp
-                tft.setFontScale(1);  // This is the regular font on the screen.
-                tft.setTextColor(RA8875_WHITE);  // Return font to normal color.
+            // This puts the Software Version just below the MASTER title at the top of the tft.
+            tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - (Ysize / 5) ), false);  // Size is set for 8 x 16 pixels.
+            tft.print("SWversion: " + String(VERSION));  // Print Project version.
+
+            // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
+            tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+            tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
+    
+            tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
+            tft.setTextColor(RA8875_WHITE);  // Return font to normal color, with a transparent backround.
 
 
             #if defined(USINGGPS)
