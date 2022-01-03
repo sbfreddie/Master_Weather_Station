@@ -99,10 +99,10 @@ enum RA8875intlist          { BTE=1,TOUCH=2, DMA=3,KEY=4 };
 *******************************************************************************************************************/
 /*
 void 	backlight(boolean on);
-void    	displayOn(boolean on);  //turn diplay on/off
-void    	sleep(boolean sleep);  //put display in sleep or not
+void    displayOn(boolean on);  //turn diplay on/off
+void    sleep(boolean sleep);  //put display in sleep or not
 void 	brightness(uint8_t val);  //ok
-uint8_t 	readStatus(void);  //used to verify when an operation has concluded
+uint8_t readStatus(void);  //used to verify when an operation has concluded
 void 	clearMemory(bool stop=false);
 
 uint8_t	errorCode(void);  //0: no error,
@@ -146,7 +146,7 @@ void 	setTransparentColor(uint16_t color);  //the current transparent color in 1
 void 	setTransparentColor(uint8_t R,uint8_t G,uint8_t B);  //the current transparent color in 8+8+8bit
 void 	setColor(uint16_t fcolor,uint16_t bcolor,bool bcolorTraspFlag=false);
 void 	setColorBpp(uint8_t colors);//set the display color space 8 or 16!
-uint8_t 	getColorBpp(void);//get the current display color space (return 8 or 16)
+uint8_t getColorBpp(void);//get the current display color space (return 8 or 16)
 
 --------------color conversion ----------------------------
 uint16_t    Color565(uint8_t r,uint8_t g,uint8_t b);
@@ -157,7 +157,7 @@ uint16_t    htmlTo565(int32_t color_);
 void 	cursorIncrement(bool on);
 void 	setCursorBlinkRate(uint8_t rate);  //set blink rate of the cursor 0...255 0:faster
 void 	showCursor(enum RA8875tcursor c,bool blink);  //show cursor(NOCURSOR,IBEAM,UNDER,BLOCK), default blinking
-void    	setCursor(int16_t x, int16_t y,bool autocenter=false);  //set cursor position to write text(pixels or CENTER)
+void    setCursor(int16_t x, int16_t y,bool autocenter=false);  //set cursor position to write text(pixels or CENTER)
 void 	getCursor(int16_t &x, int16_t &y);  //from the RA8875 registers
 void 	getCursorFast(int16_t &x, int16_t &y);  //from library (faster)
 int16_t	getCursorX(void);
@@ -166,16 +166,16 @@ int16_t	getCursorY(void);
 --------------Text functions ------------------------------
 void 	uploadUserChar(const uint8_t symbol[],uint8_t address);  //upload user defined char as array at the address 0..255
 void	showUserChar(uint8_t symbolAddrs,uint8_t wide=0);  //show user uploaded char at the adrs 0...255
-void    	setTextColor(uint16_t fcolor, uint16_t bcolor);  //set text color + text background color
+void    setTextColor(uint16_t fcolor, uint16_t bcolor);  //set text color + text background color
 void 	setTextColor(uint16_t fcolor);  //set text color (backgroud will be transparent)
-void    	setFontScale(uint8_t scale);  //global font scale (w+h)
-void    	setFontScale(uint8_t vscale,uint8_t hscale);  //font scale separated by w and h
-void    	setFontSize(enum RA8875tsize ts);  //X16,X24,X32
+void    setFontScale(uint8_t scale);  //global font scale (w+h)
+void    setFontScale(uint8_t vscale,uint8_t hscale);  //font scale separated by w and h
+void    setFontSize(enum RA8875tsize ts);  //X16,X24,X32
 void 	setFontSpacing(uint8_t spc);  //0:disabled ... 63:pix max
 void 	setFontInterline(uint8_t pix);  //0...63 pix
 void 	setFontFullAlign(boolean align);  //mmmm... doesn't do nothing! Have to investigate
-uint8_t 	getFontWidth(boolean inColums=false);
-uint8_t 	getFontHeight(boolean inRows=false);
+uint8_t getFontWidth(boolean inColums=false);
+uint8_t getFontHeight(boolean inRows=false);
 
 ----------Font Selection and related..............................
 void	setExternalFontRom(enum RA8875extRomType ert, enum RA8875extRomCoding erc,enum RA8875extRomFamily erf=STANDARD);
@@ -189,31 +189,31 @@ void 	gPrint(uint16_t x,uint16_t y,int num,uint16_t color,uint8_t scale,const st
 void 	gPrintEfx(uint16_t x,uint16_t y,const char *in,uint16_t color,uint8_t pixellation,const struct FONT_DEF *strcut1);
 
 --------------Graphic Funcions -------------------------
-void    	setXY(int16_t x, int16_t y);  //graphic set location
+void    setXY(int16_t x, int16_t y);  //graphic set location
 void 	setX(int16_t x);
 void 	setY(int16_t y) ;
 void 	setGraphicCursor(uint8_t cur);  //0...7 Select a custom graphic cursor (you should upload first)
 void 	showGraphicCursor(boolean cur);//show graphic cursor
 
 --------------- DRAW -------------------------
-void    	drawPixel(int16_t x, int16_t y, uint16_t color);
+void    drawPixel(int16_t x, int16_t y, uint16_t color);
 void 	drawPixels(uint16_t * p, uint32_t count, int16_t x, int16_t y);
 uint16_t getPixel(int16_t x, int16_t y);
-void    	drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
-void    	drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-void    	fillWindow(uint16_t color=_RA8875_DEFAULTBACKLIGHT);  //fill the ActiveWindow with a color(default black)
+void    drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
+void    drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
+void    fillWindow(uint16_t color=_RA8875_DEFAULTBACKLIGHT);  //fill the ActiveWindow with a color(default black)
 void	clearScreen(uint16_t color=_RA8875_DEFAULTBACKLIGHT);  //fill the entire screen (regardless ActiveWindow) with a color(default black)
-void    	drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-void    	drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
-void    	fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
-void    	drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
-void    	fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
-void    	drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
-void    	fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
-void    	drawEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
-void    	fillEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
-void    	drawCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
-void    	fillCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
+void    drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+void    drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void    fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void    drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void    fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void    drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void    fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void    drawEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
+void    fillEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint16_t color);
+void    drawCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
+void    fillCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16_t shortAxis, uint8_t curvePart, uint16_t color);
 void 	drawRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color);//ok
 void 	fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color);
 void	drawArc(uint16_t cx, uint16_t cy, uint16_t radius, uint16_t thickness, float start, float end, uint16_t color);
@@ -226,7 +226,7 @@ void 	layerTransparency(uint8_t layer1,uint8_t layer2);
 uint8_t	getCurrentLayer(void);  //return the current drawing layer. If layers are OFF, return 255
 
 --------------- SCROLL ----------------------------------------
-void     setScrollMode(enum RA8875scrollMode mode); // The experimentalist
+void    setScrollMode(enum RA8875scrollMode mode); // The experimentalist
 void 	setScrollWindow(int16_t XL,int16_t XR ,int16_t YT ,int16_t YB);
 void 	scroll(int16_t x,int16_t y);
 
@@ -251,21 +251,23 @@ void 	setPattern(uint8_t num, enum RA8875pattern p=P8X8);
 void 	writePattern(int16_t x,int16_t y,const uint8_t *data,uint8_t size,bool setAW=true);
 
 -------------- GPIO & PWM -------------------------
-void    	GPIOX(boolean on);
-void    	PWMout(uint8_t pw,uint8_t p);//1:backlight, 2:free
+void    GPIOX(boolean on);
+void    PWMout(uint8_t pw,uint8_t p);//1:backlight, 2:free
 
 -------------- Touch Screen Resistive -------------------------
 void 	touchBegin(uint8_t intPin);//prepare Touch Screen driver
-void    	touchEnable(boolean enabled);//enable/disable Touch Polling (disable INT)
-boolean 	touchDetect(boolean autoclear=false);//true=touch detected //Note: must be followed by touchReadxxx or use autoclear=true for standalone
+void    touchEnable(boolean enabled);//enable/disable Touch Polling (disable INT)
+boolean touchDetect(boolean autoclear=false);//true=touch detected //Note: must be followed by touchReadxxx or use autoclear=true for standalone
 void 	touchReadAdc(uint16_t *x, uint16_t *y);//returns 10bit ADC data (0...1024)
 void 	touchReadPixel(uint16_t *x, uint16_t *y);//return pixels (0...width, 0...height)
 boolean	touchCalibrated(void);//true if screen calibration it's present
 
 ---------------------------------------Touch Screen FT5206 ------------------------------------------------------
-void	useCapINT(const uint8_t INTpin,const uint8_t INTnum)  // INTpin: it's the pin where we listen for the ISR, INTnum: it's the INT related to pin. On some processor it's not needed,this last parameter it's used only when you have decided to use an ISR.
+void	useCapINT(const uint8_t INTpin,const uint8_t INTnum)  // INTpin: it's the pin where we listen for the ISR,
+        INTnum: it's the INT related to pin. On some processor it's not needed,this last parameter it's used only when you have decided to use an ISR.
 
-void	enableCapISR(bool force);  // Enable the ISR, after this any falling edge on _intCTSPin pin will trigger ISR  Parameters: force: if true will force attach interrupt NOTE: if parameter _needCTS_ISRrearm = true will rearm interrupt
+void	enableCapISR(bool force);  // Enable the ISR, after this any falling edge on _intCTSPin pin will trigger ISR
+        Parameters: force: if true will force attach interrupt NOTE: if parameter _needCTS_ISRrearm = true will rearm interrupt
 
 void	_disableCapISR(void);  // Disable ISR [FT5206 version] Works only if previously enabled or do nothing.
 
@@ -274,9 +276,11 @@ void	setTouchLimit(uint8_t limit);  // Set the Touch Limit, Max allowed is 5 wit
 uint8_t	getTouchLimit(void);  // Get the current setting for the touch Limit.
 
 
-bool	touched(bool safe)  // true or false, Checks if an interrupt has occurred. Returns true if yes.  Designed to run in loop.  It works with ISR or DigitalRead methods  Parameters: safe: true  (detach interrupt routine, has to be re-engaged manually!)  false ( )
+bool	touched(bool safe)  // true or false, Checks if an interrupt has occurred. Returns true if yes.  Designed to run in loop.
+        It works with ISR or DigitalRead methods  Parameters: safe: true  (detach interrupt routine, has to be re-engaged manually!)  false ( )
 
-void	updateTS(void);  // This is the function that updates the current state of the Touch Screen.  It's developed for use in loop. Now we have the data inside library
+void	updateTS(void);  // This is the function that updates the current state of the Touch Screen.
+        It's developed for use in loop. Now we have the data inside library
 
 uint8_t	getTouches(void);  // Gets the number of touches, must be used AFTER updateTS! Returns -> 0..5 or 0: no touch
 
@@ -284,7 +288,9 @@ uint8_t	getTouchState(void);  // Gets the current Touch State, must be used AFTE
 
 uint8_t	getGesture(void);  // Gets the gesture, if identified, must be used AFTER updateTS!
 
-uint8_t	getTScoordinates(uint16_t (*touch_coordinates)[2]);  // It gets the coordinates from the data collected by updateTS function, Actually it will not communicate with FT5206, just reorder collected data so it MUST be used after updateTS!
+uint8_t	getTScoordinates(uint16_t (*touch_coordinates)[2]);  // It gets the coordinates from the data collected by
+        updateTS function, Actually it will not communicate with FT5206, just reorder collected data so it MUST be
+        used after updateTS!
 -------------------------------------------------------------------------------------------------------------------
 
 
