@@ -6541,6 +6541,8 @@ void setup()
                 Serial.println(tftErrorCode, HEX);
             #endif
         }
+
+    tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Normal text color is white with black backround.
     
     tft.brightness(255);
     tftErrorCode = tft.errorCode();
@@ -6679,7 +6681,7 @@ void setup()
     tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
-    tft.setTextColor(RA8875_WHITE);  // Return font to normal color, with a transparent backround.
+    tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Return font to normal color, with a black backround.
 
     statusDotColor = DOT_RED;  // Set the color indicator of the status dot to red.
     printUTCStatusDotOnTFT( ( XMIDDLE + ( ( Xsize * 2 ) + 2 ) ), ( YTOP + ( Ysize * 4 ) ), RA8875_RED);  // Print RED dot to indicate beginning status of the corrected UTC Time from the GPS.
@@ -6771,7 +6773,7 @@ void loop()
                     if ((currentTime[0] >= timeToDimTheScreen) || (currentTime[0] < TimeToWakeTheScreen))
                         {  // Night Time Brightness is lower, with red text and a red clock face.
                             tft.brightness(nightTimeScreenBrightness);  // Set the TFT brightness to the night time setting.
-                            tft.setTextColor(RA8875_RED);  // Set text color, text background color is transparent.
+                            tft.setTextColor(RA8875_RED, RA8875_BLACK);  // Set text color, text background color is black.
                             drawGauge(clockPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                 {
@@ -6795,7 +6797,7 @@ void loop()
                     else
                         {  // Day Time brightness is full power with white text and a white clock face
                             tft.brightness(dayTimeScreenBrightness);
-                            tft.setTextColor(RA8875_WHITE);  // Set text color, text background color is transparent.
+                            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Set text color, text background color is black.
                             drawGauge(clockPos, 0, 360,RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                  {
@@ -6822,17 +6824,6 @@ void loop()
             
                         if ( (WeatherDataStruct.windAverage > 0) )  // If the wind average is more than zero print the wind data on the TFT.
                             {
-                                if ((currentTime[0] >= timeToDimTheScreen) || (currentTime[0] < TimeToWakeTheScreen))
-                                    {  // Night Time Brightness is very low, with red text and a red clock face.
-                                        tft.setTextColor(RA8875_RED);  // Set text color to Red, text background is transparent.
-                                        drawWindGauge(WindDirFlowerPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round Wind Direction Flower with the major & minor tick marks.
-                                    }
-                                else
-                                    {
-                                        tft.setTextColor(RA8875_WHITE);  // Set text color to White, text background is transparent.
-                                        drawWindGauge(WindDirFlowerPos, 0, 360, RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round Wind Direction Flower with the major & minor tick marks.
-                                    }
-                
                                 drawPrintWind(XLEFT, YTOP, WeatherDataStruct.windAverage, WeatherDataStruct.windMax, WeatherDataStruct.windApparentDir);
                                 drawWindDirPointer(WindDirFlowerPos, WeatherDataStruct.windApparentDir, WindDirFlowerColors);
                                 if (windFlowerBlanked == true)
@@ -6953,7 +6944,6 @@ void loop()
                                     }
                                 else
                                     {
-                                    
                                         fixType = updatePositionFromGPS();
 
                                         #if defined(DEBUG27)
@@ -6985,7 +6975,7 @@ void loop()
                                                         Serial.println(F("BAD PACKET"));  // Print the Heading.
                                                 }
 
-                                        #endif                              
+                                        #endif                           
                                     }
                                     
                                 Serial1.clear();  // Clear the Serial1 buffer of all data
@@ -7013,7 +7003,7 @@ void loop()
             if (preferencesInProgressFlag == false)
                 {
                     getSensorData();
-        
+
                     drawPrintInsideTempPresHum(XRIGHT - (Xsize * 18), YTOP, sensorState.Temperature, sensorState.Baro_Pressure, sensorState.Relative_Humidity);
                     drawPrintInsideHighLowTempsTFT( ( XRIGHT - (Xsize * 11) ),  ( YTOP + (Ysize * 3) ) );  // Print the days high and low on the TFT
         
@@ -7101,8 +7091,8 @@ void loop()
             
             preferencesInProgressFlag = false;  // Finsihed with the preferences routine.
         
-            // This puts the Master right above the clock face in the center.  This is 3 char to the left of the clock center
-            tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);
+            // This puts "Master" right above the clock face in the center.  This is 3 char to the left of the clock center
+            tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // This sets the font color to orange and the backround to black
             tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
             tft.print(F("MASTER"));
     
@@ -7117,7 +7107,7 @@ void loop()
             tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
             tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
-            tft.setTextColor(RA8875_WHITE);  // Return font to normal color, with a transparent backround.
+            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Return font to normal color (White), with a black backround.
 
 
             #if defined(USINGGPS)
