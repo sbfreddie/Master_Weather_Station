@@ -60,7 +60,7 @@
 
     uint32_t const BaudDefault = 9600; // default settings
 
-    #define SERIAL1_RX_BUFFER_SIZE = 512;  // Need large incoming buffer for GPS Packet (100 bytes).
+    #define SERIAL1_RX_BUFFER_SIZE = 128;  // Need larger than the stock 64 bytes for incoming buffer for GPS Packet (100 bytes).
 #endif
 
 /*******************************************************************************************************************

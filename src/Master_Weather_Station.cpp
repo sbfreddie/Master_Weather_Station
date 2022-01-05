@@ -714,9 +714,10 @@ bool pctime = false;
 /// Define variables and constants:
 /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
 
-volatile bool SetTimeFlag = false;
-volatile int SetTimeIterationCount = 0;
-volatile bool NormalCommandLineModeFlag = true;
+volatile bool nightTimeFlag = false;        // This means it is day time, set true for night time.
+volatile bool itsMidnight = false;          // This flag means that the clock just struck midnight.
+volatile bool finishedPreferences = false;  // This flag means that the preferences sections has just finished.
+volatile bool startUp = true;               // This flag means that the system has just started up.
 volatile bool preferencesInProgressFlag = false;
 
 
@@ -1884,22 +1885,54 @@ bool updateTimeFromGPS(void)
 ***************************************************************************************************************/
 void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint8_t day, int dd, int mm, int yr, bool ampm)
 {
-    // First lets print the date:
+    // First lets make sure we are using the correct color text and backround (BLACK).
+    if (nightTimeFlag == false)
+        {
+            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);    
+        }
+    else
+        {
+            tft.setTextColor(RA8875_RED, RA8875_BLACK);
+        }
+
+    // First lets clear the previous date, time, time zone, and day of the week.
+
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+        {
+            tft.setCursor ( ( x + (Xsize * 2) ), y );
+            tft.print("          ");  // Clear the line (10 spaces) from the previous date.
+            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
+            tft.print(F("         "));  // Clear the line (9 spaces) from the previous day of the week.
+        }
     
+    tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to print the time.
+    tft.print("        ");  // Clear the line (8 spaces) from the previous time.
+    tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up four lines to print the time zone.
+    tft.print("   ");  // Clear the line (3 spaces) from the previous time zone.
     
 
-    tft.setCursor (x, y);
-    tft.print("          ");  // Clear the line (10 spaces) first to remove the remnants from previous print.
-    tft.setCursor (x, y);
-    tft.print(mm);
-    tft.write('/');
-    tft.print(dd);
-    tft.write('/');
-    tft.print(yr);
-    
+    // Now set the backround color to transparent with the correct color of text.
+    if (nightTimeFlag == false)
+        {
+            tft.setTextColor(RA8875_WHITE);    
+        }
+    else
+        {
+            tft.setTextColor(RA8875_RED);
+        }
+
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+        {
+            // Lets print the date:
+            tft.setCursor ( ( x + (Xsize * 2) ), y );
+            tft.print(mm);
+            tft.write('/');
+            tft.print(dd);
+            tft.write('/');
+            tft.print(yr);
+        }
+
     // Now lets print the time in 24 hr format.
-    tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to print the time.
-    tft.print("        ");  // Clear the line (8 spaces) first to remove the remnants from previous print.
     tft.setCursor (x + Xsize, (y - (Ysize * 4)));
     if (ampm == true)
         {
@@ -1940,76 +1973,81 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
         }
     
     // Now lets print the time zone.
-    tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up four lines to print the time zoe.
-    tft.print("   ");  // Clear the line (3 spaces) first to remove the remnants from previous print.
     tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );
     tft.print(tcr -> abbrev);
     
-    switch (day)  // Day can be 1 -> 7 inclusive.
-    {
-        case 0:  // This means the day of the week was not initialized.
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
-            tft.print(F("Bad Day"));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            break;
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+        {
+            // Now lets print the day of the week (Sunday -> Saturday)
+            switch (day)  // Day can be 1 -> 7 inclusive.
+                {
+                    case 0:  // This means the day of the week was not initialized.
+                        tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
+                        tft.print(F("Bad Day"));  // Clear the line (9 spaces) first to remove the remnants from previous print.
+                        break;
             
-        case 1:  // This is Sunday (6 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
-            tft.print(F("Sunday"));
-            break;
+                    case 1:  // This is Sunday (6 Characters)
+                        tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
+                        tft.print(F("Sunday"));
+                        break;
             
-        case 2:  // This is Monday (6 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize * 2) , (y + (Ysize * 5)));
-            tft.print(F("Monday"));
-            break;
+                    case 2:  // This is Monday (6 Characters)
+                        tft.setCursor( x + (Xsize * 2) , (y + (Ysize * 5)));
+                        tft.print(F("Monday"));
+                        break;
             
-        case 3:  // This is Tuesday (7 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + ( (Xsize / 2) * 3) , (y + (Ysize * 5)));
-            tft.print(F("Tuesday"));
-            break;
+                    case 3:  // This is Tuesday (7 Characters)
+                        tft.setCursor( x + ( (Xsize / 2) * 3) , (y + (Ysize * 5)));
+                        tft.print(F("Tuesday"));
+                        break;
             
-        case 4:  // This is Wednesday (9 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize / 2)  , (y + (Ysize * 5)));
-            tft.print(F("Wednesday"));
-            break;
+                    case 4:  // This is Wednesday (9 Characters)
+                        tft.setCursor( x + (Xsize / 2)  , (y + (Ysize * 5)));
+                        tft.print(F("Wednesday"));
+                        break;
             
-        case 5:  // This is Thursday (8 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + Xsize , (y + (Ysize * 5)));
-            tft.print(F("Thursday"));
-            break;
+                    case 5:  // This is Thursday (8 Characters)
+                        tft.setCursor( x + Xsize , (y + (Ysize * 5)));
+                        tft.print(F("Thursday"));
+                        break;
             
-        case 6:  // This is Friday (6 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize * 2) , (y + (Ysize * 5)));
-            tft.print(F("Friday"));
-            break;
+                    case 6:  // This is Friday (6 Characters)
+                        tft.setCursor( x + (Xsize * 2) , (y + (Ysize * 5)));
+                        tft.print(F("Friday"));
+                        break;
             
-        case 7:  // This is Saturday (8 Characters)
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + Xsize , (y + (Ysize * 5)));
-            tft.print(F("Saturday"));
-            break;
+                    case 7:  // This is Saturday (8 Characters)
+                        tft.setCursor( x + Xsize , (y + (Ysize * 5)));
+                        tft.print(F("Saturday"));
+                        break;
             
-        default:
-            tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
-            tft.print(F("         "));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
-            tft.print(F("Bad Day"));  // Clear the line (9 spaces) first to remove the remnants from previous print.
-            break;
-    }
+                    default:
+                        tft.setCursor( x + (Xsize * 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to print the Day.
+                        tft.print(F("Bad Day"));  // Clear the line (9 spaces) first to remove the remnants from previous print.
+                        break;
+                }
+            itsMidnight = false;  // It is midnight only for 1 second after that the date and day do not change until the next midnight.
+            finishedPreferences = false;  // We have used this flag so do not need it until another preference is set.
+            startUp = false;  // We are finished with this flags after the initial startup.
+        }
+
+    tft.setFontScale(0);  // This is the small font on the screen.
+    tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // This sets the font color to orange and the backround to black.
+    // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 10 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+    tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
+    
+    tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
+
+    // Now lets return to the correct color text and backround (BLACK).
+    if (nightTimeFlag == false)
+        {
+            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);    
+        }
+    else
+        {
+            tft.setTextColor(RA8875_RED, RA8875_BLACK);
+        }
     
 }
 
@@ -2173,16 +2211,16 @@ void printStatusDotOnTFT(uint16_t xPos, uint16_t yPos, uint16_t dotColor )
 void drawBlankOutsideTempPresHum(uint16_t xPos, uint16_t yPos)
 {
     tft.setCursor (xPos, yPos);  // Set the cursor to the first printing position on TFT.
-    tft.print("             ");  // Clear the 13 possible spaces, write data with spaces.
+    tft.print("             ");  // Clear the 13 possible spaces, write data with spaces, this is the days highs & lows.
     
     tft.setCursor (xPos - (Xsize * 2), yPos + Ysize);
-    tft.print("                ");  // Clear the previous 16 possible spaces, write data with spaces.
+    tft.print("                ");  // Clear the previous 16 possible spaces, write data with spaces, this is the Humidity.
     
     tft.setCursor (xPos - (Xsize * 5), yPos + (Ysize * 2));
-    tft.print("                  ");  // Clear the previous 18 possible spaces, write data with spaces.
+    tft.print("                  ");  // Clear the previous 18 possible spaces, write data with spaces, this is the barometric pressure.
     
     tft.setCursor (xPos - (Xsize * 7), yPos + (Ysize * 3));
-    tft.print("                  ");  // Clear the previous 18 possible spaces, write data with spaces.
+    tft.print("                  ");  // Clear the previous 18 possible spaces, write data with spaces, this is the outside temperature.
     
     // Blank out the Yearly rain fall number from screen.
     tft.setCursor (XLEFT, (YLINE15));
@@ -6390,9 +6428,7 @@ void setup()
     #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
         Serial.print(F("Read EEPROM Memory Time Zone Setting, This is the time zone from EEPROM: "));
         Serial.println(k);
-    #endif
-    
-    #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
+
         Serial.print(F("Read EEPROM Memory Time Zone Setting, This is the size of the tzIndex: "));
         Serial.println( (sizeof(timezones) / 4) );  // The timezones array is an array of addresses.
     #endif
@@ -6522,14 +6558,11 @@ void setup()
     tftErrorCode = tft.errorCode();
     if (tftErrorCode != 00)
         {
+            tftPresentFlag = false; // There is a problem with the TFT display, or its not there.
             #if defined(DEBUG11)  // This the the TFT debug flag.
                 Serial.println(F("Error: TFT error during tft.begin! "));
                 Serial.println(tftErrorCode, HEX);
             #endif
-        }
-    else
-        {
-            tftPresentFlag = false; // There is a problem with the TFT display, or its not there.
         }
     
     tft.setFontScale(1);  // Set Font to 2x normal size (16W x 32T pixels). {0 is normal size (8w x 16t pixels)}
@@ -6542,8 +6575,6 @@ void setup()
             #endif
         }
 
-    tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Normal text color is white with black backround.
-    
     tft.brightness(255);
     tftErrorCode = tft.errorCode();
     if (tftErrorCode != 00)
@@ -6666,18 +6697,18 @@ void setup()
     #endif
 
     // This puts the Master right above the clock face in the center.  This is 3 char to the left of the clock center
-    tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);
+    tft.setTextColor(RA8875_LIGHT_ORANGE);  // Set the text color to orange with transparent backround.
     tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
     tft.print(F("MASTER"));
     
     tft.setFontScale(0);  // This is the small font on the screen.
-
+    tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // Set the text color to orange with black backround.
     // This puts the Software Version just below the MASTER title at the top of the tft.
     tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - (Ysize / 5) ), false);  // Size is set for 8 x 16 pixels.
     tft.print("SWversion: " + String(VERSION));  // Print Project version.
 
     // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
-    tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 10 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
     tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
@@ -6774,6 +6805,7 @@ void loop()
                         {  // Night Time Brightness is lower, with red text and a red clock face.
                             tft.brightness(nightTimeScreenBrightness);  // Set the TFT brightness to the night time setting.
                             tft.setTextColor(RA8875_RED, RA8875_BLACK);  // Set text color, text background color is black.
+                            nightTimeFlag = true;  // It's night time.
                             drawGauge(clockPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                 {
@@ -6798,6 +6830,7 @@ void loop()
                         {  // Day Time brightness is full power with white text and a white clock face
                             tft.brightness(dayTimeScreenBrightness);
                             tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Set text color, text background color is black.
+                            nightTimeFlag = false;  // It's day time.
                             drawGauge(clockPos, 0, 360,RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                  {
@@ -6847,6 +6880,7 @@ void loop()
                                 {
                                     if (currentTime[0] == 0)  // Hours = zero, It is Midnight 00:00:00.
                                         {
+                                            itsMidnight = true;  // The clock has just struck midnight.
                                             insideDailyHighTemp = sensorState.Temperature;  // Set inside Daily High Temp to ambient at midnight.
                                             insideDailyLowTemp = sensorState.Temperature;  // Set inside Daily Low Temp to ambient at midnight.
                         
@@ -7092,23 +7126,30 @@ void loop()
             preferencesInProgressFlag = false;  // Finsihed with the preferences routine.
         
             // This puts "Master" right above the clock face in the center.  This is 3 char to the left of the clock center
-            tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // This sets the font color to orange and the backround to black
+            tft.setTextColor(RA8875_LIGHT_ORANGE);  // This sets the font color to orange and the backround to transparent.
             tft.setCursor( ( XMIDDLE - Xsize ), YTOP, false);  // Size is set for 16 x 32 pixels.
             tft.print(F("MASTER"));
     
             tft.setFontScale(0);  // This is the small font on the screen.
-
+            tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // This sets the font color to orange and the backround to black.
             // This puts the Software Version just below the MASTER title at the top of the tft.
             tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - (Ysize / 5) ), false);  // Size is set for 8 x 16 pixels.
             tft.print("SWversion: " + String(VERSION));  // Print Project version.
 
             // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
-            tft.setCursor( ( clockPos[0] - ( Xsize * 8 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+            tft.setCursor( ( clockPos[0] - ( Xsize * 10 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
             tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
             tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
-            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Return font to normal color (White), with a black backround.
-
+            // First lets make sure we are using the correct color text and backround (BLACK).
+            if (nightTimeFlag == false)
+                {
+                    tft.setTextColor(RA8875_WHITE, RA8875_BLACK);    
+                }
+            else
+                {
+                    tft.setTextColor(RA8875_RED, RA8875_BLACK);
+                }
 
             #if defined(USINGGPS)
 
@@ -7131,6 +7172,7 @@ void loop()
                             break;
                     }
             #endif
+            finishedPreferences = true;
         }
     
     if (incomingDMABufferFullFlag)
