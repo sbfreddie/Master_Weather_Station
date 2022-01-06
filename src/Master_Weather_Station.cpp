@@ -718,6 +718,7 @@ volatile bool nightTimeFlag = false;        // This means it is day time, set tr
 volatile bool itsMidnight = false;          // This flag means that the clock just struck midnight.
 volatile bool finishedPreferences = false;  // This flag means that the preferences sections has just finished.
 volatile bool startUp = true;               // This flag means that the system has just started up.
+volatile bool colorChangeOccured = false;    // This flag means that the screen color changed just occured.
 volatile bool preferencesInProgressFlag = false;
 
 
@@ -1885,19 +1886,9 @@ bool updateTimeFromGPS(void)
 ***************************************************************************************************************/
 void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint8_t day, int dd, int mm, int yr, bool ampm)
 {
-    // First lets make sure we are using the correct color text and backround (BLACK).
-    if (nightTimeFlag == false)
-        {
-            tft.setTextColor(RA8875_WHITE, RA8875_BLACK);    
-        }
-    else
-        {
-            tft.setTextColor(RA8875_RED, RA8875_BLACK);
-        }
-
     // First lets clear the previous date, time, time zone, and day of the week.
 
-    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
         {
             tft.setCursor ( ( x + (Xsize * 2) ), y );
             tft.print("          ");  // Clear the line (10 spaces) from the previous date.
@@ -1905,9 +1896,9 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
             tft.print(F("         "));  // Clear the line (9 spaces) from the previous day of the week.
         }
     
-    tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to print the time.
+    tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to clear the old time.
     tft.print("        ");  // Clear the line (8 spaces) from the previous time.
-    tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up four lines to print the time zone.
+    tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up 3 lines to clear the time zone.
     tft.print("   ");  // Clear the line (3 spaces) from the previous time zone.
     
 
@@ -1921,7 +1912,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
             tft.setTextColor(RA8875_RED);
         }
 
-    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
         {
             // Lets print the date:
             tft.setCursor ( ( x + (Xsize * 2) ), y );
@@ -1976,7 +1967,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
     tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );
     tft.print(tcr -> abbrev);
     
-    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true )
+    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
         {
             // Now lets print the day of the week (Sunday -> Saturday)
             switch (day)  // Day can be 1 -> 7 inclusive.
@@ -2029,6 +2020,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
             itsMidnight = false;  // It is midnight only for 1 second after that the date and day do not change until the next midnight.
             finishedPreferences = false;  // We have used this flag so do not need it until another preference is set.
             startUp = false;  // We are finished with this flags after the initial startup.
+            colorChangeOccured = false;  // We are finished with this flag after the text color changed.
         }
 
     tft.setFontScale(0);  // This is the small font on the screen.
@@ -2039,7 +2031,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
 
-    // Now lets return to the correct color text and backround (BLACK).
+    // Now lets return to the normal color text and backround (BLACK).
     if (nightTimeFlag == false)
         {
             tft.setTextColor(RA8875_WHITE, RA8875_BLACK);    
@@ -6806,6 +6798,10 @@ void loop()
                             tft.brightness(nightTimeScreenBrightness);  // Set the TFT brightness to the night time setting.
                             tft.setTextColor(RA8875_RED, RA8875_BLACK);  // Set text color, text background color is black.
                             nightTimeFlag = true;  // It's night time.
+                            if (currentTime[0] == timeToDimTheScreen)
+                                {
+                                    colorChangeOccured = true;
+                                }
                             drawGauge(clockPos, 0, 360,RA8875_RED, RA8875_RED, RA8875_RED);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                 {
@@ -6831,6 +6827,10 @@ void loop()
                             tft.brightness(dayTimeScreenBrightness);
                             tft.setTextColor(RA8875_WHITE, RA8875_BLACK);  // Set text color, text background color is black.
                             nightTimeFlag = false;  // It's day time.
+                            if (currentTime[0] == TimeToWakeTheScreen)
+                                {
+                                    colorChangeOccured = true;
+                                }
                             drawGauge(clockPos, 0, 360,RA8875_WHITE, RA8875_WHITE, RA8875_WHITE);  // This draws the the round clock face with the major & minor tick marks.
                             switch (statusDotColor)
                                  {
