@@ -1887,15 +1887,15 @@ bool updateTimeFromGPS(void)
 void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint8_t day, int dd, int mm, int yr, bool ampm)
 {
     // First lets clear the previous date, time, time zone, and day of the week.
-
+    // The backround color is black which blanks out the previous text.
     if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
         {
-            tft.setCursor ( ( x + (Xsize * 2) ), y );
-            tft.print("          ");  // Clear the line (10 spaces) from the previous date.
             tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
             tft.print(F("         "));  // Clear the line (9 spaces) from the previous day of the week.
         }
     
+    tft.setCursor ( ( x + (Xsize * 2) ), y );
+    tft.print("          ");  // Clear the line (10 spaces) from the previous date.
     tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to clear the old time.
     tft.print("        ");  // Clear the line (8 spaces) from the previous time.
     tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up 3 lines to clear the time zone.
@@ -1912,16 +1912,13 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
             tft.setTextColor(RA8875_RED);
         }
 
-    if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
-        {
-            // Lets print the date:
-            tft.setCursor ( ( x + (Xsize * 2) ), y );
-            tft.print(mm);
-            tft.write('/');
-            tft.print(dd);
-            tft.write('/');
-            tft.print(yr);
-        }
+    // Lets print the date:
+    tft.setCursor ( ( x + (Xsize * 2) ), y );
+    tft.print(mm);
+    tft.write('/');
+    tft.print(dd);
+    tft.write('/');
+    tft.print(yr);
 
     // Now lets print the time in 24 hr format.
     tft.setCursor (x + Xsize, (y - (Ysize * 4)));
@@ -2026,7 +2023,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
     tft.setFontScale(0);  // This is the small font on the screen.
     tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // This sets the font color to orange and the backround to black.
     // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
-    tft.setCursor( ( clockPos[0] - ( Xsize * 10 ) ), ( YLINE15 - (Ysize / 3) ), false);  // Size is set for 8 x 16 pixels.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 10 ) ), ( YLINE15 - 12 ), false);  // Size is set for 8 x 16 pixels.
     tft.print("Bld " + String(BUILD_TIMESTAMP) );  // Print Actual build string.   
     
     tft.setFontScale(1);  // This is the regular font (16x x 32y) on the screen.
@@ -6696,7 +6693,7 @@ void setup()
     tft.setFontScale(0);  // This is the small font on the screen.
     tft.setTextColor(RA8875_LIGHT_ORANGE, RA8875_BLACK);  // Set the text color to orange with black backround.
     // This puts the Software Version just below the MASTER title at the top of the tft.
-    tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - (Ysize / 5) ), false);  // Size is set for 8 x 16 pixels.
+    tft.setCursor( ( clockPos[0] - ( Xsize * 4 ) ), ( YLINE2 - 5 ), false);  // Size is set for 8 x 16 pixels.
     tft.print("SWversion: " + String(VERSION));  // Print Project version.
 
     // This puts the Build TimeStamp just above the day of the week at the bottom of the screen.
@@ -7067,6 +7064,8 @@ void loop()
                                         tft.setCursor( ( XRIGHT - ( Xsize * 10) ), ( YMIDDLE + Ysize ) );
                                         tft.print(F("GPS"));  // Print the Heading.
                                         RestartGPS(initial_Startup);  //This also sets the numberOfBadPackets to 0.
+                                        Serial1.clear();  // Clear the Serial1 buffer of all data
+                                        gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module.
                                     }
                             }
                         
