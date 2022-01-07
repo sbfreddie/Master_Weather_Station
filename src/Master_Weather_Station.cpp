@@ -1893,11 +1893,27 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
             tft.setCursor( x + (Xsize / 2) , ( y + ( Ysize * 5 ) ) );  // Step down to the bottom to clear the Day.
             tft.print(F("         "));  // Clear the line (9 spaces) from the previous day of the week.
         }
-    
-    tft.setCursor ( ( x + (Xsize * 2) ), y );
-    tft.print("          ");  // Clear the line (10 spaces) from the previous date.
+
+    // Clear the previous date info from the tft screen depending on how many digits there are.
+    if ( (dd < 10) && (mm < 10) )
+        {
+            tft.setCursor ( ( x + (Xsize) ), y );  // Set cursor to center the date on screen.
+            tft.print("        ");  // Clear the line (8 spaces) from the previous date.
+        }
+    else if ( (dd < 10) && (mm >= 10) )
+        {
+            tft.setCursor ( ( x + (Xsize / 2) ), y );  // Set cursor to center the date on screen.
+            tft.print("         ");  // Clear the line (9 spaces) from the previous date.
+        }
+    else
+        {
+            tft.setCursor ( x, y );  // Set cursor to center the date on screen.
+            tft.print("          ");  // Clear the line (10 spaces) from the previous date.
+        }
+
     tft.setCursor (x + Xsize, (y - (Ysize * 4)));  // Step up four lines to clear the old time.
     tft.print("        ");  // Clear the line (8 spaces) from the previous time.
+
     tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );  // Step up 3 lines to clear the time zone.
     tft.print("   ");  // Clear the line (3 spaces) from the previous time zone.
     
@@ -1913,7 +1929,20 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
         }
 
     // Lets print the date:
-    tft.setCursor ( ( x + (Xsize * 2) ), y );
+    // First move the cursor so the data is centered in the clock face.
+    if ( (dd < 10) && (mm < 10) )
+        {
+            tft.setCursor ( ( x + Xsize ), y );  // Set cursor to center the date on screen.
+        }
+    else if ( (dd < 10) && (mm >= 10) )
+        {
+            tft.setCursor ( ( x + (Xsize / 2) ), y );  // Set cursor to center the date on screen.
+        }
+    else
+        {
+            tft.setCursor ( x, y );  // Set cursor to center the date on screen.
+        }
+    // Now that the cursor is located correctly now print the date on the tft screen.
     tft.print(mm);
     tft.write('/');
     tft.print(dd);
@@ -7084,7 +7113,7 @@ void loop()
         {
             fiveMinuteCount++;
 
-            if (fiveMinuteCount == 10)  // 5 minutes is 10 thirty second counts.
+            if (fiveMinuteCount == 4)  // 2 minutes is 4 thirty second counts.
                 {
                     #if defined(USINGGPS)
                         if (firstRun == true)
