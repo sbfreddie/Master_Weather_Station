@@ -7056,7 +7056,7 @@ void loop()
                     #if defined(USINGGPS)
                         if(firstRun == false)
                             {
-                                if(numberOfBadPackets >= 75)  // Restart the GPS about every 2.5 minutes.
+                                if(numberOfBadPackets >= 30)  // Restart the GPS about every 2.5 minutes.
                                     {
                                         blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
                                         tft.setCursor( ( XRIGHT - ( Xsize * 10) ), YMIDDLE );
