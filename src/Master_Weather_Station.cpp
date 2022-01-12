@@ -5868,14 +5868,10 @@ void setup()
     Serial.begin(115200);
 
     long unsigned debug_start = millis ();
-    while (!Serial && ((millis () - debug_start) <= 3000)) ;
+    while (!Serial && ((millis () - debug_start) <= 2000)) ;
 
     #if defined(DEBUG)
         Serial.println(F("Setup Starting the program.."));
-        
-        Serial.println("Project version: " + String(VERSION));  // Print Project version.
-        Serial.println("Build timestamp:" + String(BUILD_TIMESTAMP));  // Print build timestamp
-
     #endif
     
     
@@ -6414,7 +6410,7 @@ void setup()
         Serial.print(F("Temp Sensor Calibration Offset in float: "));
         Serial.println(j,2);
     #endif
-    if ( (j >= 0) && (j < 20) )
+    if ( (j > (-20.0) ) && (j < 20.0) )
         {
             SystemSensor.settings.tempCorrection = j;
         }
@@ -6668,6 +6664,34 @@ void setup()
     
     #endif
     
+    // Display all saved settings in EEPROM for 8 seconds so we can see them.
+    tft.setCursor( ( XMIDDLE - (Xsize * 21) ), YTOP, false);
+    tft.print("These are the Settings from EEPROM loaded:");  // 42 characters.
+    tft.setCursor( ( XMIDDLE - (Xsize * 9) ), YLINE2, false);
+    tft.print("Rain Offset: ");
+    tft.print(rainYearlyOffset,2);  // Total of approx 19 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 18) ), YLINE3, false);
+    tft.print("Temperature Offset Correction: ");
+    tft.print(SystemSensor.settings.tempCorrection,2);  // Total of approx 36 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 7) ), YLINE4, false);
+    tft.print("Time Zone: ");
+    tft.print(tcr -> abbrev);  // Total of approx 14 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 15) ), YLINE5, false);
+    tft.print("Time of Day to Dim the TFT: ");
+    tft.print(timeToDimTheScreen);  // Total of approx 30 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 15) ), YLINE6, false);
+    tft.print("Time of Day to Wake the TFT: ");
+    tft.print(TimeToWakeTheScreen);  // Total of approx 30 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 13) ), YLINE7, false);
+    tft.print("TFT Day Time Brightness: ");
+    tft.print(dayTimeScreenBrightness);  // Total of approx 26 chars.
+    tft.setCursor( ( XMIDDLE - (Xsize * 14) ), YLINE8, false);
+    tft.print("TFT Night Time Brightness: ");
+    tft.print(nightTimeScreenBrightness);  // Total of approx 28chars.
+    delay(8000);  // Wait 8 Seconds to actually see the results on the TFT.
+
+    tft.clearScreen();  // Clear the TFT screen after displaying the initial settings in EEPROM.
+
     // Now set up the clock face:
     clockPos[0] = (tft.width() / 2) + 32;  // Clock center position in x direction (pixels).
     clockPos[1] = tft.height() / 2;  // Clock center position in y direction (pixels).
