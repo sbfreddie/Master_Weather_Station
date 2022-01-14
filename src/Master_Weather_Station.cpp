@@ -1133,10 +1133,10 @@ void printUTCStatusDotOnTFT(uint16_t xPos, uint16_t yPos, uint16_t dotColor )
         tft.print(F("                "));  // Blank out the second line with 16 spaces.
     
         tft.setCursor ( x, ( y + ( 2 * ( Ysize / 2 ) ) ) );
-        tft.print(F("                "));  // Blank out the third line with 16 spaces.
+        tft.print(F("                   "));  // Blank out the third line with 19 spaces.
     
         tft.setCursor ( x, ( y + ( 3 * ( Ysize / 2 ) ) ) );
-        tft.print(F("                "));  // Blank out the fourth line with 16 spaces.
+        tft.print(F("                   "));  // Blank out the fourth line with 19 spaces.
     
         tft.setCursor ( x, ( y + ( 4 * ( Ysize / 2 ) ) ) );
         tft.print(F("                "));  // Blank out the fifth line with 16 spaces.
@@ -1183,11 +1183,11 @@ void printUTCStatusDotOnTFT(uint16_t xPos, uint16_t yPos, uint16_t dotColor )
     
         tft.setCursor ( x, ( y + ( 2 * ( Ysize / 2 ) ) ) );  // Step down one line (Y) to print the Longitude.
         tft.print(F("Lat: "));  // Print the Heading.
-        tft.print(uBloxData.lat,3);  // Print the Latitude.
+        tft.print(uBloxData.lat,6);  // Print the Latitude.
     
         tft.setCursor ( x, (y + (3 * ( Ysize / 2 )) ) );  // Step down two line (Y) to print the Longitude.
         tft.print(F("Lon: "));  // Print the Heading.
-        tft.print(uBloxData.lon,3);  // Print the Longitude.
+        tft.print(uBloxData.lon,6);  // Print the Longitude.
     
         tft.setCursor ( x, (y + (4 * ( Ysize / 2 )) ) );  // Step down three lines (Y) to print the Altitude.
         tft.print(F("Alt: "));  // Print the Heading.
@@ -6688,7 +6688,7 @@ void setup()
     tft.setCursor( ( XMIDDLE - (Xsize * 14) ), YLINE8, false);
     tft.print("TFT Night Time Brightness: ");
     tft.print(nightTimeScreenBrightness);  // Total of approx 28chars.
-    delay(8000);  // Wait 8 Seconds to actually see the results on the TFT.
+    delay(10000);  // Wait 10 Seconds to actually see the results on the TFT.
 
     tft.clearScreen();  // Clear the TFT screen after displaying the initial settings in EEPROM.
 
