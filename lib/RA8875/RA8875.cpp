@@ -4308,7 +4308,7 @@ void RA8875::fillEllipse(int16_t xCenter, int16_t yCenter, int16_t longAxis, int
       yCenter:   y location of the ellipse center
       longAxis:  Size in pixels of the long axis
       shortAxis: Size in pixels of the short axis
-      curvePart: Curve to draw in clock-wise dir: 0[180-270°],1[270-0°],2[0-90°],3[90-180°]
+      curvePart: Curve to draw in clock-wise dir: 0[180-270ï¿½],1[270-0ï¿½],2[0-90ï¿½],3[90-180ï¿½]
       color: RGB565 color
 */
 /**************************************************************************/
@@ -4333,7 +4333,7 @@ void RA8875::drawCurve(int16_t xCenter, int16_t yCenter, int16_t longAxis, int16
       yCenter:   y location of the ellipse center
       longAxis:  Size in pixels of the long axis
       shortAxis: Size in pixels of the short axis
-      curvePart: Curve to draw in clock-wise dir: 0[180-270°],1[270-0°],2[0-90°],3[90-180°]
+      curvePart: Curve to draw in clock-wise dir: 0[180-270ï¿½],1[270-0ï¿½],2[0-90ï¿½],3[90-180ï¿½]
       color: RGB565 color
 */
 /**************************************************************************/
@@ -6118,158 +6118,195 @@ extern "C" const unsigned char glcdfont[];
 void RA8875::drawChar(int16_t x, int16_t y, unsigned char c,
 			    uint16_t fgcolor, uint16_t bgcolor, uint8_t size_x, uint8_t size_y)
 {
-	if((x >= _width)            || // Clip right
-	   (y >= _height)           || // Clip bottom
-	   ((x + 6 * size_x - 1) < 0) || // Clip left  TODO: is this correct?
-	   ((y + 8 * size_y - 1) < 0))   // Clip top   TODO: is this correct?
+	if((x >= _width) || /*Clip right*/ (y >= _height) || /*Clip bottom*/ ((x + 6 * size_x - 1) < 0) || /*Clip left  TODO: is this correct?*/ ((y + 8 * size_y - 1) < 0))   // Clip top   TODO: is this correct?
 		return;
 
 	//Serial.printf("drawchar %d %d %c %x %x %d %d\n", x, y, c, fgcolor, bgcolor, size_x, size_y);
-	if (fgcolor == bgcolor) {
-		// This transparent approach is only about 20% faster
-		if ((size_x == 1) && (size_y == 1)) {
-			uint8_t mask = 0x01;
-			int16_t xoff, yoff;
-			for (yoff=0; yoff < 8; yoff++) {
-				uint8_t line = 0;
-				for (xoff=0; xoff < 5; xoff++) {
-					if (glcdfont[c * 5 + xoff] & mask) line |= 1;
-					line <<= 1;
-				}
-				line >>= 1;
-				xoff = 0;
-				while (line) {
-					if (line == 0x1F) {
-						drawFastHLine(x + xoff, y + yoff, 5, fgcolor);
-						break;
-					} else if (line == 0x1E) {
-						drawFastHLine(x + xoff, y + yoff, 4, fgcolor);
-						break;
-					} else if ((line & 0x1C) == 0x1C) {
-						drawFastHLine(x + xoff, y + yoff, 3, fgcolor);
-						line <<= 4;
-						xoff += 4;
-					} else if ((line & 0x18) == 0x18) {
-						drawFastHLine(x + xoff, y + yoff, 2, fgcolor);
-						line <<= 3;
-						xoff += 3;
-					} else if ((line & 0x10) == 0x10) {
-						drawPixel(x + xoff, y + yoff, fgcolor);
-						line <<= 2;
-						xoff += 2;
-					} else {
-						line <<= 1;
-						xoff += 1;
-					}
-				}
-				mask = mask << 1;
-			}
-		} else {
-			uint8_t mask = 0x01;
-			int16_t xoff, yoff;
-			for (yoff=0; yoff < 8; yoff++) {
-				uint8_t line = 0;
-				for (xoff=0; xoff < 5; xoff++) {
-					if (glcdfont[c * 5 + xoff] & mask) line |= 1;
-					line <<= 1;
-				}
-				line >>= 1;
-				xoff = 0;
-				while (line) {
-					if (line == 0x1F) {
-						fillRect(x + xoff * size_x, y + yoff * size_y,
-							5 * size_x, size_y, fgcolor);
-						break;
-					} else if (line == 0x1E) {
-						fillRect(x + xoff * size_x, y + yoff * size_y,
-							4 * size_x, size_y, fgcolor);
-						break;
-					} else if ((line & 0x1C) == 0x1C) {
-						fillRect(x + xoff * size_x, y + yoff * size_y,
-							3 * size_x, size_y, fgcolor);
-						line <<= 4;
-						xoff += 4;
-					} else if ((line & 0x18) == 0x18) {
-						fillRect(x + xoff * size_x, y + yoff * size_y,
-							2 * size_x, size_y, fgcolor);
-						line <<= 3;
-						xoff += 3;
-					} else if ((line & 0x10) == 0x10) {
-						fillRect(x + xoff * size_x, y + yoff * size_y,
-							size_x, size_y, fgcolor);
-						line <<= 2;
-						xoff += 2;
-					} else {
-						line <<= 1;
-						xoff += 1;
-					}
-				}
-				mask = mask << 1;
-			}
-		}
-	} else {
-		// This solid background approach is about 5 time faster
-		uint8_t xc, yc;
-		uint8_t xr, yr;
-		uint8_t mask = 0x01;
+	if (fgcolor == bgcolor)
+        {
+		    // This transparent approach is only about 20% faster
+		    if ((size_x == 1) && (size_y == 1))
+                {
+                    uint8_t mask = 0x01;
+                    int16_t xoff, yoff;
+                    for (yoff=0; yoff < 8; yoff++)
+                        {
+                            uint8_t line = 0;
+                            for (xoff=0; xoff < 5; xoff++)
+                                {
+                                    if (glcdfont[c * 5 + xoff] & mask) line |= 1;
+                                    line <<= 1;
+                                }
+                            line >>= 1;
+                            xoff = 0;
+                            while (line)
+                                {
+                                    if (line == 0x1F)
+                                        {
+                                            drawFastHLine(x + xoff, y + yoff, 5, fgcolor);
+                                            break;
+                                        }
+                                    else if (line == 0x1E)
+                                        {
+                                            drawFastHLine(x + xoff, y + yoff, 4, fgcolor);
+                                            break;
+                                        }
+                                    else if ((line & 0x1C) == 0x1C)
+                                        {
+                                            drawFastHLine(x + xoff, y + yoff, 3, fgcolor);
+                                            line <<= 4;
+                                            xoff += 4;
+                                        }
+                                    else if ((line & 0x18) == 0x18)
+                                        {
+                                            drawFastHLine(x + xoff, y + yoff, 2, fgcolor);
+                                            line <<= 3;
+                                            xoff += 3;
+                                        }
+                                    else if ((line & 0x10) == 0x10)
+                                        {
+                                            drawPixel(x + xoff, y + yoff, fgcolor);
+                                            line <<= 2;
+                                            xoff += 2;
+                                        }
+                                    else
+                                        {
+                                            line <<= 1;
+                                            xoff += 1;
+                                        }
+                                }
+                            mask = mask << 1;
+                        }
+		        }
+            else
+                {
+                    uint8_t mask = 0x01;
+                    int16_t xoff, yoff;
+                    for (yoff=0; yoff < 8; yoff++)
+                        {
+                            uint8_t line = 0;
+                            for (xoff=0; xoff < 5; xoff++)
+                                {
+                                    if (glcdfont[c * 5 + xoff] & mask) line |= 1;
+                                    line <<= 1;
+                                }
+                            line >>= 1;
+                            xoff = 0;
+                            while (line)
+                                {
+                                    if (line == 0x1F)
+                                        {
+                                            fillRect(x + xoff * size_x, y + yoff * size_y,
+                                            5 * size_x, size_y, fgcolor);
+                                            break;
+                                        }
+                                    else if (line == 0x1E)
+                                        {
+                                            fillRect(x + xoff * size_x, y + yoff * size_y,
+                                            4 * size_x, size_y, fgcolor);
+                                            break;
+                                        }
+                                    else if ((line & 0x1C) == 0x1C)
+                                        {
+                                            fillRect(x + xoff * size_x, y + yoff * size_y,
+                                            3 * size_x, size_y, fgcolor);
+                                            line <<= 4;
+                                            xoff += 4;
+                                        }
+                                    else if ((line & 0x18) == 0x18)
+                                        {
+                                            fillRect(x + xoff * size_x, y + yoff * size_y,
+                                            2 * size_x, size_y, fgcolor);
+                                            line <<= 3;
+                                            xoff += 3;
+                                        }
+                                    else if ((line & 0x10) == 0x10)
+                                        {
+                                            fillRect(x + xoff * size_x, y + yoff * size_y,
+                                            size_x, size_y, fgcolor);
+                                            line <<= 2;
+                                            xoff += 2;
+                                        }
+                                    else
+                                        {
+                                            line <<= 1;
+                                            xoff += 1;
+                                        }
+                                }
+                            mask = mask << 1;
+                        }
+		        }
+	    } 
+    else
+        {
+            // This solid background approach is about 5 time faster
+            uint8_t xc, yc;
+            uint8_t xr, yr;
+            uint8_t mask = 0x01;
 
-		// We need to offset by the origin.
-		x+=_originx;
-		y+=_originy;
-		int16_t x_char_start = x;  // remember our X where we start outputting...
+            // We need to offset by the origin.
+            x+=_originx;
+            y+=_originy;
+            int16_t x_char_start = x;  // remember our X where we start outputting...
 
-		if((x >= _displayclipx2)            || // Clip right
-			 (y >= _displayclipy2)           || // Clip bottom
-			 ((x + 6 * size_x - 1) < _displayclipx1) || // Clip left  TODO: this is not correct
-			 ((y + 8 * size_y - 1) < _displayclipy1))   // Clip top   TODO: this is not correct
-			return;
+            if((x >= _displayclipx2) || (y >= _displayclipy2) || ((x + 6 * size_x - 1) < _displayclipx1) || ((y + 8 * size_y - 1) < _displayclipy1))   // Clip top   TODO: this is not correct
+                return;
 
-			// need to build actual pixel rectangle we will output into.
-			int16_t y_char_top = y;	// remember the y
-			int16_t w =  6 * size_x;
-			int16_t h = 8 * size_y;
+            // need to build actual pixel rectangle we will output into.
+            int16_t y_char_top = y;	// remember the y
+            int16_t w =  6 * size_x;
+            int16_t h = 8 * size_y;
 
-			if(x < _displayclipx1) {	w -= (_displayclipx1-x); x = _displayclipx1; 	}
-			if((x + w - 1) >= _displayclipx2)  w = _displayclipx2  - x;
-			if(y < _displayclipy1) {	h -= (_displayclipy1 - y); y = _displayclipy1; 	}
-			if((y + h - 1) >= _displayclipy2) h = _displayclipy2 - y;
+            if(x < _displayclipx1) {w -= (_displayclipx1-x); x = _displayclipx1;}
+            if((x + w - 1) >= _displayclipx2)  w = _displayclipx2  - x;
+            if(y < _displayclipy1) {	h -= (_displayclipy1 - y); y = _displayclipy1; 	}
+            if((y + h - 1) >= _displayclipy2) h = _displayclipy2 - y;
 
-			//Serial.printf("%d, %d, %d, %d\n", x, y, x + w -1, y + h - 1);
-			setActiveWindow(x, y, x + w -1, y + h - 1);
-			_startSend();
-			y = y_char_top;	// restore the actual y.
-			writeCommand(RA8875_MRWC);
-			for (yc=0; (yc < 8) && (y < _displayclipy2); yc++) {
-				for (yr=0; (yr < size_y) && (y < _displayclipy2); yr++) {
-					x = x_char_start; 		// get our first x position...
-					if (y >= _displayclipy1) {
-						for (xc=0; xc < 5; xc++) {
-							for (xr=0; xr < size_x; xr++) {
-								if ((x >= _displayclipx1) && (x < _displayclipx2)) {
-									//write16BitColor(fgcolor);
-									drawPixel(xr+x,yc+y,fgcolor);
-								}
-								x++;
-							}
-						}
-						for (xr=0; xr < size_x; xr++) {
-							if ((x >= _displayclipx1) && (x < _displayclipx2)) {
-								//write16BitColor(bgcolor);
-								drawPixel(xr+x,yc+y,bgcolor);
-							}
-							x++;
-						}
-					}
-					y++;
-				}
-				mask = mask << 1;
-			}
-			//writecommand_last(ILI9488_NOP);
-			_endSend();
-	}
+            //Serial.printf("%d, %d, %d, %d\n", x, y, x + w -1, y + h - 1);
+            setActiveWindow(x, y, x + w -1, y + h - 1);
+            _startSend();
+            y = y_char_top;	// restore the actual y.
+            writeCommand(RA8875_MRWC);
+            for (yc=0; (yc < 8) && (y < _displayclipy2); yc++) 
+                {
+                    for (yr=0; (yr < size_y) && (y < _displayclipy2); yr++)
+                        {
+                            x = x_char_start; 		// get our first x position...
+                            if (y >= _displayclipy1)
+                                {
+                                        for (xc=0; xc < 5; xc++)
+                                            {
+                                                for (xr=0; xr < size_x; xr++)
+                                                    {
+                                                        if ((x >= _displayclipx1) && (x < _displayclipx2))
+                                                            {
+                                                                //write16BitColor(fgcolor);
+                                                                drawPixel(xr+x,yc+y,fgcolor);
+                                                            }
+                                                        x++;
+                                                    }
+                                            }
+                                        for (xr=0; xr < size_x; xr++)
+                                            {
+                                                if ((x >= _displayclipx1) && (x < _displayclipx2))
+                                                    {
+                                                        //write16BitColor(bgcolor);
+                                                        drawPixel(xr+x,yc+y,bgcolor);
+                                                    }
+                                                x++;
+                                            }
+                                }
+                                y++;
+                        }
+                        mask = mask << 1;
+                }
+            //writecommand_last(ILI9488_NOP);
+            _endSend();
+	    }
 }
 
-void RA8875::setFont(const ILI9341_t3_font_t &f) {
+void RA8875::setFont(const ILI9341_t3_font_t &f)
+{
 	_use_default = 0;
 	if(_portrait && !_use_gfx_font) {
 		_cursorY += _cursorX;

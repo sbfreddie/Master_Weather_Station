@@ -44,6 +44,9 @@
 
 extern RA8875 tft;
 
+//#define DEBUG1    true              // Turn on/off Button functions debug messages.
+//#define DEBUG2    true              // Turn on/off Button functions debugging.
+
 // Touch screen struct.
 typedef struct Point
 {

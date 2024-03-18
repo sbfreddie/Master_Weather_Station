@@ -36,7 +36,6 @@
 /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
 /// These includes are from the Arduino program that lives in /Application/Arduino
 
-//#include <ADC.h>      // This is the Analog to Digital Converter library from peptide.
 #include <SPI.h>        // For all SPI transactions on TFT, SD Card, and Touch Screen.
 #include <Time.h>       // This is from the Teensy Libraries for time keeping on the Teensy.
 #include <Wire.h>       // This is the One Wire or TWI library.
@@ -54,13 +53,8 @@
 
 #if defined(USINGGPS)
     // Set this to the GPS hardware serial port you wish to use
-    #define GPShwSERIAL 1 // 1 = Serial1, 2 = Serial2, 3 = Serial3, 4 = Serial4 ....
+    #define GPSHWSERIAL Serial1 // 1 = Serial1, 2 = Serial2, 3 = Serial3, 4 = Serial4 ....
 
-    uint8_t const GPSSerialPort = GPShwSERIAL; // default settings
-
-    uint32_t const BaudDefault = 9600; // default settings
-
-    #define SERIAL1_RX_BUFFER_SIZE = 128;  // Need larger than the stock 64 bytes for incoming buffer for GPS Packet (100 bytes).
 #endif
 
 /*******************************************************************************************************************
@@ -106,8 +100,8 @@
 /// These are include from inside the project
 #include <AverageList.h>
 #include <BurstBufferDMA.h>
-//#include <SparkFun_u-blox_GNSS_Arduino_Library.h>
-#include <ublox3.h>            // This library is used to control the uBlox GPS chip attached to the hardware serial port.
+#include <SparkFun_u-blox_GNSS_Arduino_Library.h>
+//#include <ublox.h>            // This library is used to control the uBlox GPS chip attached to the hardware serial port.
 #include <UartEvent.h>        // This is to use serial DMA for transfering serial data.
 #include <circular_buffer.h>
 #include <Buttons.h>          // This class is used to create various shape boxes and touch buttons.#include <Circular_Buffer.h>
@@ -209,6 +203,48 @@ enum gpsCompletionCodes
 /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
 ///                                             Structs
 /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
+
+/*******************************************************************************************************************
+ *                           This struct is for ubx GPS data.
+ * This struct is 56 bytes total.
+ *******************************************************************************************************************/
+struct gpsGNSSStruct
+{
+    uint32_t iTOW; // GPS time of week of the navigation epoch: ms
+    uint16_t year; // Year (UTC)
+    uint8_t month; // Month, range 1..12 (UTC)
+    uint8_t day;   // Day of month, range 1..31 (UTC)
+    uint8_t hour;  // Hour of day, range 0..23 (UTC)
+    uint8_t min;   // Minute of hour, range 0..59 (UTC)
+    uint8_t sec;   // Seconds of minute, range 0..60 (UTC)
+
+    uint8_t validTime; // 1 = valid UTC time of day
+    uint8_t validDate; // 1 = valid UTC Date
+
+    uint8_t fullyResolved; // 1 = UTC time of day has been fully resolved (no seconds uncertainty)..
+
+    uint32_t tAcc; // Time accuracy estimate (UTC): ns
+    int32_t nano;  // Fraction of second, range -1e9 .. 1e9 (UTC): ns
+
+    uint8_t fixType; // GNSSfix Type:
+                     // 0: no fix
+                     // 1: dead reckoning only
+                     // 2: 2D-fix
+                     // 3: 3D-fix
+                     // 4: GNSS + dead reckoning combined
+                     // 5: time only fix
+
+    uint8_t numSV;   // Number of satellites used in Nav Solution
+    float lon;       // Longitude: adjusted by dividing by 10 Million.
+    float lat;       // Latitude: adjusted by dividing by 10 Million.
+    float hMSL;      // Height above mean sea level: adjusted by Multiplied by 0.00328084.
+    float gSpeed;    // Ground Speed (2-D): adjusted to m/sec by multiplied by 0.001.
+    int32_t headMot; // Heading of motion (2-D): deg * 1e-5
+
+    int32_t headVeh;    // Heading of vehicle (2-D): deg * 1e-5
+    int16_t magDec;     // Magnetic declination: deg * 1e-2
+    bool valid = false; // Data has just been refreshed and is valid.
+} gpsUBXDataStruct;
 
 /*******************************************************************************************************************
  * This struct is for all weather data, including Wind, Temp, Pressure, Humidity, Rainfall information.
@@ -373,6 +409,8 @@ struct touchedPoints
 //#define DEBUG48     true              // Show the GPS receive buffer Data Contents and return.
 //#define DEBUG49     true              // Show the GPS restart info.
 //#define DEBUG50     true              // Disply the actual Data coming from the GPS in the restart Subroutine.
+//#define DEBUG51     true              // Disply the size of the tcr abbrev in the drawPrintTime/// Subroutine.
+
 /*******************************************************************************************************************
 * These definitions are for the RA8875 TFT display.
 *******************************************************************************************************************/
@@ -504,6 +542,12 @@ struct touchedPoints
 #endif
 
 
+/*******************************************************************************************************************
+* These definitions are for the TFTM101 in (X = 1024, Y = 600 mode which has 128 Columns with fontscale 0, 64
+* columns with fontscale 1, and 32 columns with fontscale 2.
+* It has 37.5 rows with fontscale 0, 18.75 rows with fontscale 1, and 9.375 rows with fontscale 2)  when the display
+* is in the Landscape mode.
+*******************************************************************************************************************/
 #if defined(TFTM101)
     #define X_CONST 1024  // These setting are for the 10.1" display (ER-TFTM101-5) 1024 x 600 pixels.
     #define Y_CONST 600  // These setting are for the 10.1" display (ER-TFTM101-5) 1024 x 600 pixels.
@@ -747,10 +791,11 @@ struct touchedPoints
 /// There are 2 rows of 4 columns of Buttons.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Set Width, Height, and round rectangle radius of the buttons.
-#define EightButtonPanel_Width ( 10 * Xsize )    // Allow room for 11 characters wide.
+#define EightButtonPanel_Width ( 10 * Xsize )    // Allow room for 10 characters wide.
 #define EightButtonPanel_Height (6 * Ysize)      //  Allow room for 6 characters high.
 #define EightButtonPanel_radius 8                // The radius of the rounded rectangle.
 
+// This is the first row.
 // Set location for first button.
 #define EightButtonPanel1st_XPosition ( ( XMIDDLE - ( (X_CONST / 8) * 3 ) ) - ( EightButtonPanel_Width / 2 ) )
 #define EightButtonPanel1st_YPosition ( ( YMIDDLE - (Y_CONST / 4) ) - ( EightButtonPanel_Height / 2 ) )
@@ -767,6 +812,7 @@ struct touchedPoints
 #define EightButtonPanel4th_XPosition ( (XMIDDLE + ( (X_CONST / 8) * 3 ) ) - ( EightButtonPanel_Width / 2 ) )
 #define EightButtonPanel4th_YPosition ( ( YMIDDLE - (Y_CONST / 4) ) - ( EightButtonPanel_Height / 2 ) )
 
+// This is the second row.
 // Set Next location for the fifth button.
 #define EightButtonPanel5th_XPosition ( ( XMIDDLE - ( (X_CONST / 8) * 3 ) ) - ( EightButtonPanel_Width / 2 ) )
 #define EightButtonPanel5th_YPosition ( ( YMIDDLE + (Y_CONST / 4) ) - ( EightButtonPanel_Height / 2 ) )
@@ -782,6 +828,92 @@ struct touchedPoints
 // Set Next location for the eight button.
 #define EightButtonPanel8th_XPosition ( ( XMIDDLE + ( (X_CONST / 8) * 3 ) ) - ( EightButtonPanel_Width / 2 ) )
 #define EightButtonPanel8th_YPosition ( ( YMIDDLE + (Y_CONST / 4) ) - ( EightButtonPanel_Height / 2 ) )
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// These next 13 defines are for the 12 button Panel.
+/// There are 3 rows of 4 columns of Buttons.
+/// Xsize is 16 pixels for the 800 x 480 tft screen.
+/// Ysize is 32 pixels for the 800 x 480 tft screen.
+/// Xmiddle is 399 for the 800 x 480 tft screen.
+/// Ymiddle is 239 for the 800 x 480 tft screen.
+/// X_const is 800 for the 800 x 480 tft screen.
+/// Y_const is 480 for the 800 x 480 tft screen.
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Set Width of buttons, Number of Columns, and spacing between buttons Horizontally.
+#define TwelveBtPnl_NumberOfColumns ( 4 )     // This is the number of columns Horizontally.
+#define TwelveBtPnl_Width ( 10 * Xsize )      // Allow room for 10 characters wide (or 160 pixels).
+#define TwelveBtPnl_Width_Spacing ( ( X_CONST -  ( TwelveBtPnl_Width * TwelveBtPnl_NumberOfColumns ) ) / ( TwelveBtPnl_NumberOfColumns + 1 ) )
+
+// Set Height of buttons, Number of Rows, and spacing between the buttons vertically.
+#define TwelveBtPnl_NumberOfRows ( 3 )        // This is the number of rows vertically.
+#define TwelveBtPnl_Height ( 4 * Ysize )      //  Allow room for 4 characters high (or 128 pixels).
+#define TwelveBtPnl_Height_Spacing ( ( Y_CONST - ( TwelveBtPnl_Height * TwelveBtPnl_NumberOfRows ) ) / ( TwelveBtPnl_NumberOfRows + 1 ) )
+
+// Set round rectangle radius of the buttons.
+#define TwelveBtPnl_radius 8                  // The radius of the rounded rectangle.
+
+// This is the first Row of three.
+// Set location for first button.
+#define TwelveBtPnl1st_XPosition ( XLEFT + TwelveBtPnl_Width_Spacing )
+#define TwelveBtPnl1st_YPosition ( YTOP + TwelveBtPnl_Height_Spacing )
+
+
+// Set Next location for the second button.
+#define TwelveBtPnl2nd_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 2 ) + TwelveBtPnl_Width ) )
+#define TwelveBtPnl2nd_YPosition ( YTOP + TwelveBtPnl_Height_Spacing )
+
+
+// Set Next location for the third button.
+#define TwelveBtPnl3rd_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 3 ) + ( TwelveBtPnl_Width * 2 ) ) )
+#define TwelveBtPnl3rd_YPosition ( YTOP + TwelveBtPnl_Height_Spacing )
+
+
+// Set Next location for the forth button.
+#define TwelveBtPnl4th_XPosition ( XLEFT + ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 4 ) + ( TwelveBtPnl_Width * 3 ) ) ) )
+#define TwelveBtPnl4th_YPosition ( YTOP + TwelveBtPnl_Height_Spacing )
+
+
+// This is the Second Row of three.
+// Set Next location for the fifth button.
+#define TwelveBtPnl5th_XPosition ( XLEFT + TwelveBtPnl_Width_Spacing )
+#define TwelveBtPnl5th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 2 ) + TwelveBtPnl_Height ) )
+
+
+// Set Next location for the sixth button.
+#define TwelveBtPnl6th_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 2 ) + TwelveBtPnl_Width ) )
+#define TwelveBtPnl6th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 2 ) + TwelveBtPnl_Height ) )
+
+
+// Set Next location for the seventh button.
+#define TwelveBtPnl7th_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 3 ) + ( TwelveBtPnl_Width * 2 ) ) )
+#define TwelveBtPnl7th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 2 ) + TwelveBtPnl_Height ) )
+
+
+// Set Next location for the eight button.
+#define TwelveBtPnl8th_XPosition ( XLEFT + ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 4 ) + ( TwelveBtPnl_Width * 3 ) ) ) )
+#define TwelveBtPnl8th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 2 ) + TwelveBtPnl_Height ) )
+
+
+// This is the Third Row of three.
+// Set Next location for the ninth button.
+#define TwelveBtPnl9th_XPosition ( XLEFT + TwelveBtPnl_Width_Spacing )
+#define TwelveBtPnl9th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 3 ) + ( TwelveBtPnl_Height * 2 ) ) )
+
+
+// Set Next location for the tenthbutton.
+#define TwelveBtPnl10th_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 2 ) + TwelveBtPnl_Width ) )
+#define TwelveBtPnl10th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 3 ) + ( TwelveBtPnl_Height * 2 ) ) )
+
+
+// Set Next location for the eleventh button.
+#define TwelveBtPnl11th_XPosition ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 3 ) + ( TwelveBtPnl_Width * 2 ) ) )
+#define TwelveBtPnl11th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 3 ) + ( TwelveBtPnl_Height * 2 ) ) )
+
+
+// Set Next location for the twelveth button.
+#define TwelveBtPnl12th_XPosition ( XLEFT + ( XLEFT + ( ( TwelveBtPnl_Width_Spacing * 4 ) + ( TwelveBtPnl_Width * 3 ) ) ) )
+#define TwelveBtPnl12th_YPosition ( YTOP + ( ( TwelveBtPnl_Height_Spacing * 3 ) + ( TwelveBtPnl_Height * 2 ) ) )
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -2298,10 +2298,10 @@ SelectableShapeButton::SelectableShapeButton(Figure_types buttonShape, char *tex
         Serial.println(_beginningXYPositions.yPosition);
     
         Serial.print(F("The is the longAxis of the Ellipse Button to be drawn: "));
-        Serial.println(_longAxis);
+        Serial.println(longAxis);
     
         Serial.print(F("The is the shortAxis of the Ellipse Button to be drawn: "));
-        Serial.println(_shortAxis);
+        Serial.println(shortAxis);
     
         Serial.print(F("This is the border color of the Ellipse Button to be drawn: "));
         Serial.println(_bordercolor,HEX);

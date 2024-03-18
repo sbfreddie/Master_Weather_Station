@@ -121,81 +121,188 @@
 /*******************************************************************************************************************
  * These variables are for the TimeZone functions.
  *******************************************************************************************************************/
+// New Zealond Standard Time Zone ()
+TimeChangeRule NDST = {"nzDST", First, Sun, Oct, 2, -660};   // UTC - 11 hours
+TimeChangeRule NST = {"nwzST", First, Sun, Apr, 3, 720};      // UTC + 12 hours
+Timezone nzTZ(NDST, NST);
+
+// Solomon Standard Time Zone ()
+TimeChangeRule SDST = {"slDST", First, Sun, Oct, 2, 720};    // UTC + 12 hours
+TimeChangeRule SST = {"slnST", First, Sun, Apr, 3, 660};      // UTC + 11 hours
+Timezone soIT(SDST, SST);
+
+// Australia Central Time Zone ()
+TimeChangeRule ACDST = {"acDST", First, Sun, Oct, 2, 630};  // UTC + 10:30 hours
+TimeChangeRule ACT = {"aucST", First, Sun, Apr, 3, 570};      // UTC + 9:30 hours
+Timezone ausCT(ACDST, ACT);
 
 // Australia Eastern Time Zone (Sydney, Melbourne)
-TimeChangeRule aEDT = {"AEDT", First, Sun, Oct, 2, 660};    // UTC + 11 hours
-TimeChangeRule aEST = {"AEST", First, Sun, Apr, 3, 600};    // UTC + 10 hours
-Timezone ausET(aEDT, aEST);
+TimeChangeRule AEDST = {"aeDST", First, Sun, Oct, 2, 660};  // UTC + 11 hours
+TimeChangeRule AET = {"aueST", First, Sun, Apr, 3, 600};      // UTC + 10 hours
+Timezone ausET(AEDST, AET);
+
+// Japan Standard Time (Tokyo).
+TimeChangeRule JDST = {"jpDST", First, Sun, Mar, 2, 600};     // UTC + 10 hours.
+TimeChangeRule JST = {"jpnST", First, Sun, Oct, 2, 540};      // UTC + 9 hours.
+Timezone jpTZ(JDST, JST);
+
+// China Standard Time (Bejing).
+TimeChangeRule CTDST = {"chDST", First, Sun, Mar, 2, 540};    // UTC + 9 hours.
+TimeChangeRule CTT = {"chiST", First, Sun, Oct, 2, 480};      // UTC + 8 hours.
+Timezone chTZ(CTDST, CTT);
+
+// Vietnam Standard Time (Hanoi).
+TimeChangeRule VDST = {"vnDST", First, Sun, Mar, 2, 480};     // UTC + 8 hours.
+TimeChangeRule VST = {"vtnST", First, Sun, Oct, 2, 420};      // UTC + 7 hours.
+Timezone vmTZ(VDST, VST);
+
+// Bangladesh Standard Time ().
+TimeChangeRule BSDST = {"bgDST", First, Sun, Mar, 2, 420};    // UTC + 7 hours.
+TimeChangeRule BST = {"bghST", First, Sun, Oct, 2, 360};      // UTC + 6 hours.
+Timezone bgTZ(BSDST, BST);
+
+// India Standard Time (New Delhi).
+TimeChangeRule ISDST = {"inDST", First, Sun, Mar, 2, 390};    // UTC + 6:30 hours.
+TimeChangeRule IST = {"indST", First, Sun, Oct, 2, 330};      // UTC + 5:30 hours.
+Timezone inTZ(ISDST, IST);
+
+// Pakistan Lahore Standard Time ().
+TimeChangeRule PLDST = {"plDST", First, Sun, Mar, 2, 360};    // UTC + 6 hours.
+TimeChangeRule PLT = {"pltST", First, Sun, Oct, 2, 300};      // UTC + 5 hours.
+Timezone pkTZ(PLDST, PLT);
+
+// Near East Standard Time ().
+TimeChangeRule NEDST = {"neDST", First, Sun, Mar, 2, 540};    // UTC + 5 hours.
+TimeChangeRule NET = {"netST", First, Sun, Oct, 2, 480};      // UTC + 4 hours.
+Timezone neTZ(NEDST, NET);
+
+// Middle East Standard Time ().
+TimeChangeRule MEDST = {"meDST", First, Sun, Mar, 2, 270};    // UTC + 4:30 hours.
+TimeChangeRule MET = {"metST", First, Sun, Oct, 2, 210};      // UTC + 3:30 hours.
+Timezone meTZ(MEDST, MET);
+
+// Eastern Afica Standard Time ().
+TimeChangeRule EADST = {"eaDST", First, Sun, Mar, 2, 240};    // UTC + 4 hours.
+TimeChangeRule EAT = {"eatST", First, Sun, Oct, 2, 180};      // UTC + 3 hours.
+Timezone eaTZ(EADST, EAT);
 
 // Moscow Standard Time (MSK, does not observe DST)
-TimeChangeRule msk = {"MSK", Last, Sun, Mar, 1, 180};       // Russia Standard Time
+TimeChangeRule msk = {"ruMSK", First, Sun, Mar, 1, 180}; // UTC + 3, Russia Standard Time
 Timezone tzMSK(msk);
 
 // Eastern European Time (Athens, Kiev)
-TimeChangeRule EEST = {"EEST", Last, Sun, Mar, 2, 180};     // Eastern European Summer Time
-TimeChangeRule EET = {"EET ", Last, Sun, Oct, 3, 120};       // Eastern European Standard Time
-Timezone EE(EEST, EET);
+TimeChangeRule EEST = {"EEDST", First, Sun, Mar, 2, 180};    // UTC + 3, Eastern European Summer Time
+TimeChangeRule EET = {"eetST", First, Sun, Oct, 3, 120};     // UTC + 2, Eastern European Standard Time
+Timezone eeTZ(EEST, EET);
 
 // Central European Time (Frankfurt, Paris, Rome)
-TimeChangeRule CEST = {"CEST", Last, Sun, Mar, 2, 120};     // Central European Summer Time
-TimeChangeRule CET = {"CET ", Last, Sun, Oct, 3, 60};       // Central European Standard Time
-Timezone CE(CEST, CET);
+TimeChangeRule CEST = {"ceDST", First, Sun, Mar, 2, 120};    // Central European Summer Time
+TimeChangeRule CET = {"cetST", First, Sun, Oct, 3, 60};      // Central European Standard Time
+Timezone ceTZ(CEST, CET);
 
 // United Kingdom (London, Belfast)
-TimeChangeRule BST = {"BST", Last, Sun, Mar, 1, 60};        // British Summer Time
-TimeChangeRule GMT = {"GMT", Last, Sun, Oct, 2, 0};         // Standard Time
-Timezone UK(BST, GMT);
+TimeChangeRule BDST = {"ukDST", First, Sun, Mar, 1, 60};       // British Summer Time
+TimeChangeRule GMT = {"ukGMT", First, Sun, Oct, 2, 0};         // Standard Time
+Timezone UK(BDST, GMT);
 
 // UTC
-TimeChangeRule utcRule = {"UTC", Last, Sun, Mar, 1, 0};     // UTC
+TimeChangeRule utcRule = {"UTC", First, Sun, Mar, 1, 0}; // UTC
 Timezone UTC(utcRule);
 
+// Eastern Atlantic Time Zone ( Cape Verde )
+TimeChangeRule eaDST = {"eaDST", First, Sun, Mar, 2, -120};    // UTC - 2 hours
+TimeChangeRule eaT = {"eatST", First, Sun, Nov, 2, -60};       // UTC - 1 hours
+Timezone ealtTZ(eaDST, eaT);
+
+// Brazil Eastern Standard Time (Fortaleza).
+TimeChangeRule BEDST = {"BEDST", First, Sun, Oct, 2, -180};  // UTC - 3 hours.
+TimeChangeRule BET = {"BrEST", First, Sun, Oct, 2, -120};      // UTC - 2 hours.
+Timezone beTZ(BEDST, BET);
+
+// Argentina Time Zone (Buenos Aires, Montevideo, Rio de Janerio )
+TimeChangeRule AGT = {"ArGST", First, Sun, Jan, 2, -180};         // UTC - 3 hours
+Timezone agTZ(AGT,AGT);
+
+// Atlantic Time Zone ( San Juan, Puerto Rico )
+TimeChangeRule ATDST = {"ATDST", First, Sun, Mar, 2, -180};    // UTC - 3 hours
+TimeChangeRule ATST = {"ATST", First, Sun, Nov, 2, -240};      // UTC - 4 hours
+Timezone atTZ(ATDST, ATST);
+
 // US Eastern Time Zone (New York, Detroit)
-TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, -240};  // Eastern Daylight Time = UTC - 4 hours
-TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, -300};   // Eastern Standard Time = UTC - 5 hours
+TimeChangeRule usEDT = {"EDST", First, Sun, Mar, 2, -240};        // UTC - 4 hours
+TimeChangeRule usEST = {"usEST", First, Sun, Nov, 2, -300};       // UTC - 5 hours
 Timezone usET(usEDT, usEST);
 
 // US Central Time Zone (Chicago, Houston)
-TimeChangeRule usCDT = {"CDT", Second, Sun, Mar, 2, -300};  // UTC - 5
-TimeChangeRule usCST = {"CST", First, Sun, Nov, 2, -360};  // UTC - 6
+TimeChangeRule usCDT = {"CDST", First, Sun, Mar, 2, -300};        // UTC - 5
+TimeChangeRule usCST = {"usCST", First, Sun, Nov, 2, -360};       // UTC - 6
 Timezone usCT(usCDT, usCST);
 
 // US Mountain Time Zone (Denver, Salt Lake City)
-TimeChangeRule usMDT = {"MDT", Second, Sun, Mar, 2, -360};  // UTC - 6
-TimeChangeRule usMST = {"MST", First, Sun, Nov, 2, -420};  // UTC - 7
+TimeChangeRule usMDT = {"MDST", First, Sun, Mar, 2, -360};        // UTC - 6
+TimeChangeRule usMST = {"usMST", First, Sun, Nov, 2, -420};       // UTC - 7
 Timezone usMT(usMDT, usMST);
 
 // Arizona is US Mountain Time Zone but does not use DST
 Timezone usAZ(usMST);  // UTC - 7
 
 // US Pacific Time Zone (Las Vegas, Los Angeles)
-TimeChangeRule usPDT = {"PDT", Second, Sun, Mar, 2, -420};  // UTC - 7
-TimeChangeRule usPST = {"PST", First, Sun, Nov, 2, -480};  // UTC - 8
+TimeChangeRule usPDT = {"PDST", First, Sun, Mar, 2, -420};        // UTC - 7
+TimeChangeRule usPST = {"usPST", First, Sun, Nov, 2, -480};       // UTC - 8
 Timezone usPT(usPDT, usPST);
 
+// Alaska Time Zone (Nome)
+TimeChangeRule ADST = {"ADST", First, Sun, Mar, 2, -480};         // UTC - 8
+TimeChangeRule AST = {"usAST", First, Sun, Nov, 2, -540};         // UTC - 9
+Timezone alTZ(ADST, AST);
+
 // Hawaii is Hawaiian Time Zone but does not use DST
-TimeChangeRule usHST = {"HST", Last, Sun, Mar, 1,  -600};  // UTC - 10 Hawaiian Standard Time (no daylight saving time)
+TimeChangeRule usHST = {"usHST", First, Sun, Mar, 1, -600}; // UTC - 10 (no daylight saving time).
 Timezone usHT(usHST);
 
-Timezone* timezones[] = { &ausET, &tzMSK, &EE, &CE, &UK, &UTC, &usET, &usCT, &usMT, &usAZ, &usPT, &usHT };
+// Midway Islands Time Zone ()
+TimeChangeRule MIDST = {"MIDST", First, Sun, Mar, 2, -600};       // UTC - 10
+TimeChangeRule MIT = {"MIIST", First, Sun, Nov, 2, -660};         // UTC - 11
+Timezone miTZ(MIDST, MIT);
 
-Timezone* tz;      //pointer to the time zone, start with Pacific Time zone.
-TimeChangeRule* tcr;            //pointer to the time change rule struct, use to get TZ abbrev
-uint8_t tzIndex = 10;            //indexes the timezones[] array, start with PST.
+
+Timezone* timezones[] = { &nzTZ, &soIT, &ausCT, &ausET, &jpTZ, &chTZ, &vmTZ, &bgTZ, &inTZ, &pkTZ, &neTZ, &meTZ, &eaTZ, &tzMSK,
+                 &eeTZ, &ceTZ, &UK, &UTC, &ealtTZ, &beTZ, &agTZ, &atTZ, &usET, &usCT, &usMT, &usAZ, &usPT, &alTZ, &usHT, &miTZ };  // 31 total time zones
+
+Timezone* tz;  //pointer to the time zone, start with Pacific Time zone.
+TimeChangeRule* tcr;  //pointer to the time change rule struct, use to get TZ abbrev
+uint8_t tzIndex = 22;  //indexes the timezones[] array, start with PST.
 
 bool UTCTimeCorrected = false;
+
 
 /*******************************************************************************************************************
  * These variables are for the GPS Sensor Module functions.
  *******************************************************************************************************************/
 #if defined(USINGGPS)
+
+    SFE_UBLOX_GNSS myGNSS;
+
+    bool GPS_GNSS_Present = false;  // True means No GPS is present, false means GPS is present and working.
+    uint8_t GPS_Not_Valid_Counter = false;  // This variable is used to count the numbers of times "No Valid Data" comes from the GPS.
+    uint32_t GPS_GNSS_Speed = 19200;
+
+    //bool gpsInterruptOccurred = false; // This is set true by an interrupt output on the yellow wire from the GPS module.
+    uint32_t gpsInterruptCount = 0;    // This keeps track of the number of interrupts from the GPS hardware module arriving on pin 30.
+    uint32_t gpsTimePulseStartMicros;  // This number is the time in Microseconds that the Interrupt came into the Teensy Pin 30.
+    uint32_t gpsElaspedTimeSinceInterrupt = 0;
+    bool coldStart = false;
+
+    #define SERIAL7_RX_BUFFER_SIZE 256
+    DMAMEM uint8_t Serial1ReadBuffer;
+
     /*******************************************************************************************************************
     *   This Class is the uBlox GPS receiver Class.
     *   Needs:
-    *       Hardware serial port the uBlox GPS Receiver is connected to (1->3) on Teensy 3.2.
+    *       Hardware serial port the uBlox GPS Receiver is connected to Port (1, 2, 3) on Teensy 3.2.
     * fix Type: 0: no fix, 1: dead reckoning only, 2: 2D-fix, 3: 3D-fix, 4: GNSS + dead reckoning combined, 5: time only fix
     *******************************************************************************************************************/
-    UBLOX gps(GPShwSERIAL);
+    //UBLOX gps(GPShwSERIAL);
 
     /*******************************************************************************************************************
     * This Variable is set to the GPS Completon Code to indicate whether or not the GPS data has been properly received
@@ -206,33 +313,30 @@ bool UTCTimeCorrected = false;
     /*******************************************************************************************************************
     * This struct is for the uBlox data structure.
     *******************************************************************************************************************/
-    gpsData uBloxData;
+    //gpsData uBloxData;
 
     /*******************************************************************************************************************
     * This Flag is set to indicate it is time to update the Master Clock (DS3231) with the time from the GPS Clock.
     *******************************************************************************************************************/
-    bool updateGPSFlag = false;
+    volatile bool updateGPSFlag = false;
 
     /*******************************************************************************************************************
     * This Variable is set to the color of the Dot at the Top Middle of the TFT to indicate whether of not the DS3231
     * Clock has been set to the GPS Clock accuracy.
     *******************************************************************************************************************/
-    dotColorSelection statusDotColor = DOT_NONE;  // This varible holds the color of the RTC corrected by GPS Status Dot.
+    volatile dotColorSelection statusDotColor = DOT_NONE;  // This varible holds the color of the RTC corrected by GPS Status Dot.
 
     /*******************************************************************************************************************
     * This number is set to the number of times the GPS receive code gets a BAD_PACKET error.
     *******************************************************************************************************************/
-    uint8_t numberOfBadPackets = 0;
-
-    /*******************************************************************************************************************
-    * This flag is to inform the system that this is the first run of the GPS system.
-    *******************************************************************************************************************/
-    bool firstRun = true;
+    volatile uint8_t numberOfBadPackets = 0;
 
     /*******************************************************************************************************************
     * This flag is to inform the system that this is the first run of the GPS Start Up Routine.
     *******************************************************************************************************************/
-    bool initial_Startup = true;  // The first time set true.
+    volatile bool initial_Startup = true;  // The first time set true.
+
+    //DMAMEM uint8_t Serial1RecieveBuffer[128];
 
 #endif
 
@@ -241,20 +345,20 @@ bool UTCTimeCorrected = false;
  * These variables are for counting longer times than the 1, 2, 10, and 30 second intervals.
  *******************************************************************************************************************/
 
-uint16_t fiveMinuteCount = 0;
-uint16_t twentyFourHourCount = 0;
+volatile uint16_t fiveMinuteCount = 0;
+volatile uint16_t twentyFourHourCount = 0;
 
 
 /******************************************************************************************************************
  * These variables are for the days' highs and lows calculations which is then printed on the TFT.
  *******************************************************************************************************************/
 
-float insideDailyHighTemp = 0;
-float insideDailyLowTemp = 0;
+volatile float insideDailyHighTemp = 0;
+volatile float insideDailyLowTemp = 0;
 
-float outsideDailyHighTemp = 0;
-float outsideDailyLowTemp = 0;
-bool firstOutsideReading = true;
+volatile float outsideDailyHighTemp = 0;
+volatile float outsideDailyLowTemp = 0;
+volatile bool firstOutsideReading = true;
 
 
 /*******************************************************************************************************************
@@ -270,7 +374,7 @@ volatile bool thirtySecondFlag  = false;        // Thirty Second Timer Interrupt
 *                           This struct has all the weather system data in it.
 *******************************************************************************************************************/
 weatherSensorsData  WeatherDataStruct;
-bool slaveDataReceived = false;
+volatile bool slaveDataReceived = false;
 
 /*******************************************************************************************************************
 *                           This struct has the ACK or NAK in it.
@@ -429,7 +533,7 @@ SelectableShapeButton SetTimePreferences( RNDRECTANGLE, (char*)"Set Time Prefere
 SelectableShapeButton SetRainPreferences( RNDRECTANGLE, (char*)"Set Rain Preferences", SixButtonPanel2nd_XPosition, SixButtonPanel2nd_YPosition, SixButtonPanel_Width, SixButtonPanel_Height, SixButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the SetTempSensorsPreferences.
-SelectableShapeButton SetTempSensorsPreferences( RNDRECTANGLE, (char*)"Not Used", SixButtonPanel3rd_XPosition, SixButtonPanel3rd_YPosition, SixButtonPanel_Width, SixButtonPanel_Height, SixButtonPanel_radius, (RA8875tsize)1, (uint8_t)4, MAGENTA, WHITE, BLUE );
+SelectableShapeButton SetTempSensorsPreferences( RNDRECTANGLE, (char*)"Set Temp Sens Prefs", SixButtonPanel3rd_XPosition, SixButtonPanel3rd_YPosition, SixButtonPanel_Width, SixButtonPanel_Height, SixButtonPanel_radius, (RA8875tsize)1, (uint8_t)4, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the Not Used.
 SelectableShapeButton TFTSettings( RNDRECTANGLE, (char*)"TFT Settings", SixButtonPanel4th_XPosition, SixButtonPanel4th_YPosition, SixButtonPanel_Width, SixButtonPanel_Height, SixButtonPanel_radius, (RA8875tsize)1, (uint8_t)2, MAGENTA, WHITE, BLUE );
@@ -492,33 +596,43 @@ SelectableShapeButton NotUsed3( RNDRECTANGLE, (char*)"Not Used", SixButtonPanel6
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-/// These next 8 Buttons definitions are for the set Time Zone function.
+/// These next 12 Buttons definitions are for the set Time Zone function.
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create a Round Rectangle Button for the HawaiiTimeZone.
-SelectableShapeButton HawaiiTimeZone( RNDRECTANGLE, (char*)"Hawaii Time Zone", EightButtonPanel1st_XPosition, EightButtonPanel1st_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton HawaiiTimeZone( RNDRECTANGLE, (char*)"Hawaii Time Zone", TwelveBtPnl1st_XPosition, TwelveBtPnl1st_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the PacificTimeZone.
-SelectableShapeButton PacificTimeZone( RNDRECTANGLE, (char*)"Pacific Time Zone", EightButtonPanel2nd_XPosition, EightButtonPanel2nd_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton PacificTimeZone( RNDRECTANGLE, (char*)"Pacific Time Zone", TwelveBtPnl2nd_XPosition, TwelveBtPnl2nd_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the MountainTimeZone.
-SelectableShapeButton MountainTimeZone( RNDRECTANGLE, (char*)"Mountain Time Zone", EightButtonPanel3rd_XPosition, EightButtonPanel3rd_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton MountainTimeZone( RNDRECTANGLE, (char*)"Mountain Time Zone", TwelveBtPnl3rd_XPosition, TwelveBtPnl3rd_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the CentralTimeZone.
-SelectableShapeButton CentralTimeZone( RNDRECTANGLE, (char*)"Central Time Zone", EightButtonPanel4th_XPosition, EightButtonPanel4th_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton CentralTimeZone( RNDRECTANGLE, (char*)"Central Time Zone", TwelveBtPnl4th_XPosition, TwelveBtPnl4th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the EasternTimeZone.
-SelectableShapeButton EasternTimeZone( RNDRECTANGLE, (char*)"Eastern Time Zone", EightButtonPanel5th_XPosition, EightButtonPanel5th_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton EasternTimeZone( RNDRECTANGLE, (char*)"Eastern Time Zone", TwelveBtPnl5th_XPosition, TwelveBtPnl5th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+
+// Create a Round Rectangle Button for the Puerto Rico and US Virgin Islands TimeZone.
+SelectableShapeButton PuertoRicoUSVirginIslandsTimeZone( RNDRECTANGLE, (char*)"Puerto Rico TmZone", TwelveBtPnl6th_XPosition, TwelveBtPnl6th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+
+// Create a Round Rectangle Button for the Argentina Time Zone.
+SelectableShapeButton ArgentinaTimeZone( RNDRECTANGLE, (char*)"Argentina TimeZone", TwelveBtPnl7th_XPosition, TwelveBtPnl7th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+
+// Create a Round Rectangle Button for the Time Zone.
+SelectableShapeButton LondonTimeZone( RNDRECTANGLE, (char*)"London Time Zone", TwelveBtPnl8th_XPosition, TwelveBtPnl8th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+
+// Create a Round Rectangle Button for the TimeZone.
+SelectableShapeButton CentralEuTimeZone( RNDRECTANGLE, (char*)"Central EU TimeZone", TwelveBtPnl9th_XPosition, TwelveBtPnl9th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the LondonTimeZone.
-SelectableShapeButton LondonTimeZone( RNDRECTANGLE, (char*)"London Time Zone", EightButtonPanel6th_XPosition, EightButtonPanel6th_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton EasternEuTimeZone( RNDRECTANGLE, (char*)"Eastern EU TimeZone", TwelveBtPnl10th_XPosition, TwelveBtPnl10th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the Central European Time Zone.
-SelectableShapeButton CentralEuTimeZone( RNDRECTANGLE, (char*)"Central EU TimeZone", EightButtonPanel7th_XPosition, EightButtonPanel7th_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
+SelectableShapeButton IndiaTimeZone( RNDRECTANGLE, (char*)"India TimeZone", TwelveBtPnl11th_XPosition, TwelveBtPnl11th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)2, MAGENTA, WHITE, BLUE );
 
 // Create a Round Rectangle Button for the Eastern European Time Zone.
-SelectableShapeButton EasternEuTimeZone( RNDRECTANGLE, (char*)"Eastern EU TimeZone", EightButtonPanel8th_XPosition, EightButtonPanel8th_YPosition, EightButtonPanel_Width, EightButtonPanel_Height, EightButtonPanel_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
-
-
+SelectableShapeButton AustraliaEasternTimeZone( RNDRECTANGLE, (char*)"Australia Eastern TimeZone", TwelveBtPnl12th_XPosition, TwelveBtPnl12th_YPosition, TwelveBtPnl_Width, TwelveBtPnl_Height, TwelveBtPnl_radius, (RA8875tsize)1, (uint8_t)3, MAGENTA, WHITE, BLUE );
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// These next 6 Buttons definitions are for the set Rain Preferences function.
@@ -845,9 +959,6 @@ const uint16_t clockColors[5] = {RA8875_BLACK, RA8875_BLACK, RA8875_CYAN, RA8875
 // Define array with positions for hour hand X, hour hand Y, minute hand X, minute hand Y, second hand X, second hand Y
 uint16_t oldPos[6] = {0, 0, 0, 0, 0, 0};
 
-// Need variable for the current time.
-//unsigned long targetTime = 0;
-
 
 /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
 ///                                     Functions:
@@ -1150,349 +1261,1135 @@ void printUTCStatusDotOnTFT(uint16_t xPos, uint16_t yPos, uint16_t dotColor )
 
 
     /*******************************************************************************************************************
+     * This Function blanks out a rectangle shaped box on the TFT monitor, which effectivly blanks out section of the display.
+     *
+     * Needs:
+     *   xPos:       Starting X Position.
+     *   yPos:       Starting Y Position.
+     *   Width:      Width of the blanking rectangle.
+     *   Height:     Height of the blanking rectangle.
+     * Returns:
+     *   Nothing.
+     *******************************************************************************************************************/
+    void clearTFTSensorData(uint16_t xPos, uint16_t yPos, uint16_t Width, uint16_t Height)
+    {
+        tft.fillRect(xPos, yPos, Width, Height, BLACK);
+    }
+
+
+    /*******************************************************************************************************************
+     * This Function prints "GPS Present", or "No GPS" on the TFT monitor.
+     *
+     * Needs:
+     *   xPos:       Starting X Position.
+     *   yPos:       Starting Y Position.
+     *   GpsPresent: GPS present or not.
+     * Returns:
+     *   Nothing.
+     *******************************************************************************************************************/
+    void tftPrintGPSPresentHeader(uint16_t xPos, uint16_t yPos, bool GpsPresent)
+    {
+        clearTFTSensorData(xPos, yPos, XRIGHT - xPos, (yPos + (Ysize / 2)));
+
+        tft.setFontScale(0); // Set Font to normal size (8W x 16T pixels).
+        if (GpsPresent == true)
+            {
+                tft.setCursor(xPos, yPos);
+                tft.print(F("GPS Present"));
+            }
+        else
+            {
+                tft.setCursor(xPos, yPos);
+                tft.print(F("No GPS"));
+            }
+        tft.setFontScale(1);  // Set Font to 2x normal size (16W x 32T pixels).
+    }
+
+
+    /*******************************************************************************************************************
+     * This Function prints "No Valid Data" on the TFT monitor.
+     *
+     * Needs:
+     *   xPos:       Starting X Position.
+     *   yPos:       Starting Y Position.
+     * Returns:
+     *   Nothing.
+     *******************************************************************************************************************/
+    void tftPrintGPSNoValidData(uint16_t xPos, uint16_t yPos)
+    {
+        clearTFTSensorData(xPos, yPos, (XRIGHT - xPos), (yPos + ( (Ysize / 2) * 8) ) ); // Clear all the GPS Data, 8 lines
+
+        tft.setFontScale(0); // Set Font to normal size (8W x 16T pixels).
+        tft.setCursor(xPos, yPos);
+        tft.print(F("No Valid Data"));
+        tft.setFontScale(1); // Set Font to 2x normal size (16W x 32T pixels).
+    }
+
+
+    /*******************************************************************************************************************
+     * This Function prints "Restarting GPS" on the TFT monitor.
+     *
+     * Needs:
+     *   xPos:       Starting X Position.
+     *   yPos:       Starting Y Position.
+     * Returns:
+     *   Nothing.
+     *******************************************************************************************************************/
+    void tftPrintRestartGPS(uint16_t xPos, uint16_t yPos)
+    {
+        clearTFTSensorData(xPos, yPos, (XRIGHT - xPos), (yPos + ( (Ysize / 2) * 8) ) ); // Clear all the GPS Data.
+        
+        tft.setFontScale(0); // Set Font to normal size (8W x 16T pixels).
+        tft.setCursor(xPos, yPos);
+        tft.print(F("Restarting GPS"));
+        tft.setFontScale(0); // Set Font to normal size (8W x 16T pixels).
+    }
+
+
+    /*******************************************************************************************************************
      * This Function prints the Lat, Long, etc on the TFT monitor.
      *
      * Needs:
      *   X Position to start printing
      *   Y Position to start printing
+     *   Validity Code = 0 -> 7
      * Returns:
      *   Nothing.
      *******************************************************************************************************************/
-    void printGPSPositionOnTFT(uint16_t x, uint16_t y, uint8_t validityCode)
+    void printGPSPositionOnTFT(uint16_t x, uint16_t y)
     {
-        blankOutGPSPositionOnTFT(x, y);  // Blank out the entire GPS Data from the TFT.
-    
+        //blankOutGPSPositionOnTFT(x, y); // Blank out the entire GPS Data from the TFT.
+        clearTFTSensorData(x, y, (XRIGHT - x), (y + ((Ysize / 2) * 8))); // Clear all the GPS Data, 8 lines
         // Move Cursor to initial coordinates
-        tft.setFontScale(0);  // Set Font to normal size (8W x 16T pixels).
-    
-        tft.setCursor (x, y);
-    
-        tft.print(F("FixType: "));  // Print the Heading.
-        if ( validityCode == 2 )
+        tft.setFontScale(0); // Set Font to normal size (8W x 16T pixels).
+
+        tft.setCursor(x, y);
+
+        if (gpsUBXDataStruct.fixType != NO_FIX)
             {
-                tft.print(F("2D-Fix"));  // Print the Fix Type.
+                tft.print(F("FixType: ")); // Print the Heading.
+                switch (gpsUBXDataStruct.fixType)
+                    {
+                        case NO_FIX:
+                            tft.print(F("NO FIX"));  // Print the Heading.
+                            break;
+                        
+                        case DEAD_RECKONING_ONLY:
+                            tft.print(F("DR ONLY"));  // Print the Heading.
+                            break;
+                        
+                        case TWO_D_FIX:
+                            tft.print(F("2D-Fix"));  // Print the Fix Type.
+                            break;
+                        
+                        case THREE_D_FIX:
+                            tft.print(F("3D-Fix"));  // Print the Fix Type.
+                            break;
+                        
+                        case GNSS_DR_COMBINED:
+                            tft.print(F("GNSS_DR_COMBINED"));  // Print the Fix Type.
+                            break;
+                        
+                        case TIME_FIX_ONLY:
+                            tft.print(F("TIME FIX ONLY"));  // Print the Heading.
+                            break;
+
+                        default:
+                            tft.print(F("NO FIX"));  // Print the Heading.
+                            break;
+                    }
+
+
+                tft.setCursor(x, (y + (Ysize / 2)));    // Step down one line (Y) to print the Longitude.
+                tft.print(F("Sats: "));                 // Print the Heading.
+                tft.print(gpsUBXDataStruct.numSV, DEC); // Print the Number of Satellites Used.
+
+                tft.setCursor(x, (y + (2 * (Ysize / 2)))); // Step down two lines (Y) to print the Longitude.
+                tft.print(F("Lat: "));                     // Print the Heading.
+                tft.print(gpsUBXDataStruct.lat, 6);        // Print the Latitude.
+
+                tft.setCursor(x, (y + (3 * (Ysize / 2)))); // Step down three lines (Y) to print the Longitude.
+                tft.print(F("Lon: "));                     // Print the Heading.
+                tft.print(gpsUBXDataStruct.lon, 6);        // Print the Longitude.
+
+                tft.setCursor(x, (y + (4 * (Ysize / 2))));       // Step down four lines (Y) to print the Altitude.
+                tft.print(F("Alt: "));                           // Print the Heading.
+                tft.print((3.281 * (gpsUBXDataStruct.hMSL)), 1); // Print the Altitude, for an approximate result, multiply the length value by 3.281.
+
+                tft.setCursor(x, (y + (5 * (Ysize / 2))));         // Step down five lines (Y) to print the Speed.
+                tft.print(F("Spd: "));                             // Print the Speed in MPH.
+                tft.print((2.237 * (gpsUBXDataStruct.gSpeed)), 1); // Print the speed, multiply the speed value by 2.237 to get miles per hour.
             }
-        else if ( validityCode == 3 )
+        else
             {
-                tft.print(F("3D-Fix"));  // Print the Fix Type.
+                tft.print(F("NO FIX")); // No fix means there is no valid geoposition data.
             }
-    
-        tft.setCursor ( x, ( y + ( Ysize / 2 ) ) );  // Step down one line (Y) to print the Longitude.
-        tft.print(F("Sats: "));  // Print the Heading.
-        tft.print(uBloxData.numSV,DEC);  // Print the Number of Satellites Used.
-    
-        tft.setCursor ( x, ( y + ( 2 * ( Ysize / 2 ) ) ) );  // Step down one line (Y) to print the Longitude.
-        tft.print(F("Lat: "));  // Print the Heading.
-        tft.print(uBloxData.lat,6);  // Print the Latitude.
-    
-        tft.setCursor ( x, (y + (3 * ( Ysize / 2 )) ) );  // Step down two line (Y) to print the Longitude.
-        tft.print(F("Lon: "));  // Print the Heading.
-        tft.print(uBloxData.lon,6);  // Print the Longitude.
-    
-        tft.setCursor ( x, (y + (4 * ( Ysize / 2 )) ) );  // Step down three lines (Y) to print the Altitude.
-        tft.print(F("Alt: "));  // Print the Heading.
-        tft.print( ( 3.281 * (uBloxData.hMSL) ),1 );  // Print the Altitude, for an approximate result, multiply the length value by 3.281.
-    
-        tft.setCursor ( x, (y + (5 * ( Ysize / 2 )) ) );  // Step down four lines (Y) to print the Altitude.
-        tft.print(F("Spd: "));  // Print the Speed in MPH.
-        tft.print( ( 2.237 * (uBloxData.gSpeed) ),1 );  // Print the speed, multiply the speed value by 2.237 to get miles per hour.
-    
-        tft.setFontScale(1);  // Set Font to 2x normal size (16W x 32T pixels).
-    
+
+        if (gpsUBXDataStruct.validTime == true)
+            {
+                tft.setCursor ( x, (y + (6 * ( Ysize / 2 )) ) );  // Step down six lines (Y) to print the time.
+                tft.print(F("Time: "));  // Print the Time.
+                if (gpsUBXDataStruct.hour < 10) tft.print(F("0")); // Print a leading zero if required
+                tft.print(gpsUBXDataStruct.hour);
+
+                tft.print(F(":"));
+
+                if (gpsUBXDataStruct.min < 10) tft.print(F("0")); // Print a leading zero if required
+                tft.print(gpsUBXDataStruct.min);
+
+                tft.print(F(":"));
+
+                if (gpsUBXDataStruct.sec < 10) tft.print(F("0")); // Print a leading zero if required
+                tft.print(gpsUBXDataStruct.sec);
+
+                /*
+                tft.print(F(":"));
+                if (gpsUBXDataStruct.iTOW < 100) tft.print(F("0")); // Print the trailing zeros correctly
+                if (gpsUBXDataStruct.iTOW < 10) tft.print(F("0"));
+                tft.print(gpsUBXDataStruct.iTOW);
+                tft.println(F(" UTC or GMT"));
+                */
+            }
+        else
+            {
+                tft.setCursor ( x, (y + (6 * ( Ysize / 2 ) ) ) );  // Step down six lines (Y) to print the time.
+                tft.print(F("Time not Valid")); 
+            }
+        
+        if (gpsUBXDataStruct.validDate == true)
+            {
+                tft.setCursor ( x, (y + (7 * ( Ysize / 2 )) ) );  // Step down seven lines (Y) to print the date.
+                tft.print(F("Date: "));  // Print the Date.
+                if (gpsUBXDataStruct.month < 10) tft.print(F("0")); // Print a leading zero if required
+                tft.print(gpsUBXDataStruct.month);
+
+                tft.print(F("/"));
+
+                if (gpsUBXDataStruct.day < 10) tft.print(F("0")); // Print a leading zero if required
+                tft.print(gpsUBXDataStruct.day);
+
+                tft.print(F("/"));
+
+                tft.println(gpsUBXDataStruct.year);
+            }
+        else
+            {
+                tft.setCursor ( x, (y + (7 * ( Ysize / 2 )) ) );  // Step down seven lines (Y) to print the date.
+                tft.print(F("Date not Valid"));
+            }
+
+        tft.setFontScale(1); // Set Font to 2x normal size (16W x 32T pixels).
+        }
+
+    /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
+    ///                               Define Functions that will be used.                                             **
+    /*ΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩΩ*/
+
+    /*******************************************************************************************************************
+     * These are the defintions of the UBX_NAV_PVT_data_t data Struct:
+     *
+     * iTOW; // GPS time of week of the navigation epoch: ms
+     * year; // Year (UTC)
+     * month; // Month, range 1..12 (UTC)
+     * day;   // Day of month, range 1..31 (UTC)
+     * hour;  // Hour of day, range 0..23 (UTC)
+     * min;   // Minute of hour, range 0..59 (UTC)
+     * sec;   // Seconds of minute, range 0..60 (UTC)
+     *
+     * validDate : 1;     // 1 = valid UTC Date
+     * validTime : 1;     // 1 = valid UTC time of day
+     * fullyResolved : 1; // 1 = UTC time of day has been fully resolved (no seconds uncertainty).
+     * validMag : 1;      // 1 = valid magnetic declination
+     *
+     * tAcc;   // Time accuracy estimate (UTC): ns
+     * nano;    // Fraction of second, range -1e9 .. 1e9 (UTC): ns
+     * fixType; // GNSSfix Type:
+     *                          0: no fix
+     *                          1: dead reckoning only
+     *                          2: 2D-fix
+     *                          3: 3D-fix
+     *                          4: GNSS + dead reckoning combined
+     *                          5: time only fix
+     *
+     * gnssFixOK : 1; // 1 = valid fix (i.e within DOP & accuracy masks)
+     * diffSoln : 1;  // 1 = differential corrections were applied
+     * psmState : 3;
+     * headVehValid : 1; // 1 = heading of vehicle is valid, only set if the receiver is in sensor fusion mode
+     * carrSoln : 2;     // Carrier phase range solution status:
+                                    // 0: no carrier phase range solution
+                                    // 1: carrier phase range solution with floating ambiguities
+                                    // 2: carrier phase range solution with fixed ambiguities
+     *
+     * reserved : 5;
+     * confirmedAvai : 1; // 1 = information about UTC Date and Time of Day validity confirmation is available
+     * confirmedDate : 1; // 1 = UTC Date validity could be confirmed
+     * confirmedTime : 1; // 1 = UTC Time of Day could be confirmed
+     *
+     * numSV;    // Number of satellites used in Nav Solution
+     * lon;      // Longitude: deg * 1e-7
+     * lat;      // Latitude: deg * 1e-7
+     * height;   // Height above ellipsoid: mm
+     * hMSL;     // Height above mean sea level: mm
+     * hAcc;    // Horizontal accuracy estimate: mm
+     * vAcc;    // Vertical accuracy estimate: mm
+     * velN;     // NED north velocity: mm/s
+     * velE;     // NED east velocity: mm/s
+     * velD;     // NED down velocity: mm/s
+     * gSpeed;   // Ground Speed (2-D): mm/s
+     * headMot;  // Heading of motion (2-D): deg * 1e-5
+     * sAcc;    // Speed accuracy estimate: mm/s
+     * headAcc; // Heading accuracy estimate (both motion and vehicle): deg * 1e-5
+     * pDOP;    // Position DOP * 0.01
+     *
+     * invalidLlh : 1; // 1 = Invalid lon, lat, height and hMSL
+     *
+     * reserved1[5];
+     * headVeh; // Heading of vehicle (2-D): deg * 1e-5
+     * magDec;  // Magnetic declination: deg * 1e-2
+     * magAcc; // Magnetic declination accuracy: deg * 1e-2
+     *
+    */
+
+    // Callback: printPVTdata will be called when new valid NAV PVT data arrives
+    // See u-blox_structs.h for the full definition of UBX_NAV_PVT_data_t
+    //         _____  You can use any name you like for the callback. Use the same name when you call setAutoPVTcallback
+    //        /                  _____  This _must_ be UBX_NAV_PVT_data_t
+    //        |                 /               _____ You can use any name you like for the struct
+    //        |                 |              /
+    //        |                 |              |
+    void printPVTdata(UBX_NAV_PVT_data_t *ubxDataStruct)
+        {
+            // Serial.print(F("."));  // Print period every time this sub is called.
+
+            // This section copies the GPS info from the library struct (which is very volitle) to the local struct.
+            /*********************************************************************************
+             * GNSSfix Type:
+             *   0: no fix
+             *   1: dead reckoning only
+             *   2: 2D-fix
+             *   3: 3D-fix
+             *   4: GNSS + dead reckoning combined
+             *   5: time only fix
+             *********************************************************************************/
+            gpsUBXDataStruct.fixType = myGNSS.packetUBXNAVPVT->data.fixType; // Get the fix type from the Struct.
+            // gpsUBXDataStruct.fixType = ubxDataStruct->fixType;                          // Get the fix type from the Struct.
+
+            gpsUBXDataStruct.hour = myGNSS.packetUBXNAVPVT->data.hour; // Copy the hours to local struct.
+            // gpsUBXDataStruct.hour = ubxDataStruct->hour;                               // Copy the hours to local struct.
+
+            gpsUBXDataStruct.min = myGNSS.packetUBXNAVPVT->data.min; // Copy the minutes to local struct.
+            // gpsUBXDataStruct.min = ubxDataStruct->min;                                  // Copy the minutes to local struct.
+
+            gpsUBXDataStruct.sec = myGNSS.packetUBXNAVPVT->data.sec; // Copy the seconds to local struct.
+            // gpsUBXDataStruct.sec = ubxDataStruct->sec;                                  // Copy the seconds to local struct.
+
+            gpsUBXDataStruct.iTOW = myGNSS.packetUBXNAVPVT->data.iTOW % 1000; // Copy the milliseconds to local struct with adjustments.
+            // gpsUBXDataStruct.iTOW = ubxDataStruct->iTOW % 1000;
+
+            gpsUBXDataStruct.tAcc = myGNSS.packetUBXNAVPVT->data.tAcc; // Copy the tAcc to local struct.
+            // gpsUBXDataStruct.tAcc = ubxDataStruct->tAcc;                                // Copy the tAcc to local struct.
+
+            gpsUBXDataStruct.nano = myGNSS.packetUBXNAVPVT->data.nano; // Copy the nano seconds to local struct.
+            // gpsUBXDataStruct.nano = ubxDataStruct->nano;                                // Copy the nano seconds to local struct.
+
+            gpsUBXDataStruct.month = myGNSS.packetUBXNAVPVT->data.month; // Copy the month to local struct.
+            // gpsUBXDataStruct.month = ubxDataStruct->month;                              // Copy the month to local struct.
+
+            gpsUBXDataStruct.day = myGNSS.packetUBXNAVPVT->data.day; // Copy the day to local struct.
+            // gpsUBXDataStruct.day = ubxDataStruct->day;                                  // Copy the day to local struct.
+
+            gpsUBXDataStruct.year = myGNSS.packetUBXNAVPVT->data.year; // Copy the year to local struct.
+            // gpsUBXDataStruct.year = ubxDataStruct->year;                                // Copy the year to local struct.
+
+            gpsUBXDataStruct.lat = ((float)myGNSS.packetUBXNAVPVT->data.lat / 10000000l); // Copy the latitude to local struct with adjustments.
+            // gpsUBXDataStruct.lat = ((float)ubxDataStruct->lat / 10000000l);             // Copy the latitude to local struct with adjustments.
+
+            gpsUBXDataStruct.lon = ((float)myGNSS.packetUBXNAVPVT->data.lon / 10000000l); // Copy the longitude to local struct with adjustments.
+            // gpsUBXDataStruct.lon = ((float)ubxDataStruct->lon / 10000000l);             // Copy the longitude to local struct with adjustments.
+
+            gpsUBXDataStruct.hMSL = ((float)myGNSS.packetUBXNAVPVT->data.hMSL * 0.00328084F); // Copy the height above mean sea level to local struct with adjustments.
+            // gpsUBXDataStruct.hMSL = ((float)ubxDataStruct->hMSL * 0.00328084F);         // Copy the height above mean sea level to local struct with adjustments.
+
+            gpsUBXDataStruct.numSV = myGNSS.packetUBXNAVPVT->data.numSV; // Copy the number of Sats for fix to local struct.
+            // gpsUBXDataStruct.numSV = ubxDataStruct->numSV;                              // Copy the number of Sats for fix to local struct.
+
+            gpsUBXDataStruct.validTime = myGNSS.packetUBXNAVPVT->data.valid.bits.validTime; // Copy the Validity Code for Time to local struct.
+            // gpsUBXDataStruct.validTime = ubxDataStruct->valid.bits.validTime;           // Copy the Validity Code for Time to local struct.
+
+            gpsUBXDataStruct.validDate = myGNSS.packetUBXNAVPVT->data.valid.bits.validDate; // Copy the Validity Code for Date to local struct.
+            // gpsUBXDataStruct.validDate = ubxDataStruct->valid.bits.validDate;           // Copy the Validity Code for Date to local struct.
+
+            gpsUBXDataStruct.fullyResolved = myGNSS.packetUBXNAVPVT->data.valid.bits.fullyResolved; // Copy the Validity Code for fully Resolved to local struct.
+            // gpsUBXDataStruct.fullyResolved = ubxDataStruct->valid.bits.fullyResolved;   // Copy the Validity Code for fully Resolved to local struct.
+
+            gpsUBXDataStruct.gSpeed = ((float)myGNSS.packetUBXNAVPVT->data.gSpeed * 0.001F); // Copy the Speed (In mm/sec, so convert to m/sec) to local struct.
+            // gpsUBXDataStruct.gSpeed = ((float)ubxDataStruct->gSpeed * 0.001F);          // Copy the Speed (In mm/sec, so convert to m/sec) to local struct.
+
+            gpsUBXDataStruct.headMot = myGNSS.packetUBXNAVPVT->data.headMot; // Copy the Heading of Motion to local struct.
+            // gpsUBXDataStruct.headMot = ubxDataStruct->headMot;                          // Copy the Heading of Motion to local struct.
+
+            gpsUBXDataStruct.headVeh = myGNSS.packetUBXNAVPVT->data.headVeh; // Copy the Vehicle Heading to local struct.
+            // gpsUBXDataStruct.headVeh = ubxDataStruct->headVeh;                          // Copy the Vehicle Heading to local struct.
+
+            gpsUBXDataStruct.magDec = myGNSS.packetUBXNAVPVT->data.magDec; // Copy the Magnetic Declination to local struct.
+            // gpsUBXDataStruct.magDec = ubxDataStruct->magDec;                            // Copy the Magnetic Declination to local struct.
+
+            gpsUBXDataStruct.valid = true; // This means the data in the Data Struct is valid.
+
+            #if defined(DEBUG_GPSOUTPUTDATA_GPSMODULE_DEBUG)
+                if (gpsUBXDataStruct.validTime == true)
+                    {
+                        Serial.print(F("\nTime: ")); // Print the time
+                        if (gpsUBXDataStruct.hour < 10)
+                            Serial.print(F("0")); // Print a leading zero if required
+                        Serial.print(gpsUBXDataStruct.hour);
+                        Serial.print(F(":"));
+                        if (gpsUBXDataStruct.min < 10)
+                            Serial.print(F("0")); // Print a leading zero if required
+                        Serial.print(gpsUBXDataStruct.min);
+                        Serial.print(F(":"));
+                        if (gpsUBXDataStruct.sec < 10)
+                            Serial.print(F("0")); // Print a leading zero if required
+                        Serial.print(gpsUBXDataStruct.sec);
+                        Serial.print(F("."));
+                        if (gpsUBXDataStruct.iTOW < 100)
+                            Serial.print(F("0")); // Print the trailing zeros correctly
+                        if (gpsUBXDataStruct.iTOW < 10)
+                            Serial.print(F("0"));
+                        Serial.print(gpsUBXDataStruct.iTOW);
+                        Serial.println(F(" UTC or GMT"));
+                    }
+                else
+                    {
+                        Serial.println(F("GPS Time is not Valid..."));
+                    }
+
+                if (gpsUBXDataStruct.validDate == true)
+                    {
+                        Serial.print(F("mm/dd/year: ")); // Print the month
+                        if (gpsUBXDataStruct.month < 10)
+                            Serial.print(F("0")); // Print a leading zero if required
+                        Serial.print(gpsUBXDataStruct.month);
+                        Serial.print(F("/"));
+                        if (gpsUBXDataStruct.day < 10)
+                            Serial.print(F("0")); // Print a leading zero if required
+                        Serial.print(gpsUBXDataStruct.day);
+                        Serial.print(F("/"));
+                        Serial.println(gpsUBXDataStruct.year);
+                    }
+                else
+                    {
+                        Serial.println(F("GPS Date is not Valid..."));
+                    }
+
+                if (gpsUBXDataStruct.fixType != NO_FIX)
+                    {
+                        Serial.print(F("Fix Type: "));
+                        switch (gpsUBXDataStruct.fixType)
+                        {
+                        case NO_FIX:
+                            Serial.println(F("NO FIX")); // Print the Heading.
+                            break;
+                        case DEAD_RECKONING_ONLY:
+                            Serial.println(F("DR ONLY")); // Print the Heading.
+                            break;
+                        case TWO_D_FIX:
+                            Serial.println(F("TWO_D_FIX")); // Print the Heading.
+                            break;
+                        case THREE_D_FIX:
+                            Serial.println(F("THREE_D_FIX")); // Print the Heading.
+                            break;
+                        case GNSS_DR_COMBINED:
+                            Serial.println(F("GNSS_DR_COMBINED")); // Print the Heading.
+                            break;
+                        case TIME_FIX_ONLY:
+                            Serial.println(F("TIME_FIX_ONLY")); // Print the Heading.
+                            break;
+
+                        default:
+                            Serial.println(F("BAD PACKET")); // Print the Heading.
+                            break;
+                        }
+                        Serial.print(F("Lat: "));
+                        Serial.println(gpsUBXDataStruct.lat, 6);
+
+                        Serial.print(F("Long: "));
+                        Serial.println(gpsUBXDataStruct.lon, 6);
+
+                        Serial.print(F("Altitude above Mean Sea Level: "));
+                        Serial.print(gpsUBXDataStruct.hMSL, 2);
+                        Serial.println(F(" Feet"));
+
+                        Serial.print(F("Number of Sats Used: "));
+                        Serial.println(gpsUBXDataStruct.numSV);
+                        Serial.println(F("\n"));
+                    }
+                else
+                    {
+                        Serial.println(F("Fix Type: NO FIX...\n")); // No fix means there is no valid geoposition data.
+                    }
+
+            #endif
+
+            if (coldStart == true)
+                {
+                    coldStart = false;
+                }
+        }
+
+
+/*********************************************************************************************************************
+ *   This is the Restart GPS/GNSS subroutine.  It does a warm or cold restart depending on the state of warmStart BOOL
+ *   Setup the GNSS (GPS) to work on Serial port.
+ *
+ *   Assume that the U-Blox GNSS is running at 9600 baud (the default) up to 230400 baud.
+ *   Initialize the Serial port
+ *   bool SFE_UBLOX_GNSS::begin(Stream &serialPort, uint16_t maxWait, bool assumeSuccess)
+ *   Loop until we're in sync and then ensure it's at 19200 baud.
+ *
+ *   Needs:
+ *       Bool warmStart:  If true do a warm start, if false do a cold start.
+ *       Bool verboseDisplay:  If true restart GPS_GNSS will display its individual output status.
+ *   Returns:
+ *       Nothing
+ **********************************************************************************************************************/
+void restartGPS_GNSS(bool warmstart, bool verboseDisplay)
+    {
+        uint32_t debug_start;
+        // Uncomment one of these 3 lines to enable helpful debug messages on Serial or SerialUSB:
+        #if defined(DEBUG_GPSOUTPUTDATA_GPSMODULE_DEBUG)
+            // myGNSS.enableDebugging(); //Enable all the debug messages over Serial (default)
+            // myGNSS.enableDebugging(Serial, true); //Enable only the critical debug messages over Serial.
+
+            #if defined(DEBUG_GPSOUTPUT_LIMITEDDATAOUTPUT_GPSMODULE)
+                myGNSS.enableDebugging(SerialUSB, true); // Enable debug messages over Serial USB
+            #endif
+
+            #if defined(DEBUG_GPSOUTPUT_FULLDEBUGOUTPUT_GPSMODULE)
+                myGNSS.enableDebugging(SerialUSB, false); // Enable debug messages over Serial USB
+            #endif
+
+        #endif
+
+        if (verboseDisplay == true)
+            {
+                Serial.println(F("Setting up the GPS/GNSS to work on Serial port 1..."));
+                Serial.println(F("- Trying to find GPS/GNSS Module for 30 seconds, otherwise No GPS is Available...\n"));
+                #if defined(STATUS_LINE_OUTPUT)
+                    clearStatusLine(); // Clear any leftovers in the status line.
+                    tft.printStatusLine(0, myColors[1], myColors[0], "Setting up the GPS/GNSS to work on Serial port 1...");
+                    delay(StatuslineDisplayTime);
+                #endif
+            }
+
+        bool SetDisableNMEAMessageComplete = false;
+        bool UARTOneOutputComplete = false;
+        bool SetNavFreqComplete = false;
+        bool SetAutoPvtComplete = false;
+        bool SetAutoPVTCallbackPtrComplete = false;
+        GPS_GNSS_Present = false;
+
+        if (warmstart == true)
+            {
+                Watchdog.reset(); // Kick the dog every 10 seconds, its set to reset the teensy in 12 seconds.
+                myGNSS.end();     // This clears and frees any buffers allocated in .begin.
+                myGNSS.factoryReset();
+                delay(50);
+
+                GPSHWSERIAL.end(); // Serial 1 end at what ever the old baud rate was.
+                coldStart = false;
+                GPS_GNSS_Present = false; // GPS is not present.
+                GPSHWSERIAL.begin(9600);  // lets start with the default UART speed.
+            }
+        else
+            {
+                coldStart = true;
+                //GPSHWSERIAL.end(); // Serial 1 end at what ever the old baud rate was.
+            }
+
+        debug_start = millis();
+
+        do
+            {
+                /***********************************************************************************/
+                /******** Try connecting at 9600 baud first, This is the factory Default ***********/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 9600 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 9600 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                //GPSHWSERIAL.begin(9600);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.printf("- GPS/GNSS: connected at 9600 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: Connected at 9600 baud, switching to 19200...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 9600 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);  // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 9600 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 9600 baud didn't work lets wait .05 seconds and try again...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 1 end at 9600 baud.
+
+                /***********************************************************************************/
+                /************************** Try connecting at 19200 baud.***************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 19200 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 19200 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPSHWSERIAL.begin(19200);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.printf("- GPS/GNSS: connected at 19200 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: Connected at 19200 baud...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 19200 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 19200 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 19200 baud connection failed...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 7 end at 19200 baud.
+
+
+                /***********************************************************************************/
+                /************************** Try connecting at 38400 baud.***************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 38400 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 38400 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPSHWSERIAL.begin(38400);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                        {
+                            Serial.printf("- GPS/GNSS: connected at 38400 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                            #if defined(STATUS_LINE_OUTPUT)
+                                clearStatusLine(); // Clear any leftovers in the status line.
+                                tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: Connected at 38400 baud, switching to 19200...");
+                                delay(StatuslineDisplayTime);
+                            #endif
+                        }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 38400 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 38400 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 38400 baud connection failed...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 7 end at 38400 baud.
+                // delay(10);
+
+                
+                /***********************************************************************************/
+                /************************** Try connecting at 57600 baud.***************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 57600 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 57600 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPSHWSERIAL.begin(57600);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                        {
+                            Serial.printf("- GPS/GNSS: connected at 57600 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                                #if defined(STATUS_LINE_OUTPUT)
+                                clearStatusLine(); // Clear any leftovers in the status line.
+                                tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: Connected at 57600 baud, switching to 19200...");
+                                delay(StatuslineDisplayTime);
+                            #endif
+                        }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 57600 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 57600 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 57600 baud connection failed...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 7 end at 57600 baud.
+
+
+                /***********************************************************************************/
+                /************************** Try connecting at 115200 baud.**************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 115200 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 115200 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPSHWSERIAL.begin(115200);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                        {
+                            Serial.printf("- GPS/GNSS: connected at 115200 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                            #if defined(STATUS_LINE_OUTPUT)
+                                clearStatusLine(); // Clear any leftovers in the status line.
+                                tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 115200 baud...");
+                                delay(StatuslineDisplayTime);
+                            #endif
+                        }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 115200 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 115200 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 115200 baud connection failed...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 7 end at 115200 baud.
+
+                /***********************************************************************************/
+                /************************** Try connecting at 230400 baud.**************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 230400 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "Starting GPS/GNSS: trying 115200 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+                
+                GPSHWSERIAL.begin(230400);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.printf("- GPS/GNSS: connected at 230400 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: 115200 baud is working...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 230400 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the Do loop
+                    }
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- No GPS/GNSS serial connected at 230400 baud...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "No GPS/GNSS serial connected at 230400 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 1 end at 230400 baud.
+
+                /***********************************************************************************/
+                /************************** Try connecting at 4800 baud.****************************/
+                /***********************************************************************************/
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS: trying 4800 baud..."));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS: trying 9600 baud...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                GPSHWSERIAL.begin(4800);
+                myGNSS.setFileBufferSize(SERIAL7_RX_BUFFER_SIZE); // Set the File Buffer size to SERIAL7_RX_BUFFER_SIZE, this must be done before .begin.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.print(F("- The file buffer size is: "));
+                        Serial.println(myGNSS.getFileBufferSize());
+                    }
+
+                if (myGNSS.begin(GPSHWSERIAL) == true)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.printf("- GPS/GNSS: connected at 4800 baud, switching to %u baud...\n", GPS_GNSS_Speed);
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS: Connected at 9600 baud, switching to 19200...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        myGNSS.setSerialRate(GPS_GNSS_Speed); // Now the GPS is communicating at the new speed.
+                        GPSHWSERIAL.end();                    // Serial 7 end at 4800 baud.
+                        GPSHWSERIAL.begin(GPS_GNSS_Speed);    // Serial 7 begin at new speed.
+
+                        GPS_GNSS_Present = true; // GPS is present.
+                        delay(10);               // Give the GPS chip time to reset.
+                        break; // Break out of the do loop.
+                    }
+
+                GPS_GNSS_Present = false; // No GPS is present.
+
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("- GPS/GNSS 9600 baud connection failed...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[1], myColors[0], "- GPS/GNSS 9600 baud didn't work lets wait .05 seconds and try again...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                myGNSS.factoryReset();
+                delay(50);         // Wait a bit before trying again.
+                myGNSS.end();      // This clears and frees any buffers allocated in .begin.
+                GPSHWSERIAL.end(); // Serial 7 end at 9600 baud.
+
+            } while (((millis() - debug_start) <= 30000UL));
+
+        if (GPS_GNSS_Present == true)
+            {
+                delay(50);  // Give the GPS chip time to reset.
+
+                
+                if (!myGNSS.disableNMEAMessage(COM_TYPE_NMEA, COM_PORT_UART1)) // Disable All NMEA Child Messages Command
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Set Disable NMEA Message failed..."));
+                            }
+                        SetDisableNMEAMessageComplete = false;
+                    }
+                else
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Setting Disable NMEA Message was successful ..."));
+                            }
+
+                        SetDisableNMEAMessageComplete = true;
+                    }
+                
+                if (!myGNSS.setUART1Output(COM_TYPE_UBX)) // Set the UART port to output UBX only
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Set UART1 as Output failed..."));
+                            }
+
+                        UARTOneOutputComplete = false;
+                    }
+                else
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Setting UART1 as Output was successful ..."));
+                            }
+
+                        UARTOneOutputComplete = true;
+                    }
+
+                if (!myGNSS.setNavigationFrequency(2)) // Produce two solutions per second
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Set Navigation Frequency of 2 per second failed..."));
+                            }
+
+                        SetNavFreqComplete = false;
+                    }
+                else
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Setting Navigation Frequency of 2 per second was successful ..."));
+                            }
+
+                        SetNavFreqComplete = true;
+                    }
+
+                if (!myGNSS.setAutoPVTcallbackPtr(&printPVTdata)) // Enable automatic NAV PVT messages with callback to printPVTdata.
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Set Auto PVT callback Ptr failed..."));
+                            }
+
+                        SetAutoPVTCallbackPtrComplete = false;
+                    }
+                else
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- Setting Auto PVT callback Ptr was successful ..."));
+                            }
+
+                        SetAutoPVTCallbackPtrComplete = true;
+                    }
+
+                // myGNSS.saveConfiguration();                           //Save the current settings to flash and BBR
+                // myGNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT);    //Save (only) the communications port settings to flash and BBR
+
+                if ( /*(SetDisableNMEAMessageComplete == true) && */ (UARTOneOutputComplete == true) && (SetNavFreqComplete == true) && (SetAutoPVTCallbackPtrComplete == true) /* && (SetAutoPvtComplete == true)*/)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- GPS/GNSS serial connected and working...\n"));
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "GPS/GNSS serial connected and working...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        GPS_GNSS_Present = true;
+                    }
+                else
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\n- GPS/GNSS serial connection failure...\n"));
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "No GPS/GNSS serial connected...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        GPS_GNSS_Present = false; // No GPS is present
+                    }
+
+                if (warmstart)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\nFeeding the Watch Dog...\n"));
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "Feeding the Watch Dog...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                            Watchdog.reset(); // Kick the dog every 10 seconds, its set to reset the teensy in 15 seconds.
+                    }
+            }
+        else
+            {
+                if (verboseDisplay == true)
+                    {
+                        Serial.println(F("\n- All Attemted Serial Speeds Failed, No GPS/GNSS serial connected...\n"));
+                        #if defined(STATUS_LINE_OUTPUT)
+                            clearStatusLine(); // Clear any leftovers in the status line.
+                            tft.printStatusLine(0, myColors[2], myColors[11], "No GPS/GNSS serial connected...");
+                            delay(StatuslineDisplayTime);
+                        #endif
+                    }
+
+                if (warmstart)
+                    {
+                        if (verboseDisplay == true)
+                            {
+                                Serial.println(F("\nFeeding the Watch Dog...\n"));
+                                #if defined(STATUS_LINE_OUTPUT)
+                                    clearStatusLine(); // Clear any leftovers in the status line.
+                                    tft.printStatusLine(0, myColors[1], myColors[0], "Feeding the Watch Dog...");
+                                    delay(StatuslineDisplayTime);
+                                #endif
+                            }
+
+                        Watchdog.reset(); // Kick the dog every 10 seconds, its set to reset the teensy in 15 seconds.
+                    }
+            }
     }
 
 
-/************************************************************************************************************************
-* This Code starts up the GPS on Serial Port 1 either from Startup or from an error occuring needing restarting.
-************************************************************************************************************************/
-void RestartGPS(bool initial_Startup)
-{
-    #if defined (DEBUG49)
-        Serial.println(F("Restarting GPS"));
-        Serial.println(F("Ending Previous GPS\n"));
-    #endif
-
-    if(initial_Startup == false)
-        {
-            gps.end();
-        }
-    
-    #if defined (DEBUG49)
-        Serial.println(F("Beginning the GPS and Finding suitable Baud Rate."));
-    #endif
-
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 4800."));
-        gps.begin(4800);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(4800);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 9600."));
-        gps.begin(9600);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(9600);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
- 
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 19200."));
-        gps.begin(19200);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(19200);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 38400."));
-        gps.begin(38400);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(38400);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 57600."));
-        gps.begin(57600);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(57600);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 115200."));
-        gps.begin(115200);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(115200);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif 
-            
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 230400."));
-        gps.begin(230400);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(230400);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-
-    #endif
-            
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 460800."));
-        gps.begin(460800);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(460800);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-            
-    #if defined (DEBUG49)
-        Serial.println(F("Trying Baud Rate 921600."));
-        gps.begin(921600);
-        gps.SetGPSbaud(230400, true);
-        gps.end();
-    #else
-        gps.begin(921600);
-        gps.SetGPSbaud(460800, false);
-        gps.end();
-    #endif
-            
-    #if defined (DEBUG49)
-        Serial.println(F("Beginning the GPS at 230400 Baud Rate."));
-        // now start communication with the GPS receiver at 230400 baud,
-        gps.begin(230400);  // Enable Teensy serial communication @ given baud rate
-        gps.Poll_GPSbaud_Port1(true);  // Polls the GPS baud configuration for one I/O Port, I/O Target 0x01=UART1
-    #else
-        // now start communication with the GPS receiver at 230400 baud,
-        gps.begin(460800);  // Enable Teensy serial communication @ given baud rate
-        gps.Poll_GPSbaud_Port1(false);  // Polls the GPS baud configuration for one I/O Port, I/O Target 0x01=UART1
-    #endif
-
-    #if defined (DEBUG49)
-        //gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT    (0x01 0x07) Navigation Position Velocity Time Solution
-    #else
-        //gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT    (0x01 0x07) Navigation Position Velocity Time Solution
-    #endif
-
-    #if defined (DEBUG49)
-        gps.SetRATE(1000, 1000, true);  // Set Navigation/Measurement Rate Settings, e.g. 100ms => 10Hz, 200 => 5.00Hz, 1000ms => 1Hz, 10000ms => 0.1Hz
-        // Possible Configurations:
-        // 60=>16.67Hz, 64=>15.63Hz, 72=>13.89Hz, 80=>12.50Hz, 100=>10.00Hz, 125=>8.00Hz, 200=>5.00Hz, 250=>4.00Hz, 500=>2.00Hz
-        // 800=>1.25Hz, 1000=>1.00Hz, 2000=>0.50Hz, 4000=>0.25Hz, 10000=>0.10Hz, 20000=>0.05Hz, 50000=>0.02Hz       
-    #else
-        gps.SetRATE(200, 200, false);  // Set Navigation/Measurement Rate Settings, e.g. 100ms => 10Hz, 200 => 5.00Hz, 1000ms => 1Hz, 10000ms => 0.1Hz
-        // Possible Configurations:
-        // 60=>16.67Hz, 64=>15.63Hz, 72=>13.89Hz, 80=>12.50Hz, 100=>10.00Hz, 125=>8.00Hz, 200=>5.00Hz, 250=>4.00Hz, 500=>2.00Hz
-        // 800=>1.25Hz, 1000=>1.00Hz, 2000=>0.50Hz, 4000=>0.25Hz, 10000=>0.10Hz, 20000=>0.05Hz, 50000=>0.02Hz       
-    #endif
-    
-    #if defined (DEBUG49)
-        // NOTE: Dis_all_NMEA -strongly suggest changing RX buffer to 255 or more,*otherwise you will miss ACKs*on serial monitor
-        gps.Dis_all_NMEA_Child_MSGs(true);  // Disable All NMEA Child Messages Command    
-    #else
-        // NOTE: Dis_all_NMEA -strongly suggest changing RX buffer to 255 or more,*otherwise you will miss ACKs*on serial monitor
-        gps.Dis_all_NMEA_Child_MSGs(false);  // Disable All NMEA Child Messages Command    
-    #endif 
-    
-    #if defined (DEBUG49)
-        gps.SetNAV5(3, true);  // Set Dynamic platform model Navigation Engine Settings (0:portable, 2: stationary, 3:pedestrian, Etc)
-        // Possible Configurations
-        // 0: portable, 2: stationary, 3: pedestrian, 4: automotive, 5: sea, 6: airborne with <1g, 7: airborne with <2g
-        // 8: airborne with <4g, 9: wrist worn watch (not supported in protocol v.less than 18)    
-    #else
-        gps.SetNAV5(3, false);  // Set Dynamic platform model Navigation Engine Settings (0:portable, 2: stationary, 3:pedestrian, Etc)
-        // Possible Configurations
-        // 0: portable, 2: stationary, 3: pedestrian, 4: automotive, 5: sea, 6: airborne with <1g, 7: airborne with <2g
-        // 8: airborne with <4g, 9: wrist worn watch (not supported in protocol v.less than 18)    
-    #endif  
-
-    #if defined (DEBUG49)
-        // ### Periodic auto update ON,OFF Command ###
-        //gps.Ena_NAV_PVT(false);  // Enable periodic auto update NAV_PVT
-        gps.Dis_NAV_PVT(true);  // Disable periodic auto update NAV_PVT    
-    #else
-        // ### Periodic auto update ON,OFF Command ###
-        //gps.Ena_NAV_PVT(false);  // Enable periodic auto update NAV_PVT
-        gps.Dis_NAV_PVT(false);  // Disable periodic auto update NAV_PVT    
-    #endif   
-    
-    #if defined (DEBUG49)
-        //gps.Ena_NAV_ATT(true);  // Enable periodic auto update NAV_ATT ~ U-blox M8 from protocol version 19
-        gps.Dis_NAV_ATT(true);  // Disable periodic auto update NAV_ATT ~ ---^    
-    #else
-        //gps.Ena_NAV_ATT(true);  // Enable periodic auto update NAV_ATT ~ U-blox M8 from protocol version 19
-        gps.Dis_NAV_ATT(false);  // Disable periodic auto update NAV_ATT ~ ---^    
-    #endif   
-    
-    #if defined (DEBUG49)
-        //gps.Ena_NAV_POSLLH(true);  // Enable periodic auto update NAV_POSLLH
-        gps.Dis_NAV_POSLLH(true);  // Disable periodic auto update NAV_POSLLH    
-    #else
-        //gps.Ena_NAV_POSLLH(true);  // Enable periodic auto update NAV_POSLLH
-        gps.Dis_NAV_POSLLH(false);  // Disable periodic auto update NAV_POSLLH    
-    #endif 
-
-    numberOfBadPackets = 0;
-
-    #if defined (DEBUG50)
-        while (Serial.available() == 0)
-        {
-            unsigned int rd;
-            uint8_t incomingByte, k = 1, buffer[1024];
-            int bytecount = 0, waitForMoreDataTimeout = 2000;
-            uint32_t output_start, current_micros, millis_start, incomingByteTransferTime[512];
-
-            // Clearing the input buffer.
-            clearBuffer(buffer, sizeof(buffer));
-
-            Serial1.clear();  // Clear the Serial1 buffer of all data, does not set data to zero.
-            gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module.
-
-            // Looking for UBX_HEADER which is: 0xB5 and 0x62 in first 2 bytes.
-
-            Serial.println(F(""));
-
-            millis_start = millis();
-            output_start = micros();
-
-            while ( (millis() - millis_start) < waitForMoreDataTimeout)
-                {
-                if (Serial1.available())    // Wait for Serial1 Data to be available.
-                        {
-                            buffer[bytecount] = Serial1.read();  // Store incoming byte in buffer.
-                            incomingByteTransferTime[bytecount] = (micros() - output_start);
-                            bytecount++;  // Increase byte count after storing in data and time in buffers.
-                        } 
-                }
-
-            Serial.print(F("This is the total number of bytes received from Serial1: "));
-            Serial.println(bytecount);
-
-            Serial.println(F("These are the data bytes Received: "));
-            k = 1;
-            for (size_t i = 0; i < bytecount; i++)
-                {
-                    Serial.print(buffer[i],HEX);
-                    if ( k == 8 )
-                        {
-                            Serial.println("");
-                            k = 1;
-                        }
-                    else
-                        {
-                            Serial.print(" : ");
-                            k++;
-                        }
-                }
-            Serial.println(F("\n"));
-
-            uint32_t temp;
-            k = 1;
-            size_t j = 0;
-
-            for (j = 0; j < 2; j++)
-                {
-                    if (j == 0)
-                        {
-                            Serial.print(F("This is the time it took for the GPS to Return the first byte: "));
-                            Serial.print(incomingByteTransferTime[j]);
-                            Serial.println(F(" microseconds.\n"));
-                        }
-                    else if (j == 1)
-                        {
-                            Serial.println(F("These are the times (microseconds) it took to receive data bytes 2 thru x : "));
-                            temp = incomingByteTransferTime[j] - incomingByteTransferTime[j - 1];
-                            Serial.print(temp);
-                        }
-                }
-            j = 2;
-            for (j = 2; j < bytecount; j++)
-                {
-                    temp = incomingByteTransferTime[j] - incomingByteTransferTime[j - 1];
-                    Serial.print(temp);
-
-                    if ( k == 8 )
-                        {
-                            Serial.println("");
-                            k = 1;
-                        }
-                    else
-                        {
-                            Serial.print(" : ");
-                            k++;
-                        }
-                }
-
-            Serial.println(F("\nCompleted printing all incoming data from Serial 1 Buffer.\n"));
-            delay(2000);
-        }
-    #endif
-
-}
+#endif
 
 
 /*******************************************************************************************************************
@@ -1500,10 +2397,10 @@ void RestartGPS(bool initial_Startup)
 *******************************************************************************************************************/
 void clearBuffer(uint8_t *LocalBufferAddress, int16_t LocalBufferSize)
 {
-    #if defined (DEBUG2)
+#if defined (DEBUG2)
         Serial.print(F("\nClearing Buffer, its Size is: "));
         Serial.print(LocalBufferSize, DEC);
-    #endif
+#endif
     
     memset(LocalBufferAddress, 0, LocalBufferSize);
  
@@ -1599,55 +2496,61 @@ uint8_t updatePositionFromGPS(void)
     //  5: time only fix
     //  6: Bad Ublox Packet
     
-    if ( gps.read( &uBloxData ) )  // Returns false if a full packet is not received.
+    if ((gpsUBXDataStruct.validTime == true) && (gpsUBXDataStruct.validDate == true)) // These codes mean the time & date are accurate.
         {
-            fixType = ( uBloxData.fixType );  // Strip off unneeded bits.
-        
+            fixType = (gpsUBXDataStruct.fixType); // Strip off unneeded bits.
+
             #if defined(DEBUG47)
                 Serial.print(F("uBlox Fix Type: "));
                 Serial.println(fixType, HEX);  /// Print the fixType code to the terminal.
             #endif
 
-            blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
+            //blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
+            clearTFTSensorData((XRIGHT - (Xsize * 10)), (YMIDDLE), ((Xsize * 10)), (YMIDDLE + ((Ysize / 2) * 8))); // Clear all the GPS Data, 8 lines
 
             switch (fixType)
                 {
                     case NO_FIX:
                         tft.setCursor(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );
                         tft.print(F("NO FIX"));  // Print the Heading.
+                        numberOfBadPackets = 0;
                         return NO_FIX;
                         
                     case DEAD_RECKONING_ONLY:
                         tft.setCursor(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );
                         tft.print(F("DR ONLY"));  // Print the Heading.
+                        numberOfBadPackets = 0;
                         return DEAD_RECKONING_ONLY;
                         
                     case TWO_D_FIX:
-                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ), fixType );  // Print the Lat, Long, etc on the TFT.
+                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ));  // Print the Lat, Long, etc on the TFT.
                         numberOfBadPackets = 0;
                         return TWO_D_FIX;
                         
                     case THREE_D_FIX:
-                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ), fixType  );  // Print the Lat, Long, etc on the TFT.
+                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ) );  // Print the Lat, Long, etc on the TFT.
                         numberOfBadPackets = 0;
                         return THREE_D_FIX;
                         
                     case GNSS_DR_COMBINED:
-                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ), fixType  );  // Print the Lat, Long, etc on the TFT.
+                        printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 9 ) ), ( YMIDDLE ) );  // Print the Lat, Long, etc on the TFT.
                         numberOfBadPackets = 0;
                         return GNSS_DR_COMBINED;
                         
                     case TIME_FIX_ONLY:
                         tft.setCursor(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );
                         tft.print(F("TIME FIX ONLY"));  // Print the Heading.
+                        numberOfBadPackets = 0;
                         return TIME_FIX_ONLY;
 
                     case BAD_UBLOX_PACKET:
                         tft.setCursor(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );
                         tft.print(F("BAD PACKET"));  // Print the Heading.
+                        numberOfBadPackets++;
                         return BAD_UBLOX_PACKET;
 
                     default:
+                        numberOfBadPackets = 0;
                         return NO_FIX;
                 }
         }
@@ -1662,83 +2565,21 @@ uint8_t updatePositionFromGPS(void)
 
             #endif
 
-            blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
+            clearTFTSensorData((XRIGHT - (Xsize * 10)), (YMIDDLE), ((Xsize * 10)), (YMIDDLE + ((Ysize / 2) * 8))); // Clear all the GPS Data, 8 lines
+            //blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
             tft.setCursor( ( XRIGHT - ( Xsize * 10) ), YMIDDLE );
             tft.print(F("Not Full"));  // Print the Heading.
             tft.setCursor( ( XRIGHT - ( Xsize * 10) ), ( YMIDDLE + Ysize ) );
             tft.print(F("Packet"));  // Print the Heading.
-            numberOfBadPackets++;
+            numberOfBadPackets = 0;
             return NOT_FULL_PACKET;
         }
-    
+    return NOT_FULL_PACKET;
 }
-
 
 
 /***************************************************************************************************************
 * This function updates the internal clock of the DS3231 Clock from the GPS Time.
-*
-*******************************************************************************************************
-*               High level Commands, for the user ~ UBLOX lib. v1.0.2 2018-03-20 *
-*******************************************************************************************************
-*     NOTE: gps.command(Boolean) == (true)Print Message Acknowledged on USB Serial Monitor
-* end();                            // Disables Teensy serial communication, to re-enable, call begin(Baud)
-* Poll_CFG_Port1(bool);             // Polls the configuration for one I/O Port, I/O Target 0x01=UART1
-* Poll_NAV_PVT();                   // Polls UBX-NAV-PVT    (0x01 0x07) Navigation Position Velocity Time Solution
-* Poll_NAV_POSLLH();                // Polls UBX-NAV-POSLLH (0x01 0x02) Geodetic Position Solution
-* Poll_NAV_ATT();                   // Polls UBX-NAV-ATT    (0x01 0x05) Attitude Solution
-*
-* ### Periodic Auto Update ON,OFF Command ###
-* Ena_NAV_PVT(bool);                // Enable periodic auto update NAV_PVT
-* Dis_NAV_PVT(bool);                // Disable periodic auto update NAV_PVT
-* Ena_NAV_ATT(bool);                // Enable periodic auto update NAV_ATT
-* Dis_NAV_ATT(bool);                // Disable periodic auto update NAV_ATT
-* Ena_NAV_POSLLH(bool);             // Enable periodic auto update NAV_POSLLH
-* Dis_NAV_POSLLH(bool);             // Disable periodic auto update NAV_POSLLH
-*
-* #### u-blox Switch off all NMEA MSGs ####
-* Dis_all_NMEA_Child_MSGs(bool);    // Disable All NMEA Child Messages Command
-*
-* ### High level Command Generator ###
-* SetGPSbaud(uint32_t baud, bool)   // Set UBLOX GPS Port Configuration Baud rate
-* SetNAV5(uint8_t dynModel, bool)   // Set Dynamic platform model Navigation Engine Settings (0:portable, 3:pedestrian, Etc)
-* SetRATE(uint16_t measRate, bool)  // Set Navigation/Measurement Rate Settings (100ms=10.00Hz, 200ms=5.00Hz, 1000ms=1.00Hz, Etc)
-*
-*   UBX-NAV-PVT --  Navigation Position Velocity Time Solution
-*   ### UBX Protocol, Class NAV 0x01, ID 0x07 ###
-*   UBX-NAV-PVT (0x01 0x07)    (Payload U-blox-M8=92, M7&M6=84)
-*   iTOW                       ///< [ms], GPS time of the navigation epoch
-*   utcYear                    ///< [year], Year (UTC)
-*   utcMonth                   ///< [month], Month, range 1..12 (UTC)
-*   utcDay                     ///< [day], Day of month, range 1..31 (UTC)
-*   utcHour                    ///< [hour], Hour of day, range 0..23 (UTC)
-*   utcMin                     ///< [min], Minute of hour, range 0..59 (UTC)
-*   utcSec                     ///< [s], Seconds of minute, range 0..60 (UTC)
-*   valid                      ///< [ND], Validity flags
-*   tAcc                       ///< [ns], Time accuracy estimate (UTC)
-*   utcNano                    ///< [ns], Fraction of second, range -1e9 .. 1e9 (UTC)
-*   fixType                    ///< [ND], GNSSfix Type: 0: no fix, 1: dead reckoning only, 2: 2D-fix, 3: 3D-fix, 4: GNSS + dead reckoning combined, 5: time only fix
-*   flags                      ///< [ND], Fix status flags
-*   flags2                     ///< [ND], Additional flags
-*   numSV                      ///< [ND], Number of satellites used in Nav Solution
-*   lon                        ///< [deg], Longitude
-*   lat                        ///< [deg], Latitude
-*   height                     ///< [m], Height above ellipsoid
-*   hMSL                       ///< [m], Height above mean sea level
-*   hAcc                       ///< [m], Horizontal accuracy estimate
-*   vAcc                       ///< [m], Vertical accuracy estimate
-*   velN                       ///< [m/s], NED north velocity
-*   velE                       ///< [m/s], NED east velocity
-*   velD                       ///< [m/s], NED down velocity
-*   gSpeed                     ///< [m/s], Ground Speed (2-D)
-*   heading                    ///< [deg], Heading of motion (2-D)
-*   sAcc                       ///< [m/s], Speed accuracy estimate
-*   headingAcc                 ///< [deg], Heading accuracy estimate (both motion and vehicle)
-*   pDOP                       ///< [ND], Position DOP
-*   headVeh                    ///< [deg], Heading of vehicle (2-D)             #### NOTE: u-blox8 only ####
-*   --- magDec, magAcc --- TODO TEST
-*   magDec                     ///< [deg], Magnetic declination                 #### NOTE: u-blox8 only ####
-*   magAcc                     ///< [deg], Magnetic declination accuracy        #### NOTE: u-blox8 only ####
 *
 * Needs:
 *   Nothing
@@ -1769,106 +2610,115 @@ bool updateTimeFromGPS(void)
             return true;
         }
     WeekDay = tmElementsStruct.Wday;  // Save the Week Day in this temp location.
-    
+
     #if defined(DEBUG28)
         Serial.println(F("\nThis is the updateTimeFromGPS function: gps.read(&uBloxData)"));
     #endif
-    if ( gps.read(&uBloxData) )  // Returns false if a full packet is not received.
+
+    if ((gpsUBXDataStruct.validTime == true) && (gpsUBXDataStruct.validDate == true)) // These codes mean the time & date are accurate.
         {
-            validityCode = ( (uBloxData.valid) & (0x0F) );  // Strip off unneeded bits.
-            if( (validityCode == 0x07) || (validityCode == 0x03) )  // These codes mean the time & date are accurate.
+            #if defined(DEBUG28)
+                Serial.print(F("Found Good Validity Code: "));
+                Serial.println(validityCode, HEX);
+
+                Serial.print(F("This is the Hour reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.hour, DEC);
+
+                Serial.print(F("This is the Minute reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.min, DEC);
+
+                Serial.print(F("This is the Seconds reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.sec, DEC);
+
+                Serial.print(F("This is the Month reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.month, DEC);
+
+                Serial.print(F("This is the Day reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.day, DEC);
+
+                Serial.print(F("This is the Year reported from the GPS: "));
+                Serial.println(gpsUBXDataStruct.year, DEC);
+
+                Serial.println(F("Now putting the Time and Date into the tm elements struct..."));
+            #endif
+                    
+            tmElementsStruct.Hour = gpsUBXDataStruct.hour;
+            tmElementsStruct.Minute = gpsUBXDataStruct.min;
+            tmElementsStruct.Second = gpsUBXDataStruct.sec;
+
+            tmElementsStruct.Day = gpsUBXDataStruct.day;
+            tmElementsStruct.Month = gpsUBXDataStruct.month;
+            tmElementsStruct.Year = CalendarYrToTm(gpsUBXDataStruct.year);
+
+            /*----------------------------------------------------------------------*
+             * Convert the given UTC time to local time, standard or                *
+             * daylight time, as appropriate.                                       *
+             *----------------------------------------------------------------------*/
+            tempTimeTStorage = makeTime(tmElementsStruct);            // Converts tmElements struct into a Time_T (UNIX Time), LastTimeSetByClock is a Time_T (UNIX Time) variable.
+            tempTimeTStorage = (*tz).toLocal(tempTimeTStorage, &tcr); // This will convert the clock Time to local time.
+            breakTime(tempTimeTStorage, tmElementsStruct);            // This Converts the Time_t Unix Time to a tmElements struct.
+
+            tmElementsStruct.Wday = WeekDay;
+
+            #if defined(DEBUG28)
+                Serial.print(gpsUBXDataStruct.day); ///< [day], Day of month, range 1..31 (UTC)
+                Serial.print(F("/"));
+                Serial.print(gpsUBXDataStruct.month); ///< [month], Month, range 1..12 (UTC)
+                Serial.print(F("/"));
+                Serial.print(gpsUBXDataStruct.year); ///< [year], Year (UTC)
+
+                Serial.print(F("\t"));
+
+                Serial.print(gpsUBXDataStruct.hour); ///< [hour], Hour of day, range 0..23 (UTC)
+                Serial.print(F(":"));
+                Serial.print(gpsUBXDataStruct.min); ///< [min], Minute of hour, range 0..59 (UTC)
+                Serial.print(F(":"));
+                Serial.print(gpsUBXDataStruct.sec); ///< [s], Seconds of minute, range 0..60 (UTC)
+
+                Serial.print(F("\t"));
+                Serial.print(F("Validity Data: "));
+                Serial.print(gpsUBXDataStruct.valid, HEX); ///< [s], Seconds of minute, range 0..60 (UTC)
+                Serial.println(F(" HEX"));
+            #endif
+            
+            // and configure the DS1307 RTC with this info
+            if (!RTC.write(tmElementsStruct))
                 {
                     #if defined(DEBUG28)
-                        Serial.print(F("\nThis is the updateTimeFromGPS function: Found Good Validity Code: "));
-                        Serial.println(validityCode, HEX);
-                    #endif
-                    
-                    tmElementsStruct.Hour = uBloxData.utcHour;
-                    tmElementsStruct.Minute = uBloxData.utcMin;
-                    tmElementsStruct.Second = (uBloxData.utcSec + 2);  // This compensates for the lost 2 seconds between the functions two second.
-                    
-                    tmElementsStruct.Day = uBloxData.utcDay;
-                    tmElementsStruct.Month = uBloxData.utcMonth;
-                    tmElementsStruct.Year = CalendarYrToTm(uBloxData.utcYear);
-            
-                    /*----------------------------------------------------------------------*
-                     * Convert the given UTC time to local time, standard or                *
-                     * daylight time, as appropriate.                                       *
-                     *----------------------------------------------------------------------*/
-                    tempTimeTStorage = makeTime(tmElementsStruct);  // Converts tmElements struct into a Time_T (UNIX Time), LastTimeSetByClock is a Time_T (UNIX Time) variable.
-                    tempTimeTStorage = (*tz).toLocal(tempTimeTStorage, &tcr);  // This will convert the clock Time to local time.
-                    breakTime(tempTimeTStorage, tmElementsStruct);  // This Converts the Time_t Unix Time to a tmElements struct.
-            
-            
-                    tmElementsStruct.Wday = WeekDay;
-            
-                    #if defined(DEBUG28)
-                        Serial.print(uBloxData.utcDay);   ///< [day], Day of month, range 1..31 (UTC)
-                        Serial.print(F("/"));
-                        Serial.print(uBloxData.utcMonth); ///< [month], Month, range 1..12 (UTC)
-                        Serial.print(F("/"));
-                        Serial.print(uBloxData.utcYear);  ///< [year], Year (UTC)
-                    
-                        Serial.print(F("\t"));
-                    
-                        Serial.print(uBloxData.utcHour);  ///< [hour], Hour of day, range 0..23 (UTC)
-                        Serial.print(F(":"));
-                        Serial.print(uBloxData.utcMin);   ///< [min], Minute of hour, range 0..59 (UTC)
-                        Serial.print(F(":"));
-                        Serial.print(uBloxData.utcSec);   ///< [s], Seconds of minute, range 0..60 (UTC)
-                    
-                        Serial.print(F("\t"));
-                        Serial.print(F("Validity Data: "));
-                        Serial.print(uBloxData.valid,HEX);   ///< [s], Seconds of minute, range 0..60 (UTC)
-                        Serial.println(F(" HEX"));
-                    #endif
-            
-                    // and configure the DS1307 RTC with this info
-                    if (!RTC.write(tmElementsStruct))
-                        {
-                            #if defined(DEBUG28)
-                                Serial.println(F("No DS1307 Present on the Bus!\n"));
-                            #endif
-                            return true;
-                        }
-            
-                    statusDotColor = DOT_GREEN;
-                    UTCTimeCorrected = true;
-                    #if defined(DEBUG28)
-                        Serial.println(F("Setting DS1307 Time from GPS was Successful!"));
-                        Serial.print(F("statusDotColor is: "));
-                        Serial.println(statusDotColor);
-                        Serial.print(F("UTCTimeCorrected flag: "));
-                        Serial.println(UTCTimeCorrected);
-                        Serial.println(F(""));
-                    #endif
-                    numberOfBadPackets = 0;
-                    return false;  // Success in setting time from GPS!
-                }
-            else
-                {
-                    statusDotColor = DOT_YELLOW;
-                    UTCTimeCorrected = false;
-                    #if defined(DEBUG28)
-                        Serial.println(F("uBlox Data is NOT Valid!"));
-                        Serial.print(F("statusDotColor is: "));
-                        Serial.println(statusDotColor);
-                        Serial.print(F("UTCTimeCorrected flag: "));
-                        Serial.println(UTCTimeCorrected);
-                        Serial.println(F(""));
+                        Serial.println(F("No DS1307 Present on the Bus!\n"));
                     #endif
                     return true;
                 }
+    
+            statusDotColor = DOT_GREEN;
+            UTCTimeCorrected = true;
+            #if defined(DEBUG28)
+                Serial.println(F("Setting DS1307 Time from GPS was Successful!"));
+                Serial.print(F("statusDotColor is: "));
+                Serial.println(statusDotColor);
+                Serial.print(F("UTCTimeCorrected flag: "));
+                Serial.println(UTCTimeCorrected);
+                Serial.println(F(""));
+            #endif
+                    numberOfBadPackets = 0;
+                    return false;  // Success in setting time from GPS!
         }
     else
         {
             statusDotColor = DOT_YELLOW;
             UTCTimeCorrected = false;
-
+            #if defined(DEBUG28)
+                Serial.println(F("GPS Data is NOT Valid!"));
+                Serial.print(F("statusDotColor is: "));
+                Serial.println(statusDotColor);
+                Serial.print(F("UTCTimeCorrected flag: "));
+                Serial.println(UTCTimeCorrected);
+                Serial.println(F(""));
+            #endif
             numberOfBadPackets++;
 
             #if defined(DEBUG28)
-                Serial.println(F("\nThis is the updateTimeFromGPS function: uBlox did not recieve a Full Packet!"));
+                Serial.println(F("\nThis is the updateTimeFromGPS function: The GPS did not recieve a Full Packet!"));
                 Serial.print(F("statusDotColor is: "));
                 Serial.println(statusDotColor);
                 Serial.print(F("UTCTimeCorrected flag: "));
@@ -1877,8 +2727,9 @@ bool updateTimeFromGPS(void)
             #endif
             return true;
         }
+
 }
-#endif
+
 
 /***************************************************************************************************************
 * This function puts the time, date, and Day of the Week on the screen where ever you specify on the TFT.
@@ -1990,9 +2841,15 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
         }
     
     // Now lets print the time zone.
-    tft.setCursor ( ( x + (Xsize * 4) ), ( y - ( Ysize * 3 ) ) );
+    #if defined (DEBUG51)
+        Serial.print(F("This is the drawPrintTime Sub. This is the size of the tcr -> abbrev: "));
+        Serial.println(sizeof(tcr -> abbrev), DEC);
+    #endif
+    // 
+    tft.setCursor ( ( x + ( Xsize * 2 + (Xsize / 2) ) ), ( y - ( Ysize * 3 ) ) );
     tft.print(tcr -> abbrev);
     
+    // Now let us print the day of the week at the bottome row of the screen.
     if ( (itsMidnight == true) || (finishedPreferences == true) || startUp == true || colorChangeOccured == true )
         {
             // Now lets print the day of the week (Sunday -> Saturday)
@@ -2014,7 +2871,7 @@ void drawPrintTime(uint16_t x, uint16_t y, uint8_t h, uint8_t m, uint8_t s, uint
                         break;
             
                     case 3:  // This is Tuesday (7 Characters)
-                        tft.setCursor( x + ( (Xsize / 2) * 3) , (y + (Ysize * 5)));
+                        tft.setCursor( x + ( (Xsize / 2) * 3 ) , (y + (Ysize * 5)));
                         tft.print(F("Tuesday"));
                         break;
             
@@ -4621,11 +5478,14 @@ bool setTimeZone(void)
     TouchScreenPoints_t postionsJustTouched;
     postionsJustTouched.xPosition = 0;
     postionsJustTouched.yPosition = 0;
-    //tmElements_t tmElementsStruct;  // Temp struct for calculating time.
-    time_t tempTimeTStorage;  // Temp storage for Time_t.
-    
+
+    //tmElements_t tempTmElementsStruct;  // Temp struct for calculating time.
+    //time_t tempTimeTStorage;  // Temp storage for Time_t.
+    //int tempWeekDay;
+    //bool temp;
+
     #if defined(DEBUG30)
-        Serial.println(F("This is the setTimeZone Sub. It draws 8 boxes on the screen with text in them."));
+        Serial.println(F("This is the setTimeZone Sub. It draws 12 boxes on the screen with text in them."));
     #endif
     
     tft.clearScreen();  // Clear the tft screen.
@@ -4635,37 +5495,41 @@ bool setTimeZone(void)
     MountainTimeZone.draw();
     CentralTimeZone.draw();
     EasternTimeZone.draw();
+    PuertoRicoUSVirginIslandsTimeZone.draw();
+    ArgentinaTimeZone.draw();
     LondonTimeZone.draw();
     CentralEuTimeZone.draw();
     EasternEuTimeZone.draw();
+    IndiaTimeZone.draw();
+    AustraliaEasternTimeZone.draw();  // +10 Hours
     
     #if defined(DEBUG30)
-        Serial.println(F("This is the setTimeZone Sub. Their should be 8 boxes on the screen with the 8 Time zones in them."));
+        Serial.println(F("This is the setTimeZone Sub. Their should be 12 boxes on the screen with the 12 Time zones in them."));
     #endif
     
     if (waitForAnotherTouch() == true)  //  Wait for Another touch returns true if touch was found otherwise false.
         {
             postionsJustTouched.xPosition = xPositionOfTouchedSpot;
             postionsJustTouched.yPosition = yPositionOfTouchedSpot;
-            
+
             // This is the first box from the left on top row.
             if ( HawaiiTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
                 {
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. - We have a hit inside the Hawaii Time Zone box, Setting the Time Zone to Hawaii Time!"));
                     #endif
-                    
-                    tzIndex = 11;  // Indexes the timezones[] array, 11 is HST.
+                                
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 28;  // Indexes the timezones[] array, 11 is HST.
                     tz = timezones[tzIndex];  // This variable is used to determine which time zone we are using.
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
 
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Hawaii Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
-
                     return true;
+
                 }
         
             // This is the second box from the left on top row.
@@ -4674,17 +5538,16 @@ bool setTimeZone(void)
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Pacifix Time Zone box, Setting the Time zone to Pacific Time."));
                     #endif
-                    
-                    tzIndex = 10;  // Indexes the timezones[] array, 10 is PST.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 26;  // Indexes the timezones[] array, 10 is PST.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
                     
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Pacific Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
-
                     return true;
                 }
         
@@ -4694,16 +5557,15 @@ bool setTimeZone(void)
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Mountain Time Zone box, Setting the Time zone to Mountain Time."));
                     #endif
-                    
-                    tzIndex = 8;  // Indexes the timezones[] array, 8 is MST.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 24;  // Indexes the timezones[] array, 8 is MST.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
-                    
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Mountain Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
 
                     return true;
                 }
@@ -4714,100 +5576,189 @@ bool setTimeZone(void)
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Central time Zone box, Setting the Time Zone to Central Time."));
                     #endif
-                    
-                    tzIndex = 7;  // Indexes the timezones[] array, 7 is CST.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 23;  // Indexes the timezones[] array, 7 is CST.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
-                    
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Central Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
 
                     return true;
                 }
             
-            // This is the first box from the left on bottom row.
+            // This is the first box from the left on second row.
             else if ( EasternTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
                 {
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Eastern time Zone box, Setting the Time Zone to Eastern Time."));
                     #endif
-                    
-                    tzIndex = 6;  // Indexes the timezones[] array, 6 is EST.
+                                                    
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 22;  // Indexes the timezones[] array, 22 is EST.
+
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. Set the txIndes to 22 for Eastern Time."));
+                    #endif
+
                     tz = timezones[tzIndex];
+
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. Writing the new Time Zone to EEPROM."));
+                    #endif
+
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
                     
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
+                     return true;
+                }
+            
+            // This is the second box from the left on second row.
+            else if ( PuertoRicoUSVirginIslandsTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
+                {
                     #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Eastern Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
+                        Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Puerto Rico time Zone box, Setting the Time Zone to Puerto Rico Time."));
                     #endif
-                    
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 21;  // Indexes the timezones[] array, 6 is Puerto Rico time.
+                    tz = timezones[tzIndex];
+                    eepromMemory.write(TimeZoneSettingLocation, tzIndex);
+
                     return true;
                 }
             
-            // This is the second box from the left on bottom row.
+            // This is the third box from the left on second row.
+            else if ( ArgentinaTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
+                {
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Argentina time Zone box, Setting the Time Zone to Argentina Time."));
+                        Serial.println(F("This is the setTimeZone Sub. Setting the updateGPSFlag."));
+                    #endif
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 20;  // Indexes the timezones[] array, 8 is Argentina time.
+
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. Set the txIndez to 20 for Argentina Time."));
+                    #endif
+
+                    tz = timezones[tzIndex];
+
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. Writing the new Time Zone to EEPROM."));
+                    #endif
+                    eepromMemory.write(TimeZoneSettingLocation, tzIndex);
+ 
+                    return true;
+                }
+                                   
+            // This is the forth box from the left on second row.
             else if ( LondonTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
                 {
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the London time Zone box, Setting the Time Zone to London Time."));
                     #endif
-                    
-                    tzIndex = 4;  // Indexes the timezones[] array, 4 is LST.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 16;  // Indexes the timezones[] array, 16 is London ST.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
-                    
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to London Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
 
                     return true;
                 }
             
-            // This is the third box from the left on bottom row.
+            // This is the first box from the left on bottom row.
             else if ( CentralEuTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
                 {
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Central Eu Time Zone box, Setting the Time Zone to Central Eu Time Zone."));
                     #endif
-                    
-                    tzIndex = 3;  // Indexes the timezones[] array, 3 is CE.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 15;  // Indexes the timezones[] array, 15 is Central EU time.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
-                    
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Central EU Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
 
                     return true;
                 }
             
-            // This is the fourth box from the left on bottom row.
+            // This is the second box from the left on bottom row.
             else if ( EasternEuTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
                 {
                     #if defined(DEBUG30)
                         Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Eastern Eu Time Zone box, Setting the Time Zone to Eastern Eu Time Zone."));
                     #endif
-                    
-                    tzIndex = 2;  // Indexes the timezones[] array, 2 is EE.
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 14;  // Indexes the timezones[] array, 14 is Eastern EU time.
                     tz = timezones[tzIndex];
                     eepromMemory.write(TimeZoneSettingLocation, tzIndex);
-                    
-                    tempTimeTStorage = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-                    #if defined(DEBUG30)
-                        Serial.print(F("Set Time Zone to Eastern EU Time, set time to: "));
-                        Serial.println(tcr -> abbrev);
-                    #endif
 
                     return true;
                 }
+            
+            // This is the third box from the left on bottom row.
+            else if ( IndiaTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
+                {
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the India Time Zone box, Setting the Time Zone to IndiaTime Zone."));
+                    #endif
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
 
+                    tzIndex = 8;  // Indexes the timezones[] array, 8 is India time.
+                    tz = timezones[tzIndex];
+                    eepromMemory.write(TimeZoneSettingLocation, tzIndex);
+
+                     return true;
+                }
+            
+            // This is the forth box from the left on bottom row.
+            else if ( AustraliaEasternTimeZone.OnTouch(postionsJustTouched) == ON_RNDRECT )
+                {
+                    #if defined(DEBUG30)
+                        Serial.println(F("\n This is the setTimeZone Sub. We have a hit inside the Eastern Australia Time Zone box, Setting the Time Zone to Eastern Australia Time Zone."));
+                    #endif
+                                                    
+                    // Tell GPS to get data from satellites with the time it in.
+                    #if defined(USINGGPS)
+                        updateGPSFlag = true;
+                    #endif
+
+                    tzIndex = 14;  // Indexes the timezones[] array, 14 is Eastern Australia time.
+                    tz = timezones[tzIndex];
+                    eepromMemory.write(TimeZoneSettingLocation, tzIndex);
+
+                    return true;
+                }
         }
     
     else
@@ -5323,11 +6274,8 @@ bool setTimePreferences(void)
                     #if defined(DEBUG30)
                         Serial.println(F("\nThis is the setTimePreferences Sub. We have a hit inside the set setTimeFromGPS box,  Setting the RTC from the GPS Module."));
                     #endif
+
                     #if defined(USINGGPS)
-                        Serial1.clear();  // Clear the Serial1 buffer of all data
-                        gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module.
-                        delay(210);
-                    
                         if (updateTimeFromGPS())  // This gets the GMT Time from the GPS attached to Serial port 1, returns false if good or true if bad.
                             {
                                 #if defined(DEBUG30)
@@ -5628,6 +6576,7 @@ bool setPreferences(void)
                         Serial.println(F("setPreferences Section - We have a hit inside the SetTempSensorsPreferences box, Setting Temp Sensors Preferences!\n"));
                     #endif
 
+                    setTemperatureCalibrationOffset();
                     
                     #if defined(USE_RA8875_TOUCH)  // We are using the resistive touch screen controller built-in to the RA8875.
                         tft.touchEnable(true);  // Set the touch screen interrupt to enable.
@@ -5873,9 +6822,17 @@ void setup()
     #if defined(DEBUG)
         Serial.println(F("Setup Starting the program.."));
     #endif
-    
-    
-    Serial.println("Project version: " + String(VERSION));  // Print Project version.
+
+    #if defined(DEBUG_STARTUP_CRASHDUMP)
+        Serial.print(CrashReport);
+    #endif
+
+    Serial1.begin(9600);                                                  // Startup the Serial 7 at 9600 baud.
+    Serial1.addMemoryForRead(&Serial1ReadBuffer, SERIAL7_RX_BUFFER_SIZE); //
+    Serial1.clear();                                                      // Clear out any leftover data.
+    delay(100);                                                           // Wait awhile for GPS to initialize.
+
+    Serial.println("Project version: " + String(VERSION));         // Print Project version.
     Serial.println("Build timestamp:" + String(BUILD_TIMESTAMP));  // Print build timestamp
     
     pinMode(13, OUTPUT);  // Setup pin 13 to turn on the LED.
@@ -6410,22 +7367,22 @@ void setup()
         Serial.print(F("Temp Sensor Calibration Offset in float: "));
         Serial.println(j,2);
     #endif
-    if ( (j > (-20.0) ) && (j < 20.0) )
+    if ( (j > (-20.0F) ) && (j < 20.0F) )
         {
             SystemSensor.settings.tempCorrection = j;
         }
-    else if (i == NAN)  // If the number in EEPROM is bogus set it to zero
+    else if (__isnanf(j))  // If the number in EEPROM is bogus set it to zero
         {
-            i = 0;  // Set the floating point number to zero.
-            eepromMemory.writeFloat(TempCalOffsetLocation, i);  // Set the Temp Sensor Offset Location to zero.
+            j = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(TempCalOffsetLocation, j);  // Set the Temp Sensor Offset Location to zero.
             #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
                 Serial.println(F("Read EEPROM Memory Temp Sensor Calibration Offset, Temp Sensor Calibration Offset Number is BAD!\n"));
             #endif
         }
     else
         {
-            i = 0;  // Set the floating point number to zero.
-            eepromMemory.writeFloat(TempCalOffsetLocation, i);  // Set the Temp Sensor Offset Location to zero.
+            j = 0;  // Set the floating point number to zero.
+            eepromMemory.writeFloat(TempCalOffsetLocation, j);  // Set the Temp Sensor Offset Location to zero.
             #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
                 Serial.println(F("Read EEPROM Memory Temp Sensor Calibration Offset, Temp Sensor Calibration Offset Number is to BIG!\n"));
             #endif    
@@ -6437,8 +7394,8 @@ void setup()
      * The AT24C32 has 4096 bytes of memory storage (address 0 -> 0xFFF).
      ********************************************************************************************************************/
     uint8_t k = eepromMemory.read(TimeZoneSettingLocation);  // This is Time zone in uint8_t.
-    time_t temp_t;
     
+    time_t temp_t;
     #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
         Serial.print(F("Read EEPROM Memory Time Zone Setting, This is the time zone from EEPROM: "));
         Serial.println(k);
@@ -6461,7 +7418,7 @@ void setup()
         {
             tz = timezones[tzIndex];  // Set the time zone to the default.
             temp_t = ((*tz).toLocal(lastTimeSetByClock, &tcr));
-            eepromMemory.write(TimeZoneSettingLocation, k);  // Fix number in EEPROM if its bad.
+            eepromMemory.write(TimeZoneSettingLocation, tzIndex);  // Fix number in EEPROM if its bad.
             #if defined(DEBUG40)  // This the the Reading Startup Values from EEPROM debug flag.
                 Serial.print(F("Read EEPROM Memory Time Zone Setting, EEPROM Number was not valid, setting to: "));
                 Serial.println(tcr -> abbrev);
@@ -6550,7 +7507,7 @@ void setup()
         }
     else
         {
-            nightTimeScreenBrightness = 5;  // If the number stored in eeprom is bad, set the Screen Brightness to 5.
+            nightTimeScreenBrightness = 20;  // If the number stored in eeprom is bad, set the Screen Brightness to 5.
             eepromMemory.write(NiteTimeScreenIntensityEEPROMMemoryLocation, 5);  // Fix number in EEPROM if its bad.
         }
 
@@ -6675,7 +7632,7 @@ void setup()
     tft.print(SystemSensor.settings.tempCorrection,2);  // Total of approx 36 chars.
     tft.setCursor( ( XMIDDLE - (Xsize * 7) ), YLINE4, false);
     tft.print("Time Zone: ");
-    tft.print(tcr -> abbrev);  // Total of approx 14 chars.
+    tft.print(tcr -> abbrev);  // Total of approx 5 chars.
     tft.setCursor( ( XMIDDLE - (Xsize * 15) ), YLINE5, false);
     tft.print("Time of Day to Dim the TFT: ");
     tft.print(timeToDimTheScreen);  // Total of approx 30 chars.
@@ -6761,9 +7718,46 @@ void setup()
     
     printStatusDotOnTFT(XRIGHT - (Xsize * 17), (YLINE14 + 16), RA8875_RED);  // Print red dot to indicate no data has been received.
     
-    //Take a reading.
+    /****************************************************************************************************************************
+    * Initialize the GPS Module (Beitian BN-280 GPS) on Serial 1
+    ****************************************************************************************************************************/
+    #if defined(USINGGPS)
+        #if defined(DEBUG)
+            Serial.println(F("\nStarting up the attached GPS Module..."));
+        #endif
+/*
+    while (1)
+        {
+            while (Serial1.available() < 1)
+                {
+                    delay(2);
+                }
+
+            while (Serial1.available() > 0)
+                {
+                    char temp = Serial1.read();
+                    Serial.print(temp);
+                }
+            if (Serial.available())  // check for any keyboard input
+                {
+                    break;  // Break out of the while loop.
+                }
+            
+        }
+*/
+
+        restartGPS_GNSS(false, true); // This will do a cold start of the GPS Module.
+
+        #if defined(DEBUG)
+            Serial.println(F("Finished starting up the attached GPS Module..."));
+        #endif
+
+    #endif
+
+    //Take a reading from the BME280 Sensor.
     //Start with temperature, as that data is needed for accurate compensation.
     //Reading the temperature updates the compensators of the other functions
+
     //in the background.
     
     /// This initializes the daily high and low for the inside temp.
@@ -6967,104 +7961,153 @@ void loop()
             if (preferencesInProgressFlag == false)
                 {
                     #if defined(USINGGPS)
-                        uint8_t fixType;
-                        if (firstRun == false)
-                            {
-                                if (updateGPSFlag == true)  //This means that it is 2AM in the morning, which is the time to update the internal Clock.
-                                    {
-                                        if (updateTimeFromGPS())  // This gets the GMT Time from the GPS attached to Serial port 1.
+                        #if defined(DEBUG27)
+                            //uint8_t fixType;
+                        #endif
+
+                        if ( (gpsUBXDataStruct.valid == true) && (GPS_GNSS_Present == true))
+                                {
+                                    // Put "GPS Present" on the TFT.
+                                    tftPrintGPSPresentHeader((XRIGHT - (Xsize * 8)), (YMIDDLE - ((Ysize / 2) * 2)), true);
+
+                                    printGPSPositionOnTFT( ( XRIGHT - ( Xsize * 10) ), YMIDDLE - (Ysize / 2) );
+                                    #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                        switch (gpsUBXDataStruct.fixType)
                                             {
-                                                #if defined(DEBUG27)
-                                                    Serial.println(F("Error: Did not update DS3231 Clock with GPS time!"));
-                                                    Serial.print(F("statusDotColor is: "));
-                                                    Serial.println(statusDotColor);
-                                                    Serial.print(F("UTCTimeCorrected flag: "));
-                                                    Serial.println(UTCTimeCorrected);
-                                                #endif
-                                            }
-                                        else
-                                            {
-                                                #if defined(DEBUG27)
-                                                    Serial.println(F("Updated DS3231 Clock with GPS time!"));
-                                                    Serial.print(F("statusDotColor is: "));
-                                                    Serial.println(statusDotColor);
-                                                    Serial.print(F("UTCTimeCorrected flag: "));
-                                                    Serial.println(UTCTimeCorrected);
-                                                #endif
-                                            }
-                                
-                                        #if defined(DEBUG27)
-                                            Serial.print(F("Fix Type is: "));
-                                            Serial.println(statusDotColor);
-                                            Serial.print(F("UTCTimeCorrected flag: "));
-                                            Serial.println(UTCTimeCorrected);
-
-                                            switch (fixType)
-                                                {
-                                                    case NO_FIX:
-                                                        Serial.println(F("NO FIX"));  // Print the Heading.
-                                                    case DEAD_RECKONING_ONLY:
-                                                        Serial.println(F("DR ONLY"));  // Print the Heading.
-                                                    case TWO_D_FIX:
-                                                        Serial.println(F("TWO_D_FIX"));  // Print the Heading.
-                                                    case THREE_D_FIX:
-                                                        Serial.println(F("THREE_D_FIX"));  // Print the Heading.
-                                                    case GNSS_DR_COMBINED:
-                                                        Serial.println(F("GNSS_DR_COMBINED"));  // Print the Heading.
-                                                    case TIME_FIX_ONLY:
-                                                        Serial.println(F("TIME_FIX_ONLY"));  // Print the Heading.
-                                                    case BAD_UBLOX_PACKET:
-                                                        Serial.println(F("BAD PACKET"));  // Print the Heading.
-                                                    case NOT_FULL_PACKET:
-                                                        Serial.println(F("NOT FULL PACKET"));  // Print the Heading.
+                                                case NO_FIX:
+                                                    Serial.println(F("NO FIX"));  // Print the Heading.
+                                                    break;
+                                                case DEAD_RECKONING_ONLY:
+                                                    Serial.println(F("DR ONLY"));  // Print the Heading.
+                                                    break;
+                                                case TWO_D_FIX:
+                                                    Serial.println(F("TWO_D_FIX"));  // Print the Heading.
+                                                    break;
+                                                case THREE_D_FIX:
+                                                    Serial.println(F("THREE_D_FIX"));  // Print the Heading.
+                                                    break;
+                                                case GNSS_DR_COMBINED:
+                                                    Serial.println(F("GNSS_DR_COMBINED"));  // Print the Heading.
+                                                    break;
+                                                case TIME_FIX_ONLY:
+                                                    Serial.println(F("TIME_FIX_ONLY"));  // Print the Heading.
+                                                    break;
                                                         
-                                                    default:
-                                                        Serial.println(F("BAD PACKET"));  // Print the Heading.
-                                                }
+                                                default:
+                                                    Serial.println(F("BAD PACKET"));  // Print the Heading.
+                                                    break;
+                                            }
+                                    #endif
 
-                                        #endif
+                                    if (preferencesInProgressFlag == false)
+                                        {
+                                            #if defined(USINGGPS)
+                                                if (updateGPSFlag == true)  //This means that it is 2AM in the morning, which is the time to update the internal Clock.
+                                                    {
+                                                        #if defined(DEBUG_LOOP_TFTSTATUS_LINE_INFO)
+                                                            clearStatusLine();  // Clear any leftovers in the status line.
+                                                            tft.printStatusLine(0,myColors[1],myColors[0],"Updating the DS3231 Clock Time from GPS...");
+                                                            delay(MainLoopStatuslineDisplayTime);  // About .2 Seconds
+                                                        #endif
 
-                                        updateGPSFlag = false;
-                                    }
-                                else
-                                    {
-                                        fixType = updatePositionFromGPS();
+                                                        if (updateTimeFromGPS())  // This gets the GMT Time from the GPS attached to Serial port 1.
+                                                            {
+                                                                #if defined(DEBUG_LOOP_TFTSTATUS_LINE_INFO)
+                                                                    clearStatusLine();  // Clear any leftovers in the status line.
+                                                                    tft.printStatusLine(0,myColors[1],myColors[0],"Updating the time from GPS Failed...");
+                                                                    delay(MainLoopStatuslineDisplayTime);  // About .2 Seconds.
+                                                                #endif
 
-                                        #if defined(DEBUG27)
-                                            Serial.print(F("Fix Type is: "));
-                                            Serial.println(statusDotColor);
-                                            Serial.print(F("UTCTimeCorrected flag: "));
-                                            Serial.println(UTCTimeCorrected);
+                                                                #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                                    Serial.println(F("Error: Did not update DS3231 Clock with GPS time!"));
+                                                                    Serial.print(F("statusDotColor is: "));
+                                                                    Serial.println(statusDotColor);
+                                                                    Serial.print(F("UTCTimeCorrected flag: "));
+                                                                    Serial.println(UTCTimeCorrected);
+                                                                #endif
+                                                            }
+                                                        else
+                                                            {
+                                                                #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                                    Serial.println(F("Updated DS3231 Clock with GPS time!"));
+                                                                    Serial.print(F("statusDotColor is: "));
+                                                                    Serial.println(statusDotColor);
+                                                                    Serial.print(F("UTCTimeCorrected flag: "));
+                                                                    Serial.println(UTCTimeCorrected);
+                                                                #endif
+                                                            }
 
-                                            switch (fixType)
-                                                {
-                                                    case NO_FIX:
-                                                        Serial.println(F("NO FIX"));  // Print the Heading.
-                                                    case DEAD_RECKONING_ONLY:
-                                                        Serial.println(F("DR ONLY"));  // Print the Heading.
-                                                    case TWO_D_FIX:
-                                                        Serial.println(F("TWO_D_FIX"));  // Print the Heading.
-                                                    case THREE_D_FIX:
-                                                        Serial.println(F("THREE_D_FIX"));  // Print the Heading.
-                                                    case GNSS_DR_COMBINED:
-                                                        Serial.println(F("GNSS_DR_COMBINED"));  // Print the Heading.
-                                                    case TIME_FIX_ONLY:
-                                                        Serial.println(F("TIME_FIX_ONLY"));  // Print the Heading.
-                                                    case BAD_UBLOX_PACKET:
-                                                        Serial.println(F("BAD PACKET"));  // Print the Heading.
-                                                    case NOT_FULL_PACKET:
-                                                        Serial.println(F("NOT FULL PACKET"));  // Print the Heading.
+                                                        #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                            switch (gpsUBXDataStruct.fixType)
+                                                                {
+                                                                    case NO_FIX:
+                                                                        Serial.println(F("NO FIX"));  // Print the Heading.
+                                                                        break;
+                                                                    case DEAD_RECKONING_ONLY:
+                                                                        Serial.println(F("DR ONLY"));  // Print the Heading.
+                                                                        break;
+                                                                    case TWO_D_FIX:
+                                                                        Serial.println(F("TWO_D_FIX"));  // Print the Heading.
+                                                                        break;
+                                                                    case THREE_D_FIX:
+                                                                        Serial.println(F("THREE_D_FIX"));  // Print the Heading.
+                                                                        break;
+                                                                    case GNSS_DR_COMBINED:
+                                                                        Serial.println(F("GNSS_DR_COMBINED"));  // Print the Heading.
+                                                                        break;
+                                                                    case TIME_FIX_ONLY:
+                                                                        Serial.println(F("TIME_FIX_ONLY"));  // Print the Heading.
+                                                                        break;
                                                         
-                                                    default:
-                                                        Serial.println(F("BAD PACKET"));  // Print the Heading.
-                                                }
+                                                                    default:
+                                                                        Serial.println(F("BAD PACKET"));  // Print the Heading.
+                                                                        break;
+                                                                }
+                                                        #endif
+                                                        updateGPSFlag = false;
+                                                    }
 
-                                        #endif                           
-                                    }
-                                    
-                                Serial1.clear();  // Clear the Serial1 buffer of all data
-                                gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module, the data packet should be in the serial buffer the next time the 2 second interrupt comes around.
-                            }
+                                            #endif
+                                        }
+                                    gpsUBXDataStruct.valid = false;  // Data from GPS has been consumed, so no longer valid.
+                                }
+                            else
+                                {
+                                    // No valid data from GPS, or No GPS is present.
+
+                                    if (GPS_GNSS_Present == true)
+                                        {
+                                            #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                Serial.println(F("No Valid Data from the GPS Module..."));
+                                            #endif
+
+                                            GPS_Not_Valid_Counter++;
+
+                                            // Count the number of tries to get a fix, in order to restart the GPS System every 30 seconds.
+                                            // Put "GPS Present", "No Valid Data", or "Restarting the GPS" on the TFT.
+                                            tftPrintGPSPresentHeader( ( XRIGHT - ( Xsize * 8) ), ( YMIDDLE - ((Ysize / 2) * 2 ) ), true );
+                                            if (GPS_Not_Valid_Counter == 150)  // 150 two second counts is 5 minutes, in order to restart the GPS System every 5 minutes.
+                                                {
+                                                    tftPrintRestartGPS((XRIGHT - (Xsize * 10)), (YMIDDLE - (Ysize / 2))); // Display the Restarting the GPS System on the TFT.
+                                                    restartGPS_GNSS(true, false);  // Do a warm restart of the GPS/GNSS module connected on the Serial Port.
+                                                    GPS_Not_Valid_Counter = 0;
+                                                }
+                                            else
+                                                {
+                                                    // Put "No Valid Data" on the TFT.
+                                                    tftPrintGPSNoValidData((XRIGHT - (Xsize * 10)), (YMIDDLE - (Ysize / 2))); // Display the No Valid Data on the TFT.
+                                                }  
+                                        }
+                                    else
+                                        {
+                                            #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                Serial.println(F("No GPS Module is present..."));
+                                            #endif
+                                            // Print "No GPS" to the TFT and blank all GPS Data.
+                                            tftPrintGPSPresentHeader( ( XRIGHT - ( Xsize * 8) ), ( YMIDDLE - ((Ysize / 2) * 2 ) ), false );
+                                            clearTFTSensorData((XRIGHT - (Xsize * 10)), YMIDDLE - (Ysize / 2), XRIGHT - (XRIGHT - (Xsize * 10)), (YMIDDLE - (Ysize / 2) + (Ysize * 4)));
+                                        }
+                                }  // End of if ( (gpsUBXDataStruct.valid == true) && (GPS_GNSS_Present == true)).
                         
                     #endif
                 }
@@ -7105,24 +8148,6 @@ void loop()
                             drawBlankOutsideTempPresHum(XRIGHT - (Xsize * 11), YLINE12);  // This includes the 3 lines of Temp,Pres,Hum data and the days high low temps.
                             printStatusDotOnTFT(XRIGHT - (Xsize * 17), (YLINE14 + 16), RA8875_YELLOW);  // Print yellow dot to indicate the data has stopped.
                         }
-
-                    #if defined(USINGGPS)
-                        if(firstRun == false)
-                            {
-                                if(numberOfBadPackets >= 30)  // Restart the GPS about every 2.5 minutes.
-                                    {
-                                        blankOutGPSPositionOnTFT(( XRIGHT - ( Xsize * 10) ), ( YMIDDLE ) );  // Blank out the entire GPS Data from the TFT.
-                                        tft.setCursor( ( XRIGHT - ( Xsize * 10) ), YMIDDLE );
-                                        tft.print(F("Restart"));  // Print the Heading.
-                                        tft.setCursor( ( XRIGHT - ( Xsize * 10) ), ( YMIDDLE + Ysize ) );
-                                        tft.print(F("GPS"));  // Print the Heading.
-                                        RestartGPS(initial_Startup);  //This also sets the numberOfBadPackets to 0.
-                                        Serial1.clear();  // Clear the Serial1 buffer of all data
-                                        gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module.
-                                    }
-                            }
-                        
-                    #endif
                     
                 }
         
@@ -7140,20 +8165,84 @@ void loop()
             if (fiveMinuteCount == 4)  // 2 minutes is 4 thirty second counts.
                 {
                     #if defined(USINGGPS)
-                        if (firstRun == true)
-                            {
-                                RestartGPS(initial_Startup);  // Initial startup is initially set to true.
-                                firstRun = false;  // Initially set to true.
-                                initial_Startup = false;
-                                //  Get Data from GPS for the first time.    
-                                Serial1.clear();  // Clear the Serial1 buffer of all data
-                                gps.Poll_NAV_PVT();  // Polls UBX-NAV-PVT, this requests the data from the GPS Module.
+                            if ( (UTCTimeCorrected == false) && (gpsUBXDataStruct.validTime == 1) && (gpsUBXDataStruct.validDate == 1) && (gpsUBXDataStruct.fullyResolved == 1) )
+                                {
+                                    #if defined(DEBUG_LOOP_TFTSTATUS_LINE_INFO)   
+                                        clearStatusLine();  // Clear any leftovers in the status line.
+                                        tft.printStatusLine(0,myColors[1],myColors[0],"Updating the time from GPS...");
+                                        delay(MainLoopStatuslineDisplayTime);  // About .2 Seconds.
+                                    #endif
 
-                            }
-                    #endif
+                                    #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                        Serial.print(F("The Clock has not been corrected yet, Correcting..."));
+
+                                        Serial.print(F("UTCTimeCorrected Flag: "));
+                                        Serial.println(UTCTimeCorrected);
+
+                                        Serial.print(F("gpsUBXDataStruct.validTime: "));
+                                        Serial.println(gpsUBXDataStruct.validTime, BIN);
+
+                                        Serial.print(F("gpsUBXDataStruct.validDate: "));
+                                        Serial.println(gpsUBXDataStruct.validDate, BIN);
+
+                                        Serial.print(F("gpsUBXDataStruct.fullyResolved: "));
+                                        Serial.println(gpsUBXDataStruct.fullyResolved);
+
+                                    #endif
+
+                                    if (updateTimeFromGPS())  // This gets the GMT Time from the GPS attached to Serial port 1.
+                                        {
+                                            #if defined(DEBUG_LOOP_TFTSTATUS_LINE_INFO)
+                                                clearStatusLine();  // Clear any leftovers in the status line.
+                                                tft.printStatusLine(0,myColors[1],myColors[0],"Updating the time from GPS Failed...");
+                                                delay(MainLoopStatuslineDisplayTime);  // About .2 Seconds.
+                                            #endif
+
+                                            #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                Serial.println(F("Error: Did not update DS3231 Clock with GPS time!"));
+                                                Serial.print(F("statusDotColor is: "));
+                                                Serial.println(statusDotColor);
+                                                Serial.print(F("UTCTimeCorrected flag: "));
+                                                Serial.println(UTCTimeCorrected);
+                                            #endif
+                                        }
+                                    else
+                                        {
+                                            #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                                Serial.println(F("Updated DS3231 Clock with GPS time!"));
+                                                Serial.print(F("statusDotColor is: "));
+                                                Serial.println(statusDotColor);
+                                                Serial.print(F("UTCTimeCorrected flag: "));
+                                                Serial.println(UTCTimeCorrected);
+                                            #endif
+                                        }
+                                       
+                                }
+                            else
+                                {
+                                    #if defined(DEBUG_GPS_LOOP_MESSAGES)
+                                        Serial.print(F("UTCTimeCorrected flag: "));
+                                        Serial.println(UTCTimeCorrected);
+
+                                        Serial.print(F("gpsUBXDataStruct.validTime: "));
+                                        Serial.println(gpsUBXDataStruct.validTime, BIN);
+
+                                        Serial.print(F("gpsUBXDataStruct.validDate: "));
+                                        Serial.println(gpsUBXDataStruct.validDate, BIN);
+
+                                        Serial.print(F("gpsUBXDataStruct.fullyResolved: "));
+                                        Serial.println(gpsUBXDataStruct.fullyResolved);
+                                    #endif
+                                }
+                        #endif
                     fiveMinuteCount = 0;  // Reset the count to zero.
-                }
 
+                }
+            if (GPS_GNSS_Present == false)
+                {
+                    restartGPS_GNSS(false, true);  // Try to start up the GPS if it failed upon startup.
+                }
+            
             twentyFourHourCount++;
 
             if (twentyFourHourCount == 2880)  // One 24 Hour day is 2880 thirty second counts.
@@ -7233,6 +8322,8 @@ void loop()
         
             incomingDMABufferFullFlag = false;
         }
-    
+    myGNSS.checkUblox(); // Check for the arrival of new data and process it.
+
+    myGNSS.checkCallbacks(); // Check if any callbacks are waiting to be processed.
 }
 
